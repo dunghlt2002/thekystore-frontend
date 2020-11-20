@@ -19,6 +19,8 @@ class retailStore extends Component {
     let params = queryString.parse(url);
 
     this.state = {
+      loading: '',
+      error: '',
       masternotcategories: [],
       postsPerPage:15,
       totalPages: 1,
@@ -114,14 +116,20 @@ class retailStore extends Component {
     productDataService.getAllPerPage(currentPage,this.state.searchKeyword,this.state.search_retail,this.state.search_category,this.state.usvn_longtieng,this.state.search_abc)
       .then(response => {
         this.setState({
+          error: null,
           products: response.data.data,
           totalPages: response.data.pages
         });
-        console.log(response.data);
-        console.log('ket qua total pages' + response.data.pages);
+        console.log('ket qua data la:' + JSON.stringify(response.data));
+        console.log('ket qua total pages tim thay la: ' + response.data.pages);
       })
       .catch(e => {
-        console.log(e);
+        
+        this.setState({
+          // error: e.message
+          error: "No data found, please try again"
+        });
+        console.log("loi neeeee :   " + e);
       });
   }
 
@@ -152,7 +160,7 @@ class retailStore extends Component {
   }
 
   render() {
-    const { searchName, products, currentProduct, currentIndex } = this.state;
+    const { searchName, products, currentProduct, currentIndex, loading, error } = this.state;
 
     return (
       <div>
@@ -188,9 +196,8 @@ class retailStore extends Component {
               
             </ul>
 
-            {/* {loading ? <div>Loading...</div> :
-              error ? <div>{error}</div> : */}
-            <div className="container">
+            {error ? <div>{error}</div> :
+              <div className="container">
               <div className="row">
                   {
                     products.map(product =>
@@ -230,7 +237,8 @@ class retailStore extends Component {
             {/* } */} 
                   </div>
             </div>
-
+            }
+            
             <div className="header col">
                 <Pagination 
                       currentPage={this.state.currentPage-1}
@@ -249,7 +257,7 @@ class retailStore extends Component {
                 
              </div>
  
-
+            
 
       </div>
     );
