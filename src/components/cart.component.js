@@ -76,7 +76,8 @@ render() {
                 </div>
                 <div className="cart-name">
                   <div>
-                    <Link to={"/product/" + item.product}>
+                    {/* <Link to={'/productview/' + product.id}>{product.id + product.products_name}</Link> */}
+                    <Link to={"/productview/" + item.product}>
                       {item.product + " - " + item.name}
                     </Link>
 

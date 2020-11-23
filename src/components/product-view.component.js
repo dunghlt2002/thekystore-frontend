@@ -58,34 +58,30 @@ class ProductView extends Component {
             this.props.currentResult.error ? <div>{this.props.currentResult.error} </div> :
             (
             <div className="details">
-                <div className="details-image">
+                {/* <div className="details-image">
                     <img src={"http://localhost:8080/" + this.props.currentProduct.products_image} alt="product" ></img>
-                </div>
+                </div> */}
                 <div className="details-info">
                     <ul>
-                    <li>
-                        <h4>{this.props.currentProduct.products_name}</h4>
-                    </li>
-                    <li>
-                        Price: <b>${this.props.currentProduct.products_price}</b>
-                    </li>
-                    <li>
-                        <b>{this.props.currentProduct.products_sotap} episode/dvd</b>
-                    </li>
-                    <li>
-                        Nguon phim: {this.props.currentProduct.products_nguonphim}
-                    </li>
-                    <li>
-                        Dien vien: {this.props.currentProduct.products_dienvien}
-                    </li>
-                    <li>
-                        Description:
-                        <div>
-                            {this.props.currentProduct.products_description}
-                        </div>
-                    </li>
+                        <li>
+                            <h4>{this.props.currentProduct.products_name}</h4>
+                        </li>
+                        <li>
+                            Price: <b>${this.props.currentProduct.products_price}</b>
+                        </li>
+                        <li>
+                            <b>{this.props.currentProduct.products_sotap} episode/dvd</b>
+                        </li>
+                        <li>
+                            Nguon phim: {this.props.currentProduct.products_nguonphim}
+                        </li>
+                        <li>
+                            Dien vien: {this.props.currentProduct.products_dienvien}
+                        </li>
+
                     </ul>
                 </div>
+                
                 <div className="details-action">
                     <ul>
                         <li>
@@ -110,6 +106,22 @@ class ProductView extends Component {
                         </li>
                     </ul>
                 </div>
+            
+                <div className="details-image-large">
+                    <img src={"http://localhost:8080/" + this.props.currentProduct.products_image_large} alt="product large" ></img>
+                </div>
+                <div className="details-info">
+                    <ul>
+                        <li>
+                            Description:
+                            <div>
+                                <div dangerouslySetInnerHTML={{ __html: this.props.currentProduct.products_description} }></div>
+                                {/* {this.props.currentProduct.products_description} */}
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            
             </div>
             ) 
         }

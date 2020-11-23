@@ -194,14 +194,18 @@ a:hover{
   padding: 1rem;
 }
 .details-image {
-  flex: 2 1 30rem;
+  flex: 2 1 3rem;
 }
 .details-image img{
-  max-width: 60rem;
+  max-width: 35rem;
   width: 100%;
+}
+.details-image-large {
+  flex: 2 1 30rem;
 }
 .details-info {
   flex: 1 1 30rem;
+  padding: 0.5rem;
 }
 .details-action {
   flex: 1 1 30rem;
