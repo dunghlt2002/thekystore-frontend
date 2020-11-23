@@ -14,6 +14,7 @@ class ProductView extends Component {
 
     this.state = {
         // currentProduct: detailsProduct,
+        REACT_APP_URL:  process.env.REACT_APP_API_URL,
         qty: 1,
         message: ""
     };
@@ -59,7 +60,7 @@ class ProductView extends Component {
             (
             <div className="details">
                 {/* <div className="details-image">
-                    <img src={"http://localhost:8080/" + this.props.currentProduct.products_image} alt="product" ></img>
+                    <img src={this.state.REACT_APP_URL + this.props.currentProduct.products_image} alt="product" ></img>
                 </div> */}
                 <div className="details-info">
                     <ul>
@@ -108,7 +109,7 @@ class ProductView extends Component {
                 </div>
             
                 <div className="details-image-large">
-                    <img src={"http://localhost:8080/" + this.props.currentProduct.products_image_large} alt="product large" ></img>
+                    <img src={this.state.REACT_APP_URL + this.props.currentProduct.products_image_large} alt="product large" ></img>
                 </div>
                 <div className="details-info">
                     <ul>

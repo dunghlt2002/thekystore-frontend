@@ -19,6 +19,8 @@ class retailStore extends Component {
     let params = queryString.parse(url);
 
     this.state = {
+      lettersArray: ["A","B","C","D","E","G","H","K","L","M","N","O","P","Q","R","S","T","U","V","X","Y"],
+      REACT_APP_URL:  process.env.REACT_APP_URL,
       loading: '',
       error: '',
       masternotcategories: [],
@@ -40,6 +42,7 @@ class retailStore extends Component {
   searchComb(searchCatID) {
       console.log('Cat ID search ' + searchCatID);
       this.setState({
+        error: null,
         search_category: searchCatID
       });
       
@@ -159,11 +162,46 @@ class retailStore extends Component {
       });
   }
 
+  // chi de dot dong lap FOR chu khong lam gi ra hon ca
+  showAZ() {
+    // var letters = "ABCDEGHIKLMNOPQRSTUVXY";
+    var letters = "ABCD";
+    var nextCharList = ""
+    var alphabetList = ""
+    for (var i = 0; i < letters.length; i++) {
+      var nextChar = letters.charAt(i);
+      // var letter = "<div class='col-md-3 col-sm-3 col-xs-12'><div id='" + nextChar + "'><h2>" + nextChar + "</h2></div></div>";
+      nextCharList = nextCharList + "<Link to='/filterproducts/:usvn_longtiengin'>" + nextChar +  " </Link>";
+    }
+    return (null
+      // <div>
+      //     {nextCharList}
+      //     <Link to="filterproducts/:usvn_longtiengin">{nextCharList}</Link>
+      // </div>
+    )
+  }
+
   render() {
     const { searchName, products, currentProduct, currentIndex, loading, error } = this.state;
 
     return (
+      
       <div>
+        <br></br>
+        <div className="control">
+          {/* <Link to="/filterproducts/-1?usvn_longtieng=0">Browse All Products</Link> */}
+          <a href ="/filterproducts/-1?usvn_longtieng=0">Browse All Products</a>
+        </div>
+        <div>
+          {this.showAZ()}
+        </div>
+        <div> Select by alphabet :  
+            {this.state.lettersArray.map((letter) => 
+                  <a href={'/filterproducts/'+this.state.usvn_longtieng+'?retail=-1&search_abc='+ letter}>    {letter}   </a>
+
+            )}
+        </div>
+        <br></br>
             <ul className="col-md">
               <div>
                 <form type="submit" onSubmit={(e) => this.searchKeyword(e)}>
@@ -205,11 +243,11 @@ class retailStore extends Component {
                           <div  className="card">
                             <div  className="products">
                               <div className="product-name">
-                                  <Link to={'/productview/' + product.id}>{product.id + product.products_name}</Link>
+                                  <Link to={'/productview/' + product.id}>{product.products_name + "(" + product.id + ")"}</Link>
                               </div>
                               <div>
                                 <Link to={'/productview/' + product.id}>
-                                    <img className="product-image" src={"http://localhost:8080/" + product.products_image} alt="product" />
+                                    <img className="product-image" src={this.state.REACT_APP_URL + product.products_image} alt="product" />
                                 </Link>
                               </div>
                             

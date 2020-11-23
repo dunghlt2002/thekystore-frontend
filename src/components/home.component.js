@@ -13,14 +13,25 @@ class HomeScreen extends Component {
       super(props);
       
       this.state = {
-        galleryItems: [<a href="http://localhost:8081/filterproducts/0?retail=-1&category=50"> <img className="sliderimg" src="http://localhost:8080/avatars/chutcheo.jpg" /> </a>, <a href="http://localhost:8081/filterproducts/0?retail=-1&category=33"> <img className="sliderimg" src="http://localhost:8080/avatars/BestSeller.jpg" /> </a>, <a href="http://localhost:8081/filterproducts/0?retail=-1&category=28"> <img className="sliderimg" src="http://localhost:8080/avatars/ManagerSpecial.jpg" /> </a>, <a href="http://localhost:8081/filterproducts/0?retail=-1&category=28"> <img className="sliderimg" src="http://localhost:8080/avatars/PromoCode.jpg" /> </a> ] ,
+        REACT_APP_URL:  process.env.REACT_APP_URL,
+        // galleryItems: [<a href="http://localhost:8081/filterproducts/0?retail=-1&category=50"> <img className="sliderimg" src="http://localhost:8080/avatars/chutcheo.jpg" /> </a>, <a href="http://localhost:8081/filterproducts/0?retail=-1&category=33"> <img className="sliderimg" src="http://localhost:8080/avatars/BestSeller.jpg" /> </a>, <a href="http://localhost:8081/filterproducts/0?retail=-1&category=28"> <img className="sliderimg" src="http://localhost:8080/avatars/ManagerSpecial.jpg" /> </a>, <a href="http://localhost:8081/filterproducts/0?retail=-1&category=28"> <img className="sliderimg" src="http://localhost:8080/avatars/PromoCode.jpg" /> </a> ] ,
+        // galleryItems: [<a href="/filterproducts/0?retail=-1&category=50"> <img className="sliderimg" src="/avatars/chutcheo.jpg" /> </a>, <a href="http://localhost:8081/filterproducts/0?retail=-1&category=33"> <img className="sliderimg" src="http://localhost:8080/avatars/BestSeller.jpg" /> </a>, <a href="http://localhost:8081/filterproducts/0?retail=-1&category=28"> <img className="sliderimg" src="http://localhost:8080/avatars/ManagerSpecial.jpg" /> </a>, <a href="http://localhost:8081/filterproducts/0?retail=-1&category=28"> <img className="sliderimg" src="http://localhost:8080/avatars/PromoCode.jpg" /> </a> ] ,
+        galleryItems: null,
         lettersArray: ["A","B","C","D","E","G","H","K","L","M","N","O","P","Q","R","S","T","U","V","X","Y"],
         isadmin: 1
       }
   }
 
-  componentDidMount() {
-    // this.getData()
+  componentWillMount() {
+    var str1 = this.state.REACT_APP_URL + "avatars/chutcheo.jpg"
+    var str2 = this.state.REACT_APP_URL + "avatars/ManagerSpecial.jpg"
+    var str3 = this.state.REACT_APP_URL + "avatars/PromoCode.jpg"
+    // console.log('str1 ' + str1);
+    
+    this.setState({
+      galleryItems: [<a href="/filterproducts/0?retail=-1&category=50"> <img className="sliderimg" src={str1} /> </a>, <a href="http://localhost:8081/filterproducts/0?retail=-1&category=28"> <img className="sliderimg" src="http://localhost:8080/avatars/BestSeller.jpg" /> </a>, <a href="/filterproducts/0?retail=-1&category=49"> <img className="sliderimg" src={str2} /> </a>, <a href="/filterproducts/0?retail=-1&category=28"> <img className="sliderimg" src={str3} /> </a> ]
+    });
+    // this.getData() // tesing carousel only
   }
 
   // chi de dot dong lap FOR chu khong lam gi ra hon ca
@@ -45,21 +56,21 @@ class HomeScreen extends Component {
   }
 
   // vi du la getData lay hinh tu backend
-  getData (){
-    axios.get(`https://picsum.photos/v2/list?limit=6`, {})
-        .then(res => {
-                const data = res.data
-              const img = data.map(m => 
-                <img src={m.download_url} alt=""/>
-              )
-              console.log('img neee ' + JSON.stringify(img))
-              this.setState({
-                galleryItems: img
-              })
-            }).catch((error) => {
-                console.log(error)
-            })
-  }
+      // getData (){
+      //   axios.get(`https://picsum.photos/v2/list?limit=6`, {})
+      //       .then(res => {
+      //               const data = res.data
+      //             const img = data.map(m => 
+      //               <img src={m.download_url} alt=""/>
+      //             )
+      //             console.log('img neee ' + JSON.stringify(img))
+      //             this.setState({
+      //               galleryItems: img
+      //             })
+      //           }).catch((error) => {
+      //               console.log(error)
+      //           })
+      // }
   // --- End getData() - vi du la getData lay hinh tu backend
 
   responsive = {
