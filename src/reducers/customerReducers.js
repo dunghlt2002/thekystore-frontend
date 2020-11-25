@@ -1,5 +1,5 @@
 
-import Cookie from 'js-cookie';
+// import Cookie from 'js-cookie';
 
 // const customerInfo = Cookie.getJSON("customerInfo") || null;
 // console.log('customerinfo from reducer  ' + customerInfo);

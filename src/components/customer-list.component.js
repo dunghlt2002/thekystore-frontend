@@ -4,8 +4,7 @@ import { Link } from "react-router-dom";
 import Pagination from 'pagination-component';
 import '../App.css';
 import { connect } from 'react-redux';
-import { PureComponent } from "react";
-
+// import { PureComponent } from "react";
 
 class customersList extends Component {
   constructor(props) {
@@ -300,7 +299,8 @@ class customersList extends Component {
   }
 
   render() {
-    const { searchKeyword, customers, currentCustomer, currentIndex } = this.state;
+    // const { searchKeyword, customers, currentCustomer, currentIndex } = this.state;
+    const { searchKeyword, currentCustomer } = this.state;
     // console.log('khach ' + customers.length);
 
     return (

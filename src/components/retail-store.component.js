@@ -28,7 +28,6 @@ class retailStore extends Component {
       totalPages: 1,
       currentPage: 1,
       currentIndex: -1,  // phan tu dau tien trong list duoc selected
-      searchKeyword: '',
       search_category: params.category,
       search_retail: params.retail,
       search_abc: params.search_abc,
@@ -167,7 +166,7 @@ class retailStore extends Component {
     // var letters = "ABCDEGHIKLMNOPQRSTUVXY";
     var letters = "ABCD";
     var nextCharList = ""
-    var alphabetList = ""
+    // var alphabetList = ""
     for (var i = 0; i < letters.length; i++) {
       var nextChar = letters.charAt(i);
       // var letter = "<div class='col-md-3 col-sm-3 col-xs-12'><div id='" + nextChar + "'><h2>" + nextChar + "</h2></div></div>";
@@ -182,7 +181,8 @@ class retailStore extends Component {
   }
 
   render() {
-    const { searchName, products, currentProduct, currentIndex, loading, error } = this.state;
+    // const { searchName, products, currentProduct, currentIndex, loading, error } = this.state;
+    const { products, error } = this.state;
 
     return (
       

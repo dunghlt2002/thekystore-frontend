@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 // import customerDataService from "../services/customer.service";
-import { Link, Redirect } from "react-router-dom";
+// import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { customerLoginFetch } from '../actions/customerActions';
 import { connect } from 'react-redux';
 

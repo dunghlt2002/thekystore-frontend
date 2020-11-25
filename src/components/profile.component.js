@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import userDataService from "../services/user.service";
-import axios from "axios";
-import myUtility from "../utils/utility";
 import { userLogoutFetch } from '../actions/userActions';
 import { connect } from 'react-redux';
-
+// import axios from "axios";
+// import myUtility from "../utils/utility";
 
 // Ben thekystore khong su dung avatar
 
@@ -189,7 +188,7 @@ class UserProfile extends Component {
         <form >
           <ul className="form-container">
             {
-              (this.props.match.params.id == this.props.currUser.id) && 
+              (this.props.match.params.id === this.props.currUser.id) && 
             <li>
               <button type="button" onClick={this.logoutHandler} className="btn-block btn-danger">Logout</button>
             </li>

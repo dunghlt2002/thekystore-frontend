@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { customerLogoutFetch } from '../actions/customerActions';
 import { connect } from 'react-redux';
 import '../App.css';
-import axios from 'axios' // just for testing getData()
+// import axios from 'axios' // just for testing getData()
 import AliceCarousel from 'react-alice-carousel';
 import "react-alice-carousel/lib/alice-carousel.css";
 
@@ -29,7 +29,7 @@ class HomeScreen extends Component {
     // console.log('str1 ' + str1);
     
     this.setState({
-      galleryItems: [<a href="/filterproducts/0?retail=-1&category=50"> <img className="sliderimg" src={str1} /> </a>, <a href="http://localhost:8081/filterproducts/0?retail=-1&category=28"> <img className="sliderimg" src="http://localhost:8080/avatars/BestSeller.jpg" /> </a>, <a href="/filterproducts/0?retail=-1&category=49"> <img className="sliderimg" src={str2} /> </a>, <a href="/filterproducts/0?retail=-1&category=28"> <img className="sliderimg" src={str3} /> </a> ]
+      galleryItems: [<a href="/filterproducts/0?retail=-1&category=50"> <img className="sliderimg" src={str1} alt="galery"/> </a>, <a href="http://localhost:8081/filterproducts/0?retail=-1&category=28"> <img className="sliderimg" src="http://localhost:8080/avatars/BestSeller.jpg" alt="galery"/> </a>, <a href="/filterproducts/0?retail=-1&category=49"> <img className="sliderimg" src={str2} alt="galery"/> </a>, <a href="/filterproducts/0?retail=-1&category=28"> <img className="sliderimg" src={str3} alt="galery"/> </a> ]
     });
     // this.getData() // tesing carousel only
   }
@@ -39,7 +39,7 @@ class HomeScreen extends Component {
     // var letters = "ABCDEGHIKLMNOPQRSTUVXY";
     var letters = "ABCD";
     var nextCharList = ""
-    var alphabetList = ""
+    // var alphabetList = ""
     for (var i = 0; i < letters.length; i++) {
       var nextChar = letters.charAt(i);
       // var letter = "<div class='col-md-3 col-sm-3 col-xs-12'><div id='" + nextChar + "'><h2>" + nextChar + "</h2></div></div>";
@@ -85,7 +85,7 @@ class HomeScreen extends Component {
   }
 
   render() {
-    const { currCustomer } = this.state;
+    // const { currCustomer } = this.state;
 
     return (
       <div className="profile-info">

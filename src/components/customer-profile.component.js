@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import customerDataService from "../services/customer.service";
-import axios from "axios";
-import myUtility from "../utils/utility";
+// import axios from "axios";
+// import myUtility from "../utils/utility";
 import { customerLogoutFetch } from '../actions/customerActions';
 import { connect } from 'react-redux';
 
@@ -131,7 +131,7 @@ class CustomerProfile extends Component {
         <form >
           <ul className="form-container">
             {
-              (this.props.match.params.id == this.props.currCustomer.id) && 
+              (this.props.match.params.id === this.props.currCustomer.id) && 
             <li>
               <button type="button" onClick={this.logoutHandler} className="btn-block btn-danger">Logout</button>
             </li>

@@ -31,7 +31,7 @@ import Order from "./components/order.component";
 import UsersList from "./components/user-list.component"; //usor  
 import UserSigninScreen from "./components/user-signin.component";   //usor
 import UserProfile from "./components/profile.component"; //usor
-import { userLogoutFetch } from './actions/userActions';  //usor
+// import { userLogoutFetch } from './actions/userActions';  //usor
 
 import CustomersList from "./components/customer-list.component";
 import AddCustomers from "./components/add-customer.component";
@@ -84,7 +84,7 @@ class App extends Component {
   }
 
   isActionChange = (event) => {
-    var name = event.target.name;
+    // var name = event.target.name;
     var value = event.target.value;
     // console.log('doi tuong : ' + name);
     // console.log('gia tri : ' + value);

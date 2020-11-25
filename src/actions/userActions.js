@@ -1,6 +1,6 @@
-import Axios from "axios";
 import Cookie from 'js-cookie';
-import http from "../http-common";
+// import Axios from "axios";
+// import http from "../http-common";
 
 // import {
 //   USER_SIGNIN_REQUEST, USER_SIGNIN_SUCCESS,

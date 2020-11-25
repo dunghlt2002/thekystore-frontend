@@ -96,7 +96,7 @@ export default class AddCustomer extends Component {
           // console.log('data '  + JSON.stringify(response.data[0]));
           // console.log('err ' + JSON.stringify(response));
           
-          if (response.data.length == 0 ) {
+          if (response.data.length === 0 ) {
             this.setState({
               existingEmail: 'NEW email address, please fil-in',
               showFormDetail: true
