@@ -23,6 +23,7 @@ export default class AddCustomer extends Component {
     
 
     this.state = {
+      REACT_APP_URL: process.env.REACT_APP_URL,
       id: null,
       customers_name: "Cheo",
       customers_email: "chutcheo@gmail.com", 
@@ -161,7 +162,8 @@ export default class AddCustomer extends Component {
     
             axios({
                 method: "POST", 
-                url:"http://localhost:8080/send", 
+                // url:"http://localhost:8080/send", 
+                url: this.state.REACT_APP_URL, 
                 data: {
             name: this.state.customers_name,
             email: this.state.customers_email,

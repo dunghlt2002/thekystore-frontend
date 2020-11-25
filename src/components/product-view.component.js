@@ -91,7 +91,7 @@ class ProductView extends Component {
                         </li>
                         <li>
                             Status: {this.props.currentProduct.products_soluong > 0 ? "In Stock" : "Unavailable."}
-                            - Qty in Stock: {this.props.currentProduct.products_soluong}
+                            - Qty: {this.props.currentProduct.products_soluong}
                         </li>
                           <li>
                                 Qty: <select value={this.state.qty} onChange={(e) => this.onChangeQty(e)}>

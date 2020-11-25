@@ -2,10 +2,13 @@ import Axios from "axios";
 import Cookie from "js-cookie";
 import { CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_SHIPPING, CART_SAVE_PAYMENT } from "../constants/cartConstants";
 
+const API_URL = process.env.REACT_APP_API_URL
+
 const addToCart = (productId, qty) => async (dispatch, getState) => {
   console.log('Hihihihi add to cart ' + productId + " - " + qty);
   try {
-    const { data } = await Axios.get("http://localhost:8080/api/products/" + productId);
+    // const { data } = await Axios.get("http://localhost:8080/api/products/" + productId);
+    const { data } = await Axios.get(API_URL + "products/" + productId);
     console.log('data in add to cart action' + JSON.stringify(data));
     dispatch({
       type: CART_ADD_ITEM, payload: {

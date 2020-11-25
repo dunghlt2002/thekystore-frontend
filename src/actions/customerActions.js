@@ -1,6 +1,8 @@
 
 import Cookie from 'js-cookie';
 
+const API_URL = process.env.REACT_APP_API_URL
+
 // viet lai theo kieu redux mapDispatchtoProps
 const getProfileFetch = () => {
   console.log('vo getprofile theky ');
@@ -26,7 +28,8 @@ const customerLoginFetch = (customers_email, customers_password) => async (dispa
   console.log('vo day la action 0925 ' + customers_email);
   dispatch({ type: 'CUSTOMER_SIGNIN_REQUEST', payload: {customers_email, customers_password} });
   try {
-    return await fetch("http://localhost:8080/api/customersignin", {
+    // return await fetch("http://localhost:8080/api/customersignin", {
+    return await fetch(API_URL + "customersignin", {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',

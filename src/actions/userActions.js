@@ -8,6 +8,8 @@ import http from "../http-common";
 //   USER_REGISTER_SUCCESS, USER_REGISTER_FAIL, USER_LOGOUT, USER_UPDATE_REQUEST, USER_UPDATE_SUCCESS, USER_UPDATE_FAIL
 // } from "../constants/userConstants";
 
+const API_URL = process.env.REACT_APP_API_URL
+
 // viet lai theo kieu redux mapDispatchtoProps
 const getProfileFetch = () => {
   console.log('vo getprofile theky ');
@@ -35,7 +37,8 @@ const userLoginFetch = (user, password) => async (dispatch) => {
   dispatch({ type: 'USER_SIGNIN_REQUEST', payload: {user, password} });
   try {
     // const { data } = await Axios.post("/api/users/signin", { email, password });
-    return await fetch("http://localhost:8080/api/signin", {
+    // return await fetch("http://localhost:8080/api/signin", {
+    return await fetch(API_URL + "signin", {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',

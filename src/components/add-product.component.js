@@ -24,6 +24,7 @@ export default class AddProduct extends Component {
     this.saveProduct = this.saveProduct.bind(this);
     this.newProduct = this.newProduct.bind(this);
     this.state = {
+      API_URL: process.env.REACT_APP_API_URL,
       id: null,
       products_name: "Tan CGDLong 1",
       products_price: "30",
@@ -166,7 +167,8 @@ export default class AddProduct extends Component {
             // tat ca cac function tren backend deu bat dau la localhost:8080/api
             // con dieu do qui dinh o dau thi khong biet luon
             axios({
-                url: "http://localhost:8080/api/upfile",
+                // url: "http://localhost:8080/api/upfile",
+                url: this.state.API_URL,
                 method: "post",
                 data: fd,
             }).then(res => {

@@ -24,6 +24,7 @@ export default class Product extends Component {
     this.deleteProduct = this.deleteProduct.bind(this);
 
     this.state = {
+      API_URL: process.env.REACT_APP_API_URL,
       currentProduct: {
         id: null,
         products_name: "",
@@ -292,7 +293,7 @@ export default class Product extends Component {
             // tat ca cac function tren backend deu bat dau la localhost:8080/api
             // con dieu do qui dinh o dau thi khong biet luon
             axios({
-                url: "http://localhost:8080/api/upfile",
+                url: this.state.API_URL + "upfile",
                 method: "post",
                 data: fd,
             }).then(res => {

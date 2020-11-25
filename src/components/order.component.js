@@ -10,6 +10,7 @@ export default class Order extends Component {
     this.deleteOrder = this.deleteOrder.bind(this);
 
     this.state = {
+      REACT_APP_URL: process.env.REACT_APP_URL,
       currentOrder: {
         id: null,
         orders_date: "",
@@ -96,7 +97,8 @@ export default class Order extends Component {
               
               <div className="cart" key={item.id} >
                       <div>{item.products_image}
-                        <img src={"http://localhost:8080/" + item.product.products_image} data-ll-status="loaded" class="smallavatar" width="100" heigth="100" alt={item.product.products_image} />
+                      {/* <img src={"http://localhost:8080/" + item.product.products_image} data-ll-status="loaded" class="smallavatar" width="100" heigth="100" alt={item.product.products_image} /> */}
+                        <img src={this.state.REACT_APP_URL + item.product.products_image} data-ll-status="loaded" class="smallavatar" width="100" heigth="100" alt={item.product.products_image} />
                       </div>
                       <div>
                         <tr className="cart-list">

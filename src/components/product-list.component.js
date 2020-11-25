@@ -13,6 +13,7 @@ export default class productsList extends Component {
     this.searchName = this.searchName.bind(this);
 
     this.state = {
+      REACT_APP_URL: process.env.REACT_APP_URL,
       products: [],
       currentProduct: null,
       currentIndex: -1,
@@ -156,7 +157,10 @@ export default class productsList extends Component {
                 <label>
                   <strong></strong>
                 </label>{" "}
-                <div><img src={"http://localhost:8080/" + currentProduct.products_image} data-ll-status="loaded" class="smallavatar" width="200" heigth="200" alt={currentProduct.products_image} /></div>
+                {/* <div><img src={"http://localhost:8080/" + currentProduct.products_image} data-ll-status="loaded" class="smallavatar" width="200" heigth="200" alt={currentProduct.products_image} /></div> */}
+                <div>
+                  <img src={this.state.REACT_APP_URL + currentProduct.products_image} data-ll-status="loaded" class="smallavatar" width="200" heigth="200" alt={currentProduct.products_image} />
+                </div>
               </div>
               <div>
                 <label>

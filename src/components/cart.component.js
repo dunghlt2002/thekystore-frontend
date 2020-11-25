@@ -14,6 +14,7 @@ class CartView extends Component {
     // this.onChangeCurrentPage = this.onChangeCurrentPage.bind(this);
     
     this.state = {
+      REACT_APP_URL: process.env.REACT_APP_URL,
       productId: this.props.match.params.products_id,
       qty: this.props.location.search ? Number(this.props.location.search.split("=")[1]) : 1,
       cartItems: this.props.cart
@@ -72,7 +73,9 @@ render() {
             this.state.cartItems.map(item =>
               <li>
                 <div className="cart-image">
-                  <img src={"http://localhost:8080/" + item.image} alt="product" />
+                
+                  {/* <img src={"http://localhost:8080/" + item.image} alt="product" /> */}
+                  <img src={this.state.REACT_APP_URL + item.image} alt="product" />
                 </div>
                 <div className="cart-name">
                   <div>

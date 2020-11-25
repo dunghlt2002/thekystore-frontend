@@ -5,11 +5,14 @@ import {
 import axios from 'axios';
 import Axios from "axios";
 
+const API_URL = process.env.REACT_APP_API_URL
+
 const detailsProduct = (productId) => async (dispatch) => {
   console.log('vo action product view');
   try {
     dispatch({ type: PRODUCT_DETAILS_REQUEST, payload: productId });
-    const { data } = await axios.get("http://localhost:8080/api/products/" + productId);
+    // const { data } = await axios.get("http://localhost:8080/api/products/" + productId);
+    const { data } = await axios.get(API_URL + "products/" + productId);
     console.log('data product view' + JSON.stringify(data));
     dispatch({ type: PRODUCT_DETAILS_SUCCESS, payload: data });
   } catch (error) {
