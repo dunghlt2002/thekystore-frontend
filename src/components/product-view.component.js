@@ -58,10 +58,11 @@ class ProductView extends Component {
         {this.props.currentResult.loading ? <div>Loading...</div> :
             this.props.currentResult.error ? <div>{this.props.currentResult.error} </div> :
             (
+
             <div className="details">
-                {/* <div className="details-image">
+                <div className="details-image">
                     <img src={this.state.REACT_APP_URL + this.props.currentProduct.products_image} alt="product" ></img>
-                </div> */}
+                </div>
                 <div className="details-info">
                     <ul>
                         <li>
@@ -108,10 +109,6 @@ class ProductView extends Component {
                     </ul>
                 </div>
             
-                <div className="details-image-large">
-                    <img src={this.state.REACT_APP_URL + this.props.currentProduct.products_image_large} alt="product large" ></img>
-                    <img src={this.state.REACT_APP_URL + this.props.currentProduct.products_image} alt="product large" ></img>
-                </div>
                 <div className="details-info">
                     <ul>
                         <li>
@@ -123,7 +120,12 @@ class ProductView extends Component {
                         </li>
                     </ul>
                 </div>
-            
+
+                <div className="details-image-large">
+                    {/* <img src={this.state.REACT_APP_URL + this.props.currentProduct.products_image_large} alt="product large" ></img> */}
+                    <img src={this.state.REACT_APP_URL + this.props.currentProduct.products_image} alt="product large" ></img>
+                </div>
+
             </div>
             ) 
         }
