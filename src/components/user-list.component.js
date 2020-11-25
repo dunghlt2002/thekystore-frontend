@@ -5,27 +5,6 @@ import Pagination from 'pagination-component';
 import '../App.css';
 import { connect } from 'react-redux';
 
-import { css } from 'glamor'
-
-// const pageLink = css({
-//   margin: '2px',
-//   display: 'inline-block',
-//   padding: '2px',
-//   WebkitBorderRadius: '20px',
-//   MozBorderRadius: '20px',
-//   borderRadius: '20px'
-// })
-
-// const currentLink = css({
-//   backgroundColor: '#0074c2',
-//   display: 'inline-block',
-//   color: '#FFFFFF',
-//   'a:link': { color: '#FFFFFF' },
-//   'a:visited': { color: '#FFFFFF' },
-//   'a:active': { color: '#FFFFFF' }
-// })
-
-
 class usersList extends Component {
   constructor(props) {
     super(props);
