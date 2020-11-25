@@ -84,7 +84,7 @@ button{
 }
 .header-links a{
   color:#ffffff;
-  text-decoration: slateblue; 
+  text-decoration: none;
   padding: 1rem;
 
 }

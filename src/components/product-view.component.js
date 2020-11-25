@@ -110,6 +110,7 @@ class ProductView extends Component {
             
                 <div className="details-image-large">
                     <img src={this.state.REACT_APP_URL + this.props.currentProduct.products_image_large} alt="product large" ></img>
+                    <img src={this.state.REACT_APP_URL + this.props.currentProduct.products_image} alt="product large" ></img>
                 </div>
                 <div className="details-info">
                     <ul>

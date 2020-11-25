@@ -239,7 +239,7 @@ class retailStore extends Component {
               <div className="row">
                   {
                     products.map(product =>
-                      <div key={product.id} className="col">
+                      <div key={product.id} className="col-3">
                           <div  className="card">
                             <div  className="products">
                               <div className="product-name">
