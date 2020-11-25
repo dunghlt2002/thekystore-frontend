@@ -289,3 +289,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(App);
 // REACT_APP_API_URL = https://dd-dailystock-node.herokuapp.com/api/
 // REACT_APP_URL = https://dd-dailystock-node.herokuapp.com/
 // REACT_APP_CLIENT_URL = https://dd-react.herokuapp.com/
+
+// "re-carousel": "^2.4.0",
+// "infinite-react-carousel": "^1.2.11",
