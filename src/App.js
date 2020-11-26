@@ -139,45 +139,9 @@ class App extends Component {
               </div>
             )}
 
-
-{(
-              <div className="dropdown">
-                <a>
-                  {this.props.currcustomer.customerInfo ? "Admin" : null
-                  }
-                </a>
-                <ul className="dropdown-content">
-                  <li>
-                    <Link to="/orders">Orders List</Link>
-                  </li>
-                  <li>
-                    <Link to="/customers">Customers List</Link>
-                  </li>
-                  <li>
-                    <Link to="/products">Products List</Link>
-                  </li>
-                  <li>
-                    <Link to="/categories">Categories List</Link>
-                  </li>
-                  <li>
-                    <Link to="/users">Users List - Testing</Link>
-                  </li>
-
-                      {/* Phan quyen so so */}
-                      {/* { this.props.currcustomer.customerInfo ? ( this.props.currcustomer.customerInfo.isadmin === 0 ? */}
-                      { this.props.currcustomer.customerInfo ? ( this.props.currcustomer.customerInfo.customers_email === "dunghlt2002@yahoo.com" ?
-                        <li>
-                          <Link to="/addProduct">Add Product</Link>
-                          <Link to="/addCustomer">Add Customer</Link>                    
-                        </li>
-                      : null ) : null
-                      }
-
-                  
-                </ul>
-              </div>
-            )}
-
+            {/* Admin menu */}
+            
+            {/* Admin menu */}
 
 
           </div>
@@ -295,3 +259,46 @@ export default connect(mapStateToProps, mapDispatchToProps)(App);
 
 // "re-carousel": "^2.4.0",
 // "infinite-react-carousel": "^1.2.11",
+
+
+
+
+
+// Admin
+// {(
+//   <div className="dropdown">
+//     <a>
+//       {this.props.currcustomer.customerInfo ? "Admin" : null
+//       }
+//     </a>
+//     <ul className="dropdown-content">
+//       <li>
+//         <Link to="/orders">Orders List</Link>
+//       </li>
+//       <li>
+//         <Link to="/customers">Customers List</Link>
+//       </li>
+//       <li>
+//         <Link to="/products">Products List</Link>
+//       </li>
+//       <li>
+//         <Link to="/categories">Categories List</Link>
+//       </li>
+//       <li>
+//         <Link to="/users">Users List - Testing</Link>
+//       </li>
+
+//           {/* Phan quyen so so */}
+//           {/* { this.props.currcustomer.customerInfo ? ( this.props.currcustomer.customerInfo.isadmin === 0 ? */}
+//           { this.props.currcustomer.customerInfo ? ( this.props.currcustomer.customerInfo.customers_email === "dunghlt2002@yahoo.com" ?
+//             <li>
+//               <Link to="/addProduct">Add Product</Link>
+//               <Link to="/addCustomer">Add Customer</Link>                    
+//             </li>
+//           : null ) : null
+//           }
+
+      
+//     </ul>
+//   </div>
+// )}
