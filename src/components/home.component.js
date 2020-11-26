@@ -4,7 +4,8 @@ import { customerLogoutFetch } from '../actions/customerActions';
 import { connect } from 'react-redux';
 import '../App.css';
 // import AliceCarousel from 'react-alice-carousel';
-// import "react-alice-carousel/lib/scss/alice-carousel.scss";
+// import "react-alice-carousel/lib/alice-carousel.css";
+
 
 // import axios from 'axios' // just for testing getData()
 

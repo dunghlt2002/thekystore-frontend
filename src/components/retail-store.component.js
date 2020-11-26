@@ -86,7 +86,7 @@ class retailStore extends Component {
         this.setState({
           masternotcategories: response.data
         });
-        console.log(response.data);
+        // console.log(response.data);
       })
       .catch(e => {
         console.log(e);
@@ -122,8 +122,8 @@ class retailStore extends Component {
           products: response.data.data,
           totalPages: response.data.pages
         });
-        console.log('ket qua data la:' + JSON.stringify(response.data));
-        console.log('ket qua total pages tim thay la: ' + response.data.pages);
+        // console.log('ket qua data la:' + JSON.stringify(response.data));
+        // console.log('ket qua total pages tim thay la: ' + response.data.pages);
       })
       .catch(e => {
         
@@ -183,6 +183,8 @@ class retailStore extends Component {
   render() {
     // const { searchName, products, currentProduct, currentIndex, loading, error } = this.state;
     const { products, error, REACT_APP_URL } = this.state;
+    console.log('aaaa ' + REACT_APP_URL);
+    
 
     return (
       
@@ -235,13 +237,15 @@ class retailStore extends Component {
                     products.map(product =>
                       <div key={product.id} className="col-3">
                           <div  className="card">
+                            <div className="product-name">
+                                      {/* <Link to={'/productview/' + product.id}>{product.products_name + "(" + product.id + ")"}</Link> */}
+                                      <Link to={'/productview/' + product.id}>{product.products_name }</Link>
+                            </div>
                             <div  className="products">
-                              <div className="product-name">
-                                  <Link to={'/productview/' + product.id}>{product.products_name + "(" + product.id + ")"}</Link>
-                              </div>
                               <div>
                                 <Link to={'/productview/' + product.id}>
-                                    <img className="product-image" src={this.state.REACT_APP_URL + product.products_image} alt={this.state.REACT_APP_URL + product.products_image} />
+                                    {/* <img src={this.state.REACT_APP_URL + this.props.currentProduct.products_image} alt="product large" ></img> */}
+                                    <img className="product-image" src={REACT_APP_URL + product.products_image} alt={this.state.REACT_APP_URL} />
                                 </Link>
                               </div>
                             

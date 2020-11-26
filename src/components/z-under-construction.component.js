@@ -32,7 +32,8 @@ class UnderConstruction extends Component {
 
     return (
       <div className="">
-        <div style={{textAlign: 'center', width: '100%'}}>
+        {/* <div style={{textAlign: 'center', width: '100%'}}> */}
+        <div className="under-out">
           <img width="600rem" src={REACT_APP_URL + "avatars/UnderConstruction.jpeg"} alt="under" />
           <br></br>
           <br></br>

@@ -113,7 +113,7 @@ class ProductView extends Component {
                     <ul>
                         <li>
                             Description:
-                            <div>
+                            <div className="card-dd">
                                 <div dangerouslySetInnerHTML={{ __html: this.props.currentProduct.products_description} }></div>
                                 {/* {this.props.currentProduct.products_description} */}
                             </div>
