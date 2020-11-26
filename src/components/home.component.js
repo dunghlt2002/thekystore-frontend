@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import { customerLogoutFetch } from '../actions/customerActions';
 import { connect } from 'react-redux';
 import '../App.css';
-import AliceCarousel from 'react-alice-carousel';
-import "react-alice-carousel/lib/scss/alice-carousel.scss";
+// import AliceCarousel from 'react-alice-carousel';
+// import "react-alice-carousel/lib/scss/alice-carousel.scss";
 
 // import axios from 'axios' // just for testing getData()
 
@@ -105,7 +105,7 @@ class HomeScreen extends Component {
         </div>
         <br></br>
 
-        <div>
+        {/* <div>
             <AliceCarousel 
                 items={this.state.galleryItems}
                 responsive={this.responsive}
@@ -116,7 +116,7 @@ class HomeScreen extends Component {
                 mouseTrackingEnabled={true}
                 disableAutoPlayOnAction={true}
             />
-        </div>
+        </div> */}
      </div>
     )
   }
