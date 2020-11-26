@@ -48,7 +48,10 @@ class CartView extends Component {
   }
   
   checkoutHandler = (e) => {
-    this.props.history.push("/customersignin?redirect=shipping");
+    // Doi hoan thanh paypal moi chay lenh nay
+    // this.props.history.push("/customersignin?redirect=shipping");
+    
+    this.props.history.push("/underconstruction");
   }
 
 render() {
@@ -119,8 +122,11 @@ render() {
         {this.state.cartItems.length === 0?
             <Link to="/"/>
         :
+          // <button onClick={(e) => this.checkoutHandler(e)} className="button btn-primary full-width" type="button" disabled={this.state.cartItems.length === 0}>
+          //   Proceed to Checkout
+          // </button>
           <button onClick={(e) => this.checkoutHandler(e)} className="button btn-primary full-width" type="button" disabled={this.state.cartItems.length === 0}>
-            Proceed to Checkout
+            Checkout is pending ...
           </button>
         }
       </div>

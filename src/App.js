@@ -10,6 +10,8 @@ import { connect } from 'react-redux';
 
 
 import homePage from "./components/home.component";
+import underconstruction from "./components/z-under-construction.component";
+
 import categoryDataService from "./services/category.service";
 
 import retailStore from "./components/retail-store.component";
@@ -195,7 +197,7 @@ class App extends Component {
 
           <ul>
                 <li>
-                  <a href="/filterproducts/-1">ALL category</a>
+                  <a href="/filterproducts/-1">ALL categoriesssss</a>
                 </li>
                 {this.state.masternotcategories.map((mastercategory) => 
                 <li>
@@ -213,7 +215,7 @@ class App extends Component {
           <ul>
             {/* 9 la so tao lao thoi */}
             <li>
-              <a href={"/filterproducts/"+this.state.usvn_longtieng+"?retail=-1"}>ALL format</a>
+              <a href={"/filterproducts/"+this.state.usvn_longtieng+"?retail=-1"}>ALL formats</a>
             </li>
             <li>
               <a href={"/filterproducts/"+this.state.usvn_longtieng+"?retail=1"}>Retail Seal Box</a>
@@ -257,6 +259,9 @@ class App extends Component {
               <Route exact path={"/userProfile/:id"} component={UserProfile} />
               <Route exact path={["/usersignin"]} component={UserSigninScreen} />
 
+              <Route exact path={["/underconstruction"]} component={underconstruction} />
+              
+
             </Switch>
           </div>
         </div>
@@ -280,15 +285,13 @@ const mapStateToProps = (state, ownProps) => {
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
-// export default App;
 
 // REACT_APP_API_URL = http://localhost:8080/api/
 // REACT_APP_URL = http://localhost:8080/
 // REACT_APP_CLIENT_URL = http://localhost:3000/
 
-// REACT_APP_API_URL = https://dd-dailystock-node.herokuapp.com/api/
-// REACT_APP_URL = https://dd-dailystock-node.herokuapp.com/
-// REACT_APP_CLIENT_URL = https://dd-react.herokuapp.com/
+// REACT_APP_API_URL = https://thekyadminbackend.herokuapp.com/api/
+// REACT_APP_URL = https://thekyadminbackend.herokuapp.com/
 
 // "re-carousel": "^2.4.0",
 // "infinite-react-carousel": "^1.2.11",

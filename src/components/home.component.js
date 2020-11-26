@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import { customerLogoutFetch } from '../actions/customerActions';
 import { connect } from 'react-redux';
 import '../App.css';
-// import AliceCarousel from 'react-alice-carousel';
-// import "react-alice-carousel/lib/alice-carousel.css";
+import AliceCarousel from 'react-alice-carousel';
+import "react-alice-carousel/lib/alice-carousel.css";
 
 // import axios from 'axios' // just for testing getData()
 
@@ -92,7 +92,7 @@ class HomeScreen extends Component {
       <div className="profile-info">
         <br></br>
         <div className="control">
-          <Link to="filterproducts/-1?usvn_longtieng=0">Browse All Products</Link>
+          <Link to="filterproducts/-1?usvn_longtieng=0">Browse All Products in this page...</Link>
         </div>
         <div>
           {this.showAZ()}
@@ -105,7 +105,7 @@ class HomeScreen extends Component {
         </div>
         <br></br>
 
-        {/* <div>
+        <div>
             <AliceCarousel 
                 items={this.state.galleryItems}
                 responsive={this.responsive}
@@ -116,7 +116,7 @@ class HomeScreen extends Component {
                 mouseTrackingEnabled={true}
                 disableAutoPlayOnAction={true}
             />
-        </div> */}
+        </div>
      </div>
     )
   }

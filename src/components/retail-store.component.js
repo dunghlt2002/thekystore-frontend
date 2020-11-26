@@ -182,7 +182,7 @@ class retailStore extends Component {
 
   render() {
     // const { searchName, products, currentProduct, currentIndex, loading, error } = this.state;
-    const { products, error } = this.state;
+    const { products, error, REACT_APP_URL } = this.state;
 
     return (
       
@@ -190,14 +190,14 @@ class retailStore extends Component {
         <br></br>
         <div className="control">
           {/* <Link to="/filterproducts/-1?usvn_longtieng=0">Browse All Products</Link> */}
-          <a href ="/filterproducts/-1?usvn_longtieng=0">Browse All Products</a>
+          <a href ="filterproducts/-1?usvn_longtieng=0">Browse All Products</a>
         </div>
         <div>
           {this.showAZ()}
         </div>
         <div> Select by alphabet :  
             {this.state.lettersArray.map((letter) => 
-                  <a href={'/filterproducts/'+this.state.usvn_longtieng+'?retail=-1&search_abc='+ letter}>    {letter}   </a>
+                  <a href={'filterproducts/'+this.state.usvn_longtieng+'?retail=-1&search_abc='+ letter}>    {letter}   </a>
 
             )}
         </div>
@@ -211,7 +211,7 @@ class retailStore extends Component {
                     
                     
                           <select onChange={(e) => this.searchComb(e.target.value)}>
-                              <option value='0'>All</option>
+                              <option value='-1'>All</option>
                               {this.state.masternotcategories.map(x =>
                                 <option key={x.id} value={x.id}>{x.categories_name}</option>
                               )}
@@ -222,13 +222,7 @@ class retailStore extends Component {
                         type="submit" onClick={(e) => this.searchKeyword(e)}>
                         Search </button>
             
-                      Sort By {'      '}
-                      {/* onChange={sortHandler} */}
-                      <select name="sortOrder" >
-                        <option value="">Newest</option>
-                        <option value="lowest">Lowest</option>
-                        <option value="highest">Highest</option>
-                      </select>
+                      
                 </form>
               </div>
               
@@ -247,7 +241,7 @@ class retailStore extends Component {
                               </div>
                               <div>
                                 <Link to={'/productview/' + product.id}>
-                                    <img className="product-image" src={this.state.REACT_APP_URL + product.products_image} alt="product" />
+                                    <img className="product-image" src={this.state.REACT_APP_URL + product.products_image} alt={this.state.REACT_APP_URL + product.products_image} />
                                 </Link>
                               </div>
                             
@@ -256,7 +250,7 @@ class retailStore extends Component {
                                   {product.products_nguonphim}
                               </div>
                               <div className="product-price">${product.products_price}</div>
-                              <div className="product-rating">{product.products_sotap} {product.products_retail}</div>
+                              <div className="product-rating">{product.products_sotap} {}</div>
                               <div className="product-retail">{product.products_retail ? 
                                   <a href={"/filterproducts/-1?retail=1"}>Retail</a> :
                                   <a href={"/filterproducts/-1?retail=0"}>DVD-R</a>}
@@ -303,3 +297,11 @@ class retailStore extends Component {
 }
 
 export default retailStore;
+
+// Sort By {'      '}
+//                       {/* onChange={sortHandler} */}
+//                       <select name="sortOrder" >
+//                         <option value="">Newest</option>
+//                         <option value="lowest">Lowest</option>
+//                         <option value="highest">Highest</option>
+//                       </select>
