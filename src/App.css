@@ -653,3 +653,7 @@ tbody>tr:nth-child(odd){
   border: .2rem #ebe3e3 solid;
   border-radius: 0.5rem;
 }
+.card-img-top{
+  flex-direction: column;
+  width: 100%;
+}

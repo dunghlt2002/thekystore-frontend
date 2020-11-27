@@ -93,7 +93,7 @@ class HomeScreen extends Component {
       <div className="profile-info">
         <br></br>
         <div className="control">
-          <Link to="filterproducts/-1?usvn_longtieng=0">Browse All Products in this page...</Link>
+          <Link to="filterproducts/-1?usvn_longtieng=0">Browse All Products</Link>
         </div>
         <div>
           {this.showAZ()}
@@ -118,6 +118,34 @@ class HomeScreen extends Component {
                 disableAutoPlayOnAction={true}
             />
         </div> */}
+        <div className="row">
+            <div className="card" style={{width: '25rem', height: '50rem'}}>
+              <div className="card-body">
+                <h2 className="card-title">Digital format</h2>
+                <a href='filterproducts/0?retail=-1&category=99' className="btn-block btn-success"><img className="card-img-top" src={this.state.REACT_APP_URL + "avatars/thekylogo.png"} alt="Card image cap" /></a>
+                <p className="card-text">We convert movie content to digital format, easy to watch in your device. (beta version, low price)</p>
+                <a href='filterproducts/0?retail=-1&category=99' className=" btn btn-primary"> See more</a>
+              </div>
+            </div>
+            <div className="card" style={{width: '25rem', height: '50rem'}}>
+              <div className="card-body">
+                <h2 className="card-title">Kiem hiep</h2>
+                <a href="/filterproducts/0?retail=-1&category=28"><img className="card-img-top" src={this.state.REACT_APP_URL + "avatars/kiemhiep.jpg"} alt="Card image cap" /></a>
+                <p className="card-text">Kiem hiep is always a terific category in Chinese TV series movie. Try it by click this link below...</p>
+                <a href="/filterproducts/0?retail=-1&category=28" className="btn btn-primary">See more</a>
+              </div>
+            </div>
+            <div className="card" style={{width: '25rem', height: '50rem'}}>
+              <div className="card-body">
+                <h2 className="card-title">Canh Sat Dieu Tra</h2>
+                <a href="/filterproducts/0?retail=-1&category=49"> <img className="card-img-top" src={this.state.REACT_APP_URL + "avatars/canhsat.jpg"} alt="Card image cap"/> </a>
+                <p className="card-text">Canh Sat Dieu Tra is another interested category in Chinese TV series movie. Try it by click this link below...</p>
+                <a href="/filterproducts/0?retail=-1&category=49" className="btn btn-primary">See more</a>
+              </div>
+            </div>
+        </div>
+
+
      </div>
     )
   }

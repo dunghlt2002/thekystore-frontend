@@ -35,6 +35,7 @@ class retailStore extends Component {
       products: [],
       currentProduct: null,
       searchKeyword: ""
+
     };
   }
 
@@ -129,6 +130,7 @@ class retailStore extends Component {
         
         this.setState({
           // error: e.message
+          products: [],
           error: "No data found, please try again"
         });
         console.log("loi neeeee :   " + e);
@@ -199,7 +201,7 @@ class retailStore extends Component {
         </div>
         <div> Select by alphabet :  
             {this.state.lettersArray.map((letter) => 
-                  <a href={'filterproducts/'+this.state.usvn_longtieng+'?retail=-1&search_abc='+ letter}>    {letter}   </a>
+                  <a href={'filterproducts/'+this.state.usvn_longtieng+'?retail=-1&search_abc='+ letter}>{letter}   </a>
 
             )}
         </div>
