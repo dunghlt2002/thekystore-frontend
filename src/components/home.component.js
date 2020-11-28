@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { customerLogoutFetch } from '../actions/customerActions';
 import { connect } from 'react-redux';
 import '../App.css';
+import providerDataService from "../services/provider.service";
 // import AliceCarousel from 'react-alice-carousel';
 // import "react-alice-carousel/lib/alice-carousel.css";
 
@@ -15,6 +16,7 @@ class HomeScreen extends Component {
       super(props);
       
       this.state = {
+        masternotProviders: [],
         REACT_APP_URL:  process.env.REACT_APP_URL,
         // galleryItems: [<a href="http://localhost:8081/filterproducts/0?retail=-1&category=50"> <img className="sliderimg" src="http://localhost:8080/avatars/chutcheo.jpg" /> </a>, <a href="http://localhost:8081/filterproducts/0?retail=-1&category=33"> <img className="sliderimg" src="http://localhost:8080/avatars/BestSeller.jpg" /> </a>, <a href="http://localhost:8081/filterproducts/0?retail=-1&category=28"> <img className="sliderimg" src="http://localhost:8080/avatars/ManagerSpecial.jpg" /> </a>, <a href="http://localhost:8081/filterproducts/0?retail=-1&category=28"> <img className="sliderimg" src="http://localhost:8080/avatars/PromoCode.jpg" /> </a> ] ,
         // galleryItems: [<a href="/filterproducts/0?retail=-1&category=50"> <img className="sliderimg" src="/avatars/chutcheo.jpg" /> </a>, <a href="http://localhost:8081/filterproducts/0?retail=-1&category=33"> <img className="sliderimg" src="http://localhost:8080/avatars/BestSeller.jpg" /> </a>, <a href="http://localhost:8081/filterproducts/0?retail=-1&category=28"> <img className="sliderimg" src="http://localhost:8080/avatars/ManagerSpecial.jpg" /> </a>, <a href="http://localhost:8081/filterproducts/0?retail=-1&category=28"> <img className="sliderimg" src="http://localhost:8080/avatars/PromoCode.jpg" /> </a> ] ,
@@ -34,6 +36,20 @@ class HomeScreen extends Component {
       galleryItems: [<a href="/filterproducts/0?retail=-1&category=50"> <img className="sliderimg" src={str1} alt="galery"/> </a>, <a href="http://localhost:8081/filterproducts/0?retail=-1&category=28"> <img className="sliderimg" src="http://localhost:8080/avatars/BestSeller.jpg" alt="galery"/> </a>, <a href="/filterproducts/0?retail=-1&category=49"> <img className="sliderimg" src={str2} alt="galery"/> </a>, <a href="/filterproducts/0?retail=-1&category=28"> <img className="sliderimg" src={str3} alt="galery"/> </a> ]
     });
     // this.getData() // tesing carousel only
+    this.retrieveNotMasterProviders();
+  }
+
+  retrieveNotMasterProviders() {
+    providerDataService.getNotMaster()
+      .then(response => {
+        this.setState({
+          masternotProviders: response.data
+        });
+        console.log(response.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
   }
 
   // chi de dot dong lap FOR chu khong lam gi ra hon ca
@@ -92,18 +108,21 @@ class HomeScreen extends Component {
     return (
       <div className="profile-info">
         <br></br>
-        <div className="control">
-          <Link to="filterproducts/-1?usvn_longtieng=0">Browse All Products</Link>
-        </div>
+        <br></br>
+        
         <div>
           {this.showAZ()}
         </div>
-        <div> Select by alphabet :  
-            {this.state.lettersArray.map((letter) => 
-                  <a href={'/filterproducts/'+this.state.usvn_longtieng+'?retail=-1&search_abc='+ letter}>    {letter}   </a>
-
-            )}
+        <div className="home-info"> 
+              <div >
+                  <Link to="filterproducts/-1?usvn_longtieng=0">Browse All Products</Link>
+              </div>
+              or Select by alphabet : 
+                {this.state.lettersArray.map((letter) => 
+                      <a href={'/filterproducts/'+this.state.usvn_longtieng+'?retail=-1&search_abc='+ letter}>    {letter}   </a>
+                )}
         </div>
+
         <br></br>
 
         {/* <div>
@@ -118,32 +137,43 @@ class HomeScreen extends Component {
                 disableAutoPlayOnAction={true}
             />
         </div> */}
-        <div className="row">
-            <div className="card" style={{width: '25rem', height: '50rem'}}>
-              <div className="card-body">
-                <h2 className="card-title">Digital format</h2>
-                <a href='filterproducts/0?retail=-1&category=99' className="btn-block btn-success"><img className="card-img-top" src={this.state.REACT_APP_URL + "avatars/thekylogo.png"} alt="Card image cap" /></a>
-                <p className="card-text">We convert movie content to digital format, easy to watch in your device. (beta version, low price)</p>
-                <a href='filterproducts/0?retail=-1&category=99' className=" btn btn-primary"> See more</a>
-              </div>
-            </div>
-            <div className="card" style={{width: '25rem', height: '50rem'}}>
-              <div className="card-body">
-                <h2 className="card-title">Kiem hiep</h2>
-                <a href="/filterproducts/0?retail=-1&category=28"><img className="card-img-top" src={this.state.REACT_APP_URL + "avatars/kiemhiep.jpg"} alt="Card image cap" /></a>
-                <p className="card-text">Kiem hiep is always a terific category in Chinese TV series movie. Try it by click this link below...</p>
-                <a href="/filterproducts/0?retail=-1&category=28" className="btn btn-primary">See more</a>
-              </div>
-            </div>
-            <div className="card" style={{width: '25rem', height: '50rem'}}>
-              <div className="card-body">
-                <h2 className="card-title">Canh Sat Dieu Tra</h2>
-                <a href="/filterproducts/0?retail=-1&category=49"> <img className="card-img-top" src={this.state.REACT_APP_URL + "avatars/canhsat.jpg"} alt="Card image cap"/> </a>
-                <p className="card-text">Canh Sat Dieu Tra is another interested category in Chinese TV series movie. Try it by click this link below...</p>
-                <a href="/filterproducts/0?retail=-1&category=49" className="btn btn-primary">See more</a>
-              </div>
-            </div>
+        <div className="home-info">
+            <h2>We have movies from many companies. Most of them are translated in Vietnamese in USA, like: </h2>
+            {this.state.masternotProviders.map((masterProvider) => 
+              <span >
+                {masterProvider.providers_name} -  
+              </span>
+            )}
         </div>
+
+        <br></br>
+        
+          <div className="row">
+              <div className="card" style={{width: '25rem', height: '50rem'}}>
+                <div className="card-body">
+                  <h2 className="card-title">Digital format</h2>
+                  <a href='filterproducts/0?retail=-1&category=99' className="btn-block btn-success"><img className="card-img-top" src={this.state.REACT_APP_URL + "avatars/thekylogo.png"} alt="Card image cap" /></a>
+                  <p className="card-text">We convert movie content to digital format, easy to watch in your device. (beta version, low price)</p>
+                  <a href='filterproducts/0?retail=-1&category=99' className=" btn btn-primary"> See more</a>
+                </div>
+              </div>
+              <div className="card" style={{width: '25rem', height: '50rem'}}>
+                <div className="card-body">
+                  <h2 className="card-title">Kiem hiep</h2>
+                  <a href="/filterproducts/0?retail=-1&category=28"><img className="card-img-top" src={this.state.REACT_APP_URL + "avatars/kiemhiep.jpg"} alt="Card image cap" /></a>
+                  <p className="card-text">Kiem hiep is always a terific category in Chinese TV series movie. Try it by click this link below...</p>
+                  <a href="/filterproducts/0?retail=-1&category=28" className="btn btn-primary">See more</a>
+                </div>
+              </div>
+              <div className="card" style={{width: '25rem', height: '50rem'}}>
+                <div className="card-body">
+                  <h2 className="card-title">Canh Sat Dieu Tra</h2>
+                  <a href="/filterproducts/0?retail=-1&category=49"> <img className="card-img-top" src={this.state.REACT_APP_URL + "avatars/canhsat.jpg"} alt="Card image cap"/> </a>
+                  <p className="card-text">Canh Sat Dieu Tra is another interested category in Chinese TV series movie. Try it by click this link below...</p>
+                  <a href="/filterproducts/0?retail=-1&category=49" className="btn btn-primary">See more</a>
+                </div>
+              </div>
+          </div>
 
 
      </div>
