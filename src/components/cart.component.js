@@ -111,6 +111,26 @@ render() {
 
       </div>
       
+      <div className="">
+        {/* <div style={{textAlign: 'center', width: '100%'}}> */}
+        <div className="under-out">
+          <img width="500rem" src={this.state.REACT_APP_URL + "avatars/UnderConstruction.jpeg"} alt="under" />
+          <br></br>
+          <br></br>
+          <br></br>
+          <h3>
+            Mong quý khách thông cảm và tạm thời đặt hàng trên 2 stores của chúng tôi trên eBay.
+          </h3>    
+          <br></br> 
+          <h2 className="under">
+            <a href="https://www.ebay.com/str/chutcheo2010" target="new">Chutcheo2010</a><br /><br />
+            <a href="https://www.ebay.com/str/PHIMBO2K/" target="new">PHIMBO2K</a>
+          </h2>
+        </div>        
+
+    </div>
+
+      
       <div className="cart-action">
         <h3>
           Subtotal ( {this.state.cartItems.reduce((a, c) => a + c.qty, 0)} items)
