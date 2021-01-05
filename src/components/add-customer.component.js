@@ -2,9 +2,12 @@ import React, { Component } from "react";
 import customerDataService from "../services/customer.service";
 import axios from "axios";
 import { Link } from "react-router-dom";
+
 import MyEmail from './email.component'
 import { renderEmail } from 'react-html-email'
 
+import MessageBox from '../components/MessageBox';
+// import LoadingBox from '../components/LoadingBox';
 
 export default class AddCustomer extends Component {
   constructor(props) {
@@ -17,22 +20,23 @@ export default class AddCustomer extends Component {
     this.onChangecustomers_zip = this.onChangecustomers_zip.bind(this);
     this.onChangecustomers_state = this.onChangecustomers_state.bind(this);
     this.onChangecustomers_country = this.onChangecustomers_country.bind(this);
+    this.onChangecustomers_phone = this.onChangecustomers_phone.bind(this);
     this.saveCustomer = this.saveCustomer.bind(this);
     this.newCustomer = this.newCustomer.bind(this);
     this.onBlurCustomers_email = this.onBlurCustomers_email.bind(this);
-    
 
     this.state = {
       REACT_APP_URL: process.env.REACT_APP_URL,
       id: null,
-      customers_name: "Cheo",
-      customers_email: "chutcheo@gmail.com", 
-      customers_password: "aaa", 
-      customers_address: "aaa", 
-      customers_city: "city", 
-      customers_zip: "zip", 
-      customers_state: "GA", 
+      customers_name: "",
+      customers_email: "", 
+      customers_password: "", 
+      customers_address: "", 
+      customers_city: "", 
+      customers_zip: "", 
+      customers_state: "", 
       customers_country: "US", 
+      customers_phone:'',
       custadv: false, // nhan quang cao On Off
       existingEmail: '',
       showFormDetail: false,
@@ -45,60 +49,58 @@ export default class AddCustomer extends Component {
       customers_name: e.target.value
     });
   }
-
   onChangecustomers_email(e) {
     this.setState({
       customers_email: e.target.value,
       existingEmail: ''
     });
   }
-
   onChangecustomers_password(e) {
     this.setState({
-      customers_name: e.target.value
+      customers_password: e.target.value
     });
   }
-
   onChangecustomers_address(e) {
     this.setState({
-      customers_name: e.target.value
+      customers_address: e.target.value
     });
   }
-
   onChangecustomers_city(e) {
     this.setState({
-      customers_name: e.target.value
+      customers_city: e.target.value
     });
   }
-
   onChangecustomers_zip(e) {
     this.setState({
-      customers_name: e.target.value
+      customers_zip: e.target.value
     });
   }
-
   onChangecustomers_state(e) {
     this.setState({
-      customers_name: e.target.value
+      customers_state: e.target.value
     });
   }
-
   onChangecustomers_country(e) {
     this.setState({
-      customers_name: e.target.value
+      customers_country: "US"
+    });
+  }
+  onChangecustomers_phone(e) {
+    this.setState({
+      customers_phone: e.target.value
     });
   }
 
+  // Khi go tung ky tu la onBLUR no kich hoat lien
   onBlurCustomers_email() {
-    console.log('hihihihihihi Blur  ' + this.state.customers_email);
+    // console.log('hihihihihihi Blur  ' + this.state.customers_email);
     customerDataService.getByemail(this.state.customers_email)
         .then(response => {
           // console.log('data '  + JSON.stringify(response.data[0]));
           // console.log('err ' + JSON.stringify(response));
-          
           if (response.data.length === 0 ) {
             this.setState({
-              existingEmail: 'NEW email address, please fil-in',
+              existingEmail: 'NEW email address, please fill-in your information',
               showFormDetail: true
             });
           }
@@ -109,28 +111,23 @@ export default class AddCustomer extends Component {
               showFormDetail: false
             });
           }
-          
-          console.log(this.state.existingEmail + " - " + this.state.showFormDetail);
-          
         })
         .catch(e => {
           console.log(e);
     });
-   
-    
   }
 
   saveCustomer() {
-    console.log('vo save');
+    console.log('vo save new customer');
     var data = {
       customers_name: this.state.customers_name,
       customers_email: this.state.customers_email,
-      // customers_: this.state.,
       customers_password: this.state.customers_password,
       customers_address: this.state.customers_address,
       customers_city: this.state.customers_city,
       customers_state: this.state.customers_state,
       customers_country: this.state.customers_country,
+      customers_phone: this.state.customers_phone,
       customers_zip: this.state.customers_zip
     };
 
@@ -144,6 +141,7 @@ export default class AddCustomer extends Component {
           customers_city: response.data.customers_city,
           customers_state: response.data.customers_state,
           customers_country: response.data.customers_country,
+          customers_phone: response.data.customers_phone,
           custadv: response.data.custadv,
           submitted: true
         });
@@ -152,8 +150,8 @@ export default class AddCustomer extends Component {
       .catch(e => {
         console.log(e);
       });
-    // mailling
 
+            // mailling module
             const messageHtml =  renderEmail(
               <MyEmail name={this.state.customers_name}> 
                 "A customer name: {this.state.customers_name + " has just created in our system. Thank you for joinging us."}
@@ -162,34 +160,33 @@ export default class AddCustomer extends Component {
     
             axios({
                 method: "POST", 
-                // url:"http://localhost:8080/send", 
-                url: this.state.REACT_APP_URL, 
+                url: this.state.REACT_APP_URL + "send", 
                 data: {
             name: this.state.customers_name,
             email: this.state.customers_email,
+            subject: "www.thekystore.com: new customer account created",
             messageHtml: messageHtml
                 }
             }).then((response)=>{
                 if (response.data.msg === 'success'){
-                    alert("Email sent, awesome!"); 
+                    alert("Please check your email for more detai."); 
                     // this.resetForm()
                 }else if(response.data.msg === 'fail'){
-                    alert("Oops, something went wrong. Try again")
+                    alert("Oops, something went wrong. Try again...")
                 }
             })
-
   }
 
   newCustomer() {
     this.setState({
       id: null,
-      customers_name: "bbb",
-      customers_email: "dunghlt2002@gmail.com",
-      customers_address: "bbb bbbbbb",
-      customers_city: "Grayson",
-      customers_state: "NY",
+      customers_name: "Full Name",
+      customers_email: "aaa@bbb.com",
+      customers_address: "cc dddddd",
+      customers_city: "Eee",
+      customers_state: "CA",
       customers_country: "US",
-      customers_zip: "zip",
+      customers_zip: "00000",
       custadv: false,
       showFormDetail: false,
       existingEmail: '',
@@ -200,12 +197,21 @@ export default class AddCustomer extends Component {
   render() {
     return (
       <div className="form">
+
         {this.state.submitted ? (
           <div className="form-info">
-            <h4>You submitted successfully!</h4>
+            <MessageBox variant="success">Your new account has created successfully!</MessageBox>
             <button className="btn-block btn-primary" onClick={this.newCustomer}>
-              Add
+              Add another customer account
             </button>
+            <li className="form">
+              <Link to='/customersignin'>
+                {/* onClick={this.backToSignIn} */}
+                <button className="btn btn-primary">
+                  Sign-in
+                </button>
+              </Link>
+            </li>
           </div>
         ) : (
           <div className="form-container">
@@ -214,27 +220,26 @@ export default class AddCustomer extends Component {
             </li>
 
             <li>
-              {this.state.showFormDetail && !this.state.submitted? (
+              {this.state.showFormDetail && !this.state.submitted? 
+                (
                   <div>
-                    {this.state.existingEmail}
+                    <MessageBox>{this.state.existingEmail}</MessageBox>
                   </div>
-              ) : (
-                <div>
-                    <Link to="/customersignin">{this.state.existingEmail}</Link>
+                ) : (
+                  <div>
+                      <Link to="/customersignin">{this.state.existingEmail}</Link>
                   </div>
                 )
-
               }
-              
             </li>
 
-
-            <li className="form-group">
-              <label htmlFor="customers_email">Email (is used to login)</label>
+            {/* Bat dau phan render info fill-in cho new account */}
+            <li>
+              <label htmlFor="customers_email">Enter email (use to login)</label>
               <input
                 type="text"
                 className="form-control"
-                id="customers_email"
+                id="customerssignin"
                 required
                 value={this.state.customers_email}
                 onChange={this.onChangecustomers_email}
@@ -245,103 +250,135 @@ export default class AddCustomer extends Component {
 
 
             {this.state.showFormDetail ? (
-          <div className="form-info">
+            <div className="form-info">
             
-            <div className="form-group">
-              <label htmlFor="customers_password">Password</label>
-              <input
-                type="text"
-                className="form-control"
-                id="customers_password"
-                required
-                value={this.state.customers_password}
-                onChange={this.onChangecustomers_password}
-                name="customers_password"
-              />
-            </div>
+                <li>
+                  <label htmlFor="customers_password">Password</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="customerssignin"
+                    required
+                    value={this.state.customers_password}
+                    onChange={this.onChangecustomers_password}
+                    name="customers_password"
+                  />
+                </li>
+                <li>
+                  <label htmlFor="customers_name">Full name</label>
+                  <input
+                    type="text"
+                    // className="form-control"
+                    id="fullname"
+                    required
+                    value={this.state.customers_name}
+                    onChange={this.onChangecustomers_name}
+                    name="customers_name"
+                  />
+                </li>
 
-            <div className="form-group">
-              <label htmlFor="customers_address">Address</label>
-              <input
-                type="text"
-                className="form-control"
-                id="customers_address"
-                required
-                value={this.state.customers_address}
-                onChange={this.onChangecustomers_address}
-                name="customers_address"
-              />
-            </div>
+                <li>
+                  <label htmlFor="customers_address">Address</label>
+                  <input
+                    type="text"
+                    // className="form-control"
+                    id="address"
+                    required
+                    value={this.state.customers_address}
+                    onChange={this.onChangecustomers_address}
+                    name="customers_address"
+                  />
+                </li>
 
-            <div className="form-group">
-              <label htmlFor="customers_city">City</label>
-              <input
-                type="text"
-                className="form-control"
-                id="customers_city"
-                required
-                value={this.state.customers_city}
-                onChange={this.onChangecustomers_city}
-                name="customers_city"
-              />
-            </div>
+                <li>
+                  <label htmlFor="customers_city">City</label>
+                  <input
+                    type="text"
+                    // className="form-control"
+                    id="city"
+                    required
+                    value={this.state.customers_city}
+                    onChange={this.onChangecustomers_city}
+                    name="customers_city"
+                  />
+                {/* </li>
+                <li> */}
+                  <label htmlFor="customers_state">State</label>
+                  <input
+                    type="text"
+                    // className="form-control"
+                    id="state"
+                    required
+                    value={this.state.customers_state}
+                    onChange={this.onChangecustomers_state}
+                    name="customers_state"
+                  />
+                </li>
 
-            <div className="form-group">
-              <label htmlFor="customers_zip">Zipcode</label>
-              <input
-                type="text"
-                className="form-control"
-                id="customers_zip"
-                required
-                value={this.state.customers_zip}
-                onChange={this.onChangecustomers_zip}
-                name="customers_zip"
-              />
-            </div>
+                <li>
+                  <label htmlFor="customers_zip">Zipcode</label>
+                  <input
+                    type="text"
+                    // className="form-control"
+                    id="zip"
+                    required
+                    value={this.state.customers_zip}
+                    onChange={this.onChangecustomers_zip}
+                    name="customers_zip"
+                  />
+                {/* </li>
+                <li> */}
+                  <label htmlFor="customers_country">Country</label>
+                  <input
+                    type="text"
+                    // className="form-control"
+                    id="country"
+                    required
+                    value={this.state.customers_country}
+                    onChange={this.onChangecustomers_country}
+                    name="customers_country"
+                  />
+                </li>
 
-            <div className="form-group">
-              <label htmlFor="customers_state">State</label>
-              <input
-                type="text"
-                className="form-control"
-                id="customers_state"
-                required
-                value={this.state.customers_state}
-                onChange={this.onChangecustomers_state}
-                name="customers_state"
-              />
-            </div>
+                <li>
+                  <label htmlFor="customers_phone">Phone</label>
+                  <input
+                    type="text"
+                    // className="form-control"
+                    id="phone"
+                    required
+                    value={this.state.ccustomers_phone}
+                    onChange={this.onChangecustomers_phone}
+                    name="customers_phone"
+                  />
+                </li>
 
-            <div className="form-group">
-              <label htmlFor="customers_country">Country</label>
-              <input
-                type="text"
-                className="form-control"
-                id="customers_country"
-                required
-                value={this.state.customers_country}
-                onChange={this.onChangecustomers_country}
-                name="customers_country"
-              />
-            </div>
+                {/* Buttons */}
+                <li>
+                  <button onClick={this.saveCustomer} className="btn-block btn-primary">
+                    Create
+                  </button>
+                </li>
 
+                <li className="form">
+                  <Link to='/' className="btn btn-secondary">
+                    <button className="btn btn-secondary">
+                      Cancel
+                    </button>
+                  </Link>
+                </li>
 
-
-            <button onClick={this.saveCustomer} className="btn btn-primary">
-              Submit
-            </button>
-
-
-
-          </div>
-        ) : (null)
-            }
-
-
-
+              </div>
+              ) 
+              // Cham dut phan render info fill-in cho new account
+              :
+              // Da co email existing, khong render gi nua
+              (null)
+              }
             
           </div>
         )}  
+       
         {/* het phan check submitted */}
 
       </div>

@@ -2,15 +2,17 @@
 // Qui uoc 1 ve Sign-in: khi noi ve sign-in la y ve customer sign-in
 // Qui uoc 2 ve Sign-in: khi noi ve customer sign-in (admin function) se la customer-sign-in
 
+
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import './App.css';
 import { connect } from 'react-redux';
 
-
 import homePage from "./components/home.component";
 import underconstruction from "./components/z-under-construction.component";
+import aboutTheKy from "./components/aboutTheKy.component";
+import faq from "./components/faq.component";
 
 import categoryDataService from "./services/category.service";
 
@@ -19,6 +21,7 @@ import ProductView from "./components/product-view.component";
 import CartView from "./components/cart.component";
 import Shipping from "./components/shipping.component";
 import Payment from "./components/payment.component";
+import PlaceOrder from "./components/placeorder.component";
 
 import ProductsList from "./components/product-list.component";
 import Product from "./components/product.component";
@@ -30,15 +33,18 @@ import Category from "./components/category.component";
 import OrdersList from "./components/order-list.component";
 import Order from "./components/order.component";
 
+// Su dung customer lam user luon 12/31/2020
 import UsersList from "./components/user-list.component"; //usor  
-import UserSigninScreen from "./components/user-signin.component";   //usor
-import UserProfile from "./components/profile.component"; //usor
-// import { userLogoutFetch } from './actions/userActions';  //usor
+import UserSigninScreen from "./components/user-signin.component";
+import UserProfile from "./components/profile.component";
+import { userLogoutFetch } from './actions/userActions';
 
 import CustomersList from "./components/customer-list.component";
 import AddCustomers from "./components/add-customer.component";
 import CustomerSigninScreen from "./components/customer-signin.component";
 import CustomerProfile from "./components/customer-profile.component";
+import ResetPasswordAskEmail from "./components/resetPasswordAskEmail.component";
+import ResetPassword from "./components/resetPassword.component";
 import { customerLogoutFetch } from './actions/customerActions';
 
 class App extends Component {
@@ -98,8 +104,9 @@ class App extends Component {
 
   render() {
 
-    return (
-      <Router>
+  return (
+    <Router>
+      <div className="grid-container">
         <header className="header">
           <div className="brand">
             <button onClick={this.openMenu}>
@@ -109,41 +116,83 @@ class App extends Component {
             {/* <a href="/filterproducts/-1">The Ky Store</a> */}
             {/* <Link to="/filterproducts/-1" > The Ky Store</Link> */}
           </div>
+
+          {/* Phan menu cua user*/}
+          {/* Admin menu */}
           <div className="header-links">
-            
             {
-              this.props.currcustomer.customerInfo ? <Link to="/cart"> {this.props.currcustomer.customerInfo.customers_email}: Cart</Link> : null
+              this.props.currcustomer.customerInfo ?
+              <>
+                <div className="dropdown">
+                <Link to="/cart">Cart {this.props.cart.cartItems.length>0?"(" + this.props.cart.cartItems.length + ")":null }
+                </Link> 
+                </div>
+                <div className="dropdown">
+                <Link to="#">
+                  {this.props.currcustomer.customerInfo.customers_name} menu <i className="fa fa-caret-down"></i>{' '}
+                </Link>
+                        <ul className="dropdown-content">
+                          <li className="fa fa-caret-down">
+                            <Link to={"/customerProfile/" + this.props.currcustomer.customerInfo.id}>Profile</Link> 
+                          </li>
+                          <li>
+                          <Link to={"/ordersbycustomer/" + this.props.currcustomer.customerInfo.id} >Orders History</Link>
+                          </li>
+  
+                          {this.props.currcustomer.customerInfo.chutcheo_city?
+                                <>
+                                  <li>
+                                    <Link to="/customers">Customers List</Link>
+                                  </li>
+                                  <li>
+                                    <Link to="/products">Products List</Link>
+                                  </li>
+                                  <li>
+                                    <Link to="/categories">Categories List</Link>
+                                  </li>
+                                  <li>
+                                    <Link to="/users">Users List - Testing</Link>
+                                  </li>
+                                  <li>
+                                    <Link to="/addProduct">Add Product</Link>
+                                  </li>
+                                  <li>
+                                    <Link to="/addCustomer">Add Customer</Link>
+                                  </li>
+                                </>
+                          : null
+                          }
+
+                          
+                          <li>
+                            <Link onClick={this.logoutHandler}>Logout</Link>
+                          </li>
+                        </ul>
+
+                          
+                </div>          
+              </>
+              :
+             
+                <Link to="/customersignin">Sign In</Link>
             }
-            
-            
-            {/* {customerInfo && customerInfo.isAdmin && ( */}
-            {(
+              {/* menu ABOUT             */}
               <div className="dropdown">
-                <a>
-                  {this.props.currcustomer.customerInfo ? "Menu" : null
-                  }
-                </a>
-                
-                    {
-                    this.props.currcustomer.customerInfo ? 
-                      <ul className="dropdown-content">
-                        <li>
-                          <Link to={"/customerProfile/" + this.props.currcustomer.customerInfo.id}>Profile: {this.props.currcustomer.customerInfo.customers_email}</Link> 
-                          <Link onClick={this.logoutHandler}>Logout</Link>
-                        </li>
-                      </ul>
-                    : <Link to="/customersignin">Sign In</Link>
-                    }
-                  
-                
+                {/* Ten menu        */}
+                <Link to="#">
+                  About <i className="fa fa-caret-down"></i>
+                </Link>
+                {/* Chi tiet menu */}
+                <ul className="dropdown-content">
+                  <li>
+                    <Link to="/aboutTheky">About us</Link>
+                  </li>
+                  <li>
+                    <Link to="/faq">FAQ</Link>
+                  </li>
+                </ul>
               </div>
-            )}
-
-            {/* Admin menu */}
-            
-            {/* Admin menu */}
-
-
+              {/* End of menu ABOUT             */}
           </div>
         </header>
         
@@ -197,6 +246,10 @@ class App extends Component {
           <div className="container">
             <Switch>
               <Route exact path={"/orders"} component={OrdersList} />
+              <Route exact path={"/ordersbycustomer/:customer_id"} component={OrdersList} />
+              <Route exact path={"/placeorder"} component={PlaceOrder} />
+              <Route exact path={"/orders/:orders_id"} component={Order} />
+
               {/* <Route path="/" exact={true} component={retailStore} /> */}
               <Route path="/" exact={true} component={homePage} />
               <Route path="/filterproducts/:usvn_longtieng" component={retailStore} />
@@ -204,8 +257,6 @@ class App extends Component {
               <Route exact path={["/cart", "/cart/:products_id"]} component={CartView} />
               <Route exact path={"/shipping"} component={Shipping} />
               <Route exact path={"/payment"} component={Payment} />
-
-              <Route exact path={"/orders/:orders_id"} component={Order} />
               
               <Route exact path={["/products"]} component={ProductsList} />
               <Route exact path={"/addProduct"} component={AddProduct} />
@@ -215,21 +266,29 @@ class App extends Component {
               <Route exact path={"/customers"} component={CustomersList} />
               <Route exact path={"/customerProfile/:id"} component={CustomerProfile} />
               <Route exact path={"/addCustomer"} component={AddCustomers} />
+              <Route exact path={"/resetpasswordaskemail"} component={ResetPasswordAskEmail} />
+              <Route exact path={"/resetpassword"} component={ResetPassword} />
+              
 
               <Route exact path={"/categories"} component={CategoriesList} />
               <Route path="/categories/:categories_id" component={Category} />
-
-              <Route exact path={"/users"} component={UsersList} />
+              
+              {/* Su dung customer lam user luon 12/31/2020 */}
+              {/* <Route exact path={"/users"} component={UsersList} />
               <Route exact path={"/userProfile/:id"} component={UserProfile} />
-              <Route exact path={["/usersignin"]} component={UserSigninScreen} />
+              <Route exact path={["/usersignin"]} component={UserSigninScreen} /> */}
 
               <Route exact path={["/underconstruction"]} component={underconstruction} />
+              <Route exact path={["/aboutTheKy"]} component={aboutTheKy} />
+              <Route exact path={["/faq"]} component={faq} />
+              
               
 
             </Switch>
           </div>
         </div>
-      </Router>
+      </div>
+    </Router>
     );
   }
 }
@@ -240,10 +299,13 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = (state, ownProps) => {
   console.log('customerSignin trong App.js ' + JSON.stringify(state.customerSignin.customerInfo));
+  console.log('cartItems trong App.js ' + typeof(state.cart.cartItems));
+  console.log('cartItems trong App.js ' + state.cart.cartItems.length);
   
   return {
-      // currcustomer: state.customerSignin.customerInfo    // cu
-      currcustomer: state.customerSignin                // moi
+      // currcustomer: state.customerSignin.customerInfo
+      currcustomer: state.customerSignin,
+      cart: state.cart
   }
 }
 
@@ -252,53 +314,15 @@ export default connect(mapStateToProps, mapDispatchToProps)(App);
 
 // REACT_APP_API_URL = http://localhost:8080/api/
 // REACT_APP_URL = http://localhost:8080/
-// REACT_APP_CLIENT_URL = http://localhost:3000/
+// REACT_APP_CLIENT_URL = http://localhost:8081/
 
 // REACT_APP_API_URL = https://thekyadminbackend.herokuapp.com/api/
 // REACT_APP_URL = https://thekyadminbackend.herokuapp.com/
+// REACT_APP_CLIENT_URL = http://thekyadminfontend.herokuapp.com/
 
 // "re-carousel": "^2.4.0",
 // "infinite-react-carousel": "^1.2.11",
 
-
-
-
-
-// Admin
-// {(
-//   <div className="dropdown">
-//     <a>
-//       {this.props.currcustomer.customerInfo ? "Admin" : null
-//       }
-//     </a>
-//     <ul className="dropdown-content">
-//       <li>
-//         <Link to="/orders">Orders List</Link>
-//       </li>
-//       <li>
-//         <Link to="/customers">Customers List</Link>
-//       </li>
-//       <li>
-//         <Link to="/products">Products List</Link>
-//       </li>
-//       <li>
-//         <Link to="/categories">Categories List</Link>
-//       </li>
-//       <li>
-//         <Link to="/users">Users List - Testing</Link>
-//       </li>
-
-//           {/* Phan quyen so so */}
-//           {/* { this.props.currcustomer.customerInfo ? ( this.props.currcustomer.customerInfo.isadmin === 0 ? */}
-//           { this.props.currcustomer.customerInfo ? ( this.props.currcustomer.customerInfo.customers_email === "dunghlt2002@yahoo.com" ?
-//             <li>
-//               <Link to="/addProduct">Add Product</Link>
-//               <Link to="/addCustomer">Add Customer</Link>                    
-//             </li>
-//           : null ) : null
-//           }
-
-      
-//     </ul>
-//   </div>
-// )}
+// REACT_APP_API_URL = http://localhost:8080/api/
+// REACT_APP_URL = http://localhost:8080/
+// REACT_APP_CLIENT_URL = http://localhost:8081/

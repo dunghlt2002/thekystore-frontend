@@ -16,7 +16,7 @@ class productDataService {
 
 
   getAllPerPage(currentPage,search_keyword,search_retail, search_category,usvn_longtieng, search_abc) {
-    console.log('duong link ne ' + `/productsperpage/${currentPage}?search_keyword=${search_keyword}&search_retail=${search_retail}&search_category=${search_category}&usvn_longtieng=${usvn_longtieng}&search_abc=${search_abc}`) ;
+    // console.log('duong link ne ' + `/productsperpage/${currentPage}?search_keyword=${search_keyword}&search_retail=${search_retail}&search_category=${search_category}&usvn_longtieng=${usvn_longtieng}&search_abc=${search_abc}`);
     return http.get(`/productsperpage/${currentPage}?search_keyword=${search_keyword}&search_retail=${search_retail}&search_category=${search_category}&usvn_longtieng=${usvn_longtieng}&search_abc=${search_abc}`);
   }
 

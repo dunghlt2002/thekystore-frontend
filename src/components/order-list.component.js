@@ -2,15 +2,16 @@ import React, { Component } from "react";
 import orderDataService from "../services/order.service";
 import customerDataService from "../services/customer.service";
 import { Link } from "react-router-dom";
+import { connect } from 'react-redux';
 
-export default class ordersList extends Component {
+class ordersList extends Component {
   constructor(props) {
     super(props);
     this.onChangesearchKeyword = this.onChangesearchKeyword.bind(this);
     this.searchKeyword = this.searchKeyword.bind(this);
     this.onChangesearchCustomer = this.onChangesearchCustomer.bind(this);
     this.searchCustomerInCustomer = this.searchCustomerInCustomer.bind(this);
-    // this.searchCustomer = this.searchCustomer.bind(this);
+    this.deleteOrder = this.deleteOrder.bind(this);
     this.retrieveOrders = this.retrieveOrders.bind(this);
     this.refreshList = this.refreshList.bind(this);
     this.setActiveOrder = this.setActiveOrder.bind(this);
@@ -20,13 +21,20 @@ export default class ordersList extends Component {
       currentOrder: null,
       currentIndex: -1,
       searchKeyword: "",
-      // searchKhach: [],
+      searchCustomerID: this.props.currcustomer.customerInfo.id,
+      chutcheo_city: this.props.currcustomer.customerInfo.chutcheo_city,
       searchCustomer: ""
     };
   }
 
   componentDidMount() {
-    this.retrieveOrders();
+    console.log('chutcheo admin ' + this.state.chutcheo_city);
+    if (this.state.chutcheo_city) {
+      this.retrieveOrders(this.state.chutcheo_city);
+    } else {
+      this.retrieveOrders(this.state.chutcheo_city);
+    }
+    
   }
   orderDateTranslate(ngay) {
     const ngayNe = new Date(ngay).toLocaleDateString();
@@ -52,7 +60,8 @@ export default class ordersList extends Component {
 
   //works great 6/26/2020
   deleteOrder(order_id) {  
-    //console.log('vo delete func   :  ' + order_id);  
+    console.log('vo delete func   :  ' + order_id);
+    
     orderDataService.delete(order_id)
       .then(response => {
         console.log(response.data);
@@ -124,8 +133,22 @@ export default class ordersList extends Component {
   //     });
   // }
 
-  retrieveOrders() {
-    orderDataService.getAll()
+  retrieveOrders(chutcheo_city) {
+  if (chutcheo_city) {
+        orderDataService.getAll()
+        .then(response => {
+          this.setState({
+            orders: response.data
+          }
+          );
+          console.log(response.data);
+          // console.log(response.data[5].customer.customers_name);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+  } else {
+    orderDataService.getAllByCustomer(this.state.searchCustomerID)
       .then(response => {
         this.setState({
           orders: response.data
@@ -137,6 +160,10 @@ export default class ordersList extends Component {
       .catch(e => {
         console.log(e);
       });
+  }
+
+
+    
   }
 
   refreshList() {
@@ -240,7 +267,11 @@ export default class ordersList extends Component {
                 <td>{order.orders_status}</td>
                 <td>
                   <Link to={"/orders/" + order.id} className="btn btn-info" >Details</Link>
-                  <button type="button" className="btn btn-danger">Delete</button>
+                  <button type="button" className="btn btn-danger" 
+                  onClick={() => {
+                    if (window.confirm('Are you sure you wish to delete this order ' + order.id + ' ?')) this.deleteOrder(order.id)}}>
+                    Delete
+                  </button>
                 </td>
               </tr>))}
             </tbody>
@@ -251,3 +282,15 @@ export default class ordersList extends Component {
     );
   }
 }
+
+const mapStateToProps = (state, ownProps) => {
+  console.log('customerSignin trong App.js ' + JSON.stringify(state.customerSignin.customerInfo));
+  
+  return {
+      // currcustomer: state.customerSignin.customerInfo    // cu
+      currcustomer: state.customerSignin                // moi
+  }
+}
+
+
+export default connect(mapStateToProps, null)(ordersList);

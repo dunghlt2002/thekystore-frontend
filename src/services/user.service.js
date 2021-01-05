@@ -6,13 +6,6 @@ import Cookie from 'js-cookie';
 // thay vi nhot trong http-common dem ra day cho de nhin va chinh header
 const API_URL = 'http://localhost:8080/api/';
 
-// const userInfo = Cookie.getJSON('userInfo') || null;
-// if (userInfo) {
-//   const token = userInfo.token;
-// } else {
-//   const token = "test"
-// }
-
 class userDataService {
   
   getAll(currentPage,search_keyword) {

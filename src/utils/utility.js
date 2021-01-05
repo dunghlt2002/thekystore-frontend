@@ -7,9 +7,9 @@ class myUtility  {
     translateBuyShort = (color) =>
     {
         var strBSColor = [];
-        if (color == 1) {
+        if (color === 1) {
             strBSColor = ["Buy","Green"]
-        } else if (color == 2) {
+        } else if (color === 2) {
             strBSColor = ["Short","Red"]
         }
         
@@ -73,6 +73,23 @@ class myUtility  {
         // return
         return str;
     }
+
+    toMyFormatDate(ngay) {
+        var ngayve;
+        console.log('ngay ' + typeof(ngay));
+        // var ngayy = ngay.toString()
+        
+        if (ngay !== null) {
+            // ngayve = ngay.split('-')[0] + '/' + ngay.split('-')[1] + '/' + ngay.split('-')[2] + ' --- ' + ngay.split('T')[0]
+            // lay ham slice sau khi chuyen ngay toString, split T no khong chiu
+            // vi tri 11 la bat dau gio phut giay
+            ngayve = ngay.split('T')[0] + ' at ' + ngay.toString().slice(11,19)
+            // + ngay.split('T')[1].slice(0,8)
+            // .substring(0,8)
+        }
+        return ngayve
+    }
+
 
 }
 

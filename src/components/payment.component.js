@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-// import productDataService from "../services/product.service";
 // import { Link } from 'react-router-dom';
 import { savePayment } from '../actions/cartActions';
 import CheckoutSteps from '../components/CheckoutSteps';
+// import { connect, useDispatch } from 'react-redux';
 import { connect } from 'react-redux';
+
 
 class Payment extends Component {
   constructor(props) {
@@ -14,8 +15,7 @@ class Payment extends Component {
     // this.onChangeCountry = this.onChangeCountry.bind(this);
 
     this.state = {
-      paymentMethod: ''
-
+      paymentMethod: 'paypal'
     };
   }
 
@@ -26,9 +26,10 @@ class Payment extends Component {
   submitHandler = (e) => {
     e.preventDefault();
     const paymentObj = {
-      paymentMethod: this.state.paymentMethod
+      paymentMethod: this.state.paymentMethod,
+      currency: 'USD'
     }
-    this.props.saveShipping({ paymentObj })
+    this.props.savePayment({ paymentObj })
     this.props.history.push('placeorder');
   }
 
@@ -39,32 +40,45 @@ class Payment extends Component {
     });
   }
 
-  render() {
+render() {
   
   return (
     <div>
       <CheckoutSteps step1 step2 step3 ></CheckoutSteps>
       <div className="form">
         <form onSubmit={this.submitHandler} >
-          <ul className="form-container">
+          <ul className="form-container-small">
             <li>
-              <h2>Payment</h2>
+              <h2>Payment Method</h2>
             </li>
 
             <li>
               <div>
-                <input type="radio" name="paymentMethod" id="paymentMethod" value="paypal"
+                <input type="radio" name="paymentMethod" id="paymentMethod" value="paypal" checked required
                   onChange={(e) => this.onChangePaymentMethod(e)}>
                 </input>
                 <label htmlFor="paymentMethod">
                   Paypal
-            </label>
+                </label>
+                <div><h5><i>At this time, we only support Paypal, a safe and reliable method for our customer. Thank you!</i></h5></div>
               </div>
-
             </li>
 
+            {/* <li>
+              <div>
+                <input type="radio" name="paymentMethod" id="paymentMethodz" value="zelle"
+                  onChange={(e) => this.onChangePaymentMethod(e)}>
+                </input>
+                <label htmlFor="paymentMethodz">
+                  Zelle method
+                </label>
+              </div>
+            </li> */}
+
+
+
             <li>
-              <button type="submit" className="btn btn-primary">Continue</button>
+              <button type="submit" className="btn-block btn-primary">Continue</button>
             </li>
 
           </ul>

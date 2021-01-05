@@ -1,0 +1,38 @@
+result payment: {
+    "create_time":"2020-12-24T23:25:15Z",
+    "update_time":"2020-12-24T23:25:31Z",
+    "id":"0RE29943MX203920A","intent":"CAPTURE",
+    "status":"COMPLETED",
+    "payer":{
+        "email_address":"dunghlt2002@gmail.com",
+        "payer_id":"L4UJXJ7A48YBU",
+        "address":{"country_code":"US"},
+        "name":{"given_name":"TRI DUNG","surname":"HUYNH"}
+    },
+    "purchase_units":[{"reference_id":"default",
+    "soft_descriptor":"PAYPAL *JOHNDOESTES",
+    "amount":{"value":"0.01","currency_code":"USD"},
+    "payee":{
+        "email_address":"sb-ptf5r4195954@business.example.com",
+        "merchant_id":"XL7EP2Y5RRMM8"
+    },
+    "shipping":{
+        "name":{"full_name":"TRI DUNG HUYNH"},
+        "address":{"address_line_1":"2718 Downingwood Lane Southwest",
+        "admin_area_2":"Grayson","admin_area_1":"GA","postal_code":"30017","country_code":"US"}
+    },
+    "payments":{
+        "captures":[
+            {"status":"COMPLETED","id":"0YM81190JL3322123",
+            "final_capture":true,"create_time":"2020-12-24T23:25:31Z",
+            "update_time":"2020-12-24T23:25:31Z",
+            "amount":{"value":"0.01","currency_code":"USD"},
+            "seller_protection":{"status":"ELIGIBLE",
+            "dispute_categories":["ITEM_NOT_RECEIVED","UNAUTHORIZED_TRANSACTION"]},
+            "links":[
+                {"href":"https://api.sandbox.paypal.com/v2/payments/captures/0YM81190JL3322123",
+                "rel":"self","method":"GET","title":"GET"},
+                {"href":"https://api.sandbox.paypal.com/v2/payments/captures/0YM81190JL3322123/refund","rel":"refund","method":"POST","title":"POST"},
+                {"href":"https://api.sandbox.paypal.com/v2/checkout/orders/0RE29943MX203920A","rel":"up","method":"GET","title":"GET"}]}]}}],
+                "links":[{"href":"https://api.sandbox.paypal.com/v2/checkout/orders/0RE29943MX203920A","rel":"self","method":"GET","title":"GET"}]
+    }

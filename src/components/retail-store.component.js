@@ -188,9 +188,8 @@ class retailStore extends Component {
     console.log('aaaa ' + REACT_APP_URL);
     
 
-    return (
-      
-      <div>
+  return (
+        <div className="">
         <br></br>
         <div className="control">
           {/* <Link to="/filterproducts/-1?usvn_longtieng=0">Browse All Products</Link> */}
@@ -204,29 +203,24 @@ class retailStore extends Component {
                   <a href={'filterproducts/'+this.state.usvn_longtieng+'?retail=-1&search_abc='+ letter}>{letter}   </a>
 
             )}
-        </div>
+        </div >
         <br></br>
-            <ul className="col-md">
-              <div>
+            <ul className="card-body">
+              <div className="">
                 <form type="submit" onSubmit={(e) => this.searchKeyword(e)}>
                       <input type="text" className="searchInputLong"
                         placeholder="Search by movie name" value={this.state.searchKeyword}
                         onChange={this.onChangeSearchKeyword} />
-                    
-                    
                           <select onChange={(e) => this.searchComb(e.target.value)}>
                               <option value='-1'>All</option>
                               {this.state.masternotcategories.map(x =>
                                 <option key={x.id} value={x.id}>{x.categories_name}</option>
                               )}
                             </select>
-                    
 
                       <button className="btn btn-secondary"
                         type="submit" onClick={(e) => this.searchKeyword(e)}>
                         Search </button>
-            
-                      
                 </form>
               </div>
               
@@ -235,6 +229,7 @@ class retailStore extends Component {
             {error ? <div>{error}</div> :
               <div className="container">
               <div className="row">
+                
                   {
                     products.map(product =>
                       <div key={product.id} className="col-3">

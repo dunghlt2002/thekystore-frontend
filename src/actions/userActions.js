@@ -24,8 +24,6 @@ const userLogoutFetch = () => {
   console.log('OUT');
   return dispatch => {
     Cookie.remove('userInfo');
-    // dispatch(logoutUser)
-    // dispatch({ type: 'USER_LOGOUT', payload: {} });
     dispatch({ type: 'USER_LOGOUT' });
   }
 }
@@ -72,6 +70,4 @@ const userLoginFetch = (user, password) => async (dispatch) => {
 }
 
 export { userLoginFetch, userLogoutFetch, getProfileFetch };
-// export { register, update, userLoginFetch, userLogoutFetch, getProfileFetch };
-// export { signin, register, logout, update, userLoginFetch };
 

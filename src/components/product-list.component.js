@@ -55,6 +55,8 @@ export default class productsList extends Component {
   }
 
   setActiveproduct(product, index) {
+    console.log('hihihi vo day chon product '  + JSON.stringify(product));
+    
     this.setState({
       currentProduct: product,
       currentIndex: index
@@ -136,7 +138,7 @@ export default class productsList extends Component {
             Remove All
           </button>
         </div>
-        <div className="col-md-8">
+        <div className="col-md">
           {currentProduct ? (
             <div>
               <h2>Product Information</h2>
@@ -157,9 +159,10 @@ export default class productsList extends Component {
                 <label>
                   <strong></strong>
                 </label>{" "}
+
                 {/* <div><img src={"http://localhost:8080/" + currentProduct.products_image} data-ll-status="loaded" class="smallavatar" width="200" heigth="200" alt={currentProduct.products_image} /></div> */}
                 <div>
-                  <img src={this.state.REACT_APP_URL + currentProduct.products_image} data-ll-status="loaded" class="smallavatar" width="200" heigth="200" alt={currentProduct.products_image} />
+                  <img src={this.state.REACT_APP_URL + currentProduct.products_image} data-ll-status="loaded" className="smallavatar" width="200" heigth="200" alt={currentProduct.products_image} />
                 </div>
               </div>
               <div>

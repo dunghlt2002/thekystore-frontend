@@ -15,6 +15,7 @@ class CartView extends Component {
     
     this.state = {
       REACT_APP_URL: process.env.REACT_APP_URL,
+      checkoutButton: this.props.currCustomer.chutcheo_city,
       productId: this.props.match.params.products_id,
       qty: this.props.location.search ? Number(this.props.location.search.split("=")[1]) : 1,
       cartItems: this.props.cart
@@ -48,10 +49,18 @@ class CartView extends Component {
   }
   
   checkoutHandler = (e) => {
-    // Doi hoan thanh paypal moi chay lenh nay
+    // Doi hoan thanh paypal moi chay lenh nay 
+    // 12/11/2020: da lam duoc them phan getCustomer
     // this.props.history.push("/customersignin?redirect=shipping");
     
     this.props.history.push("/underconstruction");
+  }
+  checkoutHandlerTesting = (e) => {
+    // Doi hoan thanh paypal moi chay lenh nay 
+    // 12/11/2020: da lam duoc them phan getCustomer
+    this.props.history.push("/customersignin?redirect=shipping");
+    
+    // this.props.history.push("/underconstruction");
   }
 
 render() {
@@ -149,6 +158,15 @@ render() {
             Checkout is pending ...
           </button>
         }
+        {/* Chi dung trong qua trinh test phan checkout */}
+        {this.state.checkoutButton?
+            <button onClick={(e) => this.checkoutHandlerTesting(e)} className="button btn-primary full-width" type="button" disabled={this.state.cartItems.length === 0}>
+              Checkout for testing
+            </button>
+        : null
+        }
+        {/* Chi dung trong qua trinh test phan checkout */}
+
       </div>
 
     </div>
@@ -171,7 +189,8 @@ const mapStateToProps = (state, ownProps) => {
   // console.log('Cart LEN trong  mapstatetoprops ' + JSON.stringify(state.cart.cartItems).length);
   
   return {
-      cart: state.cart.cartItems
+      cart: state.cart.cartItems,
+      currCustomer: state.customerSignin.customerInfo
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(CartView);

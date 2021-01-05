@@ -6,6 +6,11 @@ class orderDataService {
     return http.get("/orders");
   }
 
+  getAllByCustomer(customer_id) {
+    console.log('get all orders by Customer  ' + customer_id);
+    return http.get(`/ordersbycustomer/${customer_id}`);
+  }
+
   // getMaster() {
   //   console.log('get all Master orders here FE');
   //   return http.get("/ordersmaster");
@@ -16,9 +21,13 @@ class orderDataService {
     return http.get(`/orders/${orders_id}`);
   }
 
-  // create(data) {
-  //   return http.post("/orders", data);
-  // }
+  create(data) {
+     return http.post("/orders", data);
+  }
+  
+  createdetail(data) {
+    return http.post("/orderdetails", data);
+ }
 
   update(orders_id, data) {
     console.log('data in service, update :  ' + data.orders_status);

@@ -1,12 +1,47 @@
+import axios from 'axios';
+import Cookie from 'js-cookie';
 import http from "../http-common";
+
+// process.env.REACT_APP_URL
+// const API_URL = 'http://localhost:8080/api/';
+const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 
 class customerDataService {
   getAll(currentPage,search_keyword) {
+    const customerInfo = Cookie.getJSON('customerInfo') || null;
+    const token = customerInfo.token;    
+    console.log('token getAll customers ' + token) ;
     console.log('get all customers here limit ' + currentPage) ;
-    return http.get(`/customers/${currentPage}?search_keyword=${search_keyword}`);
-    // return http.get(`/customers?search_keyword=${search_keyword}`);
-    // return http.get(`/customers/${currentPage}`);
+    if (token) {
+      // return http.get(`/customers/${currentPage}?search_keyword=${search_keyword}`);
+      return axios.get(
+        REACT_APP_API_URL + `customers/${currentPage}?search_keyword=${search_keyword}`,
+        { headers: {'Authorization': `Bearer ${token}` }}
+        );
+    } else {
+      console.log('fail token');
+      
+    }
+
+
   }
+  // Ref only
+  getAllUser(currentPage,search_keyword) {
+    
+    const userInfo = Cookie.getJSON('userInfo') || null;
+    const token = userInfo.token;    
+    
+    console.log('get all users here limit ' + currentPage) ;
+    // bi eroor cross-origin
+    // , { headers: authHeader() } 
+    // return axios.get(API_URL + 'user', { headers: authHeader() });
+
+    return axios.get(
+      REACT_APP_API_URL + `users/${currentPage}?search_keyword=${search_keyword}`,
+      { headers: {'Authorization': `Bearer ${token}` }}
+      );
+  }
+
 
   findByKeyword(search_keyword) {
     console.log('hi search keyword ' + search_keyword);
@@ -19,7 +54,9 @@ class customerDataService {
   // }
 
   get(customers_id) {
-    return http.get(`/customer/${customers_id}`);
+    // return http.get(`/customer/${customers_id}`);
+    // return axios.get(API_URL + `/user/${id}`);
+    return axios.get(REACT_APP_API_URL + `/customer/${customers_id}`);
   }
 
   getByemail(customers_email) {

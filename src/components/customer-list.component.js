@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Pagination from 'pagination-component';
 import '../App.css';
 import { connect } from 'react-redux';
+import Cookie from 'js-cookie';
 // import { PureComponent } from "react";
 
 class customersList extends Component {
@@ -205,19 +206,30 @@ class customersList extends Component {
   retrieveCustomers(callPage) {
     // console.log('trang ht ' + currentPage);
     // console.log('trang ht ' + searchKeyword);
+    // console.log('vo  tim customer list');
+    
+    const customerInfo = Cookie.getJSON('customerInfo') || null;
+    
 
-    customerDataService.getAll(callPage,this.state.searchKeyword)
-      .then(response => {
-        this.setState({
-          customers: response.data.data,
-          totalPages: response.data.pages
-        });
-        console.log(response.data);
-      console.log('ket qua total pages' + response.data.pages);
-      })
-      .catch(e => {
-        console.log(e);
-      });
+    if (customerInfo ===  null) {
+      console.log('fail token from 0');
+        
+    } else {
+      console.log('token from 0' + customerInfo.token);
+      customerDataService.getAll(callPage,this.state.searchKeyword)
+          .then(response => {
+            this.setState({
+              customers: response.data.data,
+              totalPages: response.data.pages
+            });
+            console.log(response.data);
+          console.log('ket qua total pages' + response.data.pages);
+          })
+          .catch(e => {
+            console.log('loi get customer list ' + e);
+          });
+      
+    }
   }
 
   refreshList() {
@@ -381,7 +393,7 @@ class customersList extends Component {
               
               <div>
                   {/* // o day lai dung ID chu khong phai la customers_id */}
-                  <Link to={"/customers/" + currentCustomer.id}
+                  <Link to={"/customerProfile/" + currentCustomer.id}
                     className="btn btn-block btn-success" > 
                     Edit this customer
                   </Link>

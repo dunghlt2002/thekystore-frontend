@@ -109,6 +109,7 @@ render() {
 const mapDispatchToProps = dispatch => ({
   userLoginFetch: (user,password) => dispatch(userLoginFetch(user,password))
 })
+
 const mapStateToProps = (state, ownProps) => {
   console.log('userSignin trong Signin phan mapstatetoprops' + JSON.stringify(state.userSignin));
   console.log('userInfo trong Signin phan mapstatetoprops' + JSON.stringify(state.userSignin.userInfo));

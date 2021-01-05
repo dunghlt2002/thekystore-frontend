@@ -36,10 +36,11 @@ const removeFromCart = (productId) => (dispatch, getState) => {
 }
 
 const saveShipping = (data) => (dispatch) => {
-  console.log('da vo cart saveshipping');
   dispatch({ type: CART_SAVE_SHIPPING, payload: data });
+  Cookie.set("shippingAddress", JSON.stringify(data));
 }
 const savePayment = (data) => (dispatch) => {
   dispatch({ type: CART_SAVE_PAYMENT, payload: data });
+  Cookie.set("paymentMethod", JSON.stringify(data));
 }
 export { addToCart, removeFromCart, saveShipping, savePayment }
