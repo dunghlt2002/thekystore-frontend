@@ -193,8 +193,8 @@ class Order extends Component {
   displayOrderdetails(orderDetailArr) {
     const toPrice = (num) => Number(num.toFixed(2)); // 5.123 => "5.12" => 5.12
     if (orderDetailArr) {
-      var totalB4Tax = 0;
-      var grand_amount = 0;
+      var totalB4Tax = 0.00;
+      var grand_amount = 0.00;
       orderDetailArr.forEach(element => {
         totalB4Tax = toPrice(totalB4Tax + element.ordersdetail_quantity*element.ordersdetail_price)
         grand_amount = toPrice(totalB4Tax - this.state.discount + this.state.tax + this.state.shippingPrice)

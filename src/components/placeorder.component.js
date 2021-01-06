@@ -156,7 +156,7 @@ componentDidMount() {
     if (!this.props.cart.paymentMethod) {
       this.props.history.push('/payment');
     }
-    this.props.cart.discount=0;
+    this.props.cart.discount=0.00;
     this.props.cart.itemsPrice = toPrice(
       this.props.cart.cartItems.reduce((a, c) => a + c.qty * c.price, 0)
     );
@@ -166,7 +166,7 @@ componentDidMount() {
 }
 
 getSummary() {
-    this.props.cart.shippingPrice = this.props.cart.itemsPrice >= 50 ? toPrice(0) : toPrice(this.props.cart.shippingAddress.addressObj.shippingPriceStd);
+    this.props.cart.shippingPrice = this.props.cart.itemsPrice >= 50 ? toPrice(0.00) : toPrice(this.props.cart.shippingAddress.addressObj.shippingPriceStd);
     this.props.cart.taxPrice = toPrice(0.06 * this.props.cart.itemsPrice);
     // default discount la 0
     // this.props.cart.discount = 0.00;
