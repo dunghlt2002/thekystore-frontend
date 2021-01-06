@@ -167,8 +167,8 @@ componentDidMount() {
 }
 
 getSummary() {
-  const toPrice = (num) => Number(num.toFixed(2)); // 5.123 => "5.12" => 5.12
-    this.props.cart.shippingPrice = this.props.cart.itemsPrice >= 50 ? toPrice(0.00) : toPrice(this.props.cart.shippingAddress.addressObj.shippingPriceStd);
+  // const toPrice = (num) => Number(num.toFixed(2)); // 5.123 => "5.12" => 5.12
+    this.props.cart.shippingPrice = this.props.cart.itemsPrice >= 50 ? 0 : toPrice(this.props.cart.shippingAddress.addressObj.shippingPriceStd);
     this.props.cart.taxPrice = toPrice(this.state.taxRate * this.props.cart.itemsPrice);
     // default discount la 0
     // this.props.cart.discount = 0.00;

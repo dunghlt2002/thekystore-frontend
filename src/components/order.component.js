@@ -192,6 +192,7 @@ class Order extends Component {
 
   displayOrderdetails(orderDetailArr) {
     const toPrice = (num) => Number(num.toFixed(2)); // 5.123 => "5.12" => 5.12
+    const toPrice2 = (num) => Number(num.toFixed(2) ); // 5.123 => "5.12" => 5.12
     if (orderDetailArr) {
       var totalB4Tax = 0.00;
       var grand_amount = 0.00;
