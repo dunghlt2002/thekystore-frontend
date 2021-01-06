@@ -15,7 +15,7 @@ class CartView extends Component {
     
     this.state = {
       REACT_APP_URL: process.env.REACT_APP_URL,
-      checkoutButton: this.props.currCustomer.chutcheo_city,
+      checkoutButton: this.props.currCustomer?this.props.currCustomer.chutcheo_city:0,
       productId: this.props.match.params.products_id,
       qty: this.props.location.search ? Number(this.props.location.search.split("=")[1]) : 1,
       cartItems: this.props.cart
@@ -154,7 +154,7 @@ render() {
           // <button onClick={(e) => this.checkoutHandler(e)} className="button btn-primary full-width" type="button" disabled={this.state.cartItems.length === 0}>
           //   Proceed to Checkout
           // </button>
-          <button onClick={(e) => this.checkoutHandlerTesting(e)} className="button btn-primary full-width" type="button" disabled={this.state.cartItems.length === 0}>
+          <button onClick={(e) => this.checkoutHandler(e)} className="button btn-primary full-width" type="button" disabled={this.state.cartItems.length === 0}>
             Checkout is pending ...
           </button>
         }

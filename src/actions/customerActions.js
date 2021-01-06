@@ -16,6 +16,9 @@ const customerLogoutFetch = () => {
   console.log('OUT');
   return dispatch => {
     Cookie.remove('customerInfo');
+    Cookie.remove('cartItems');
+    Cookie.remove('paymentMethod');
+    Cookie.remove('shippingAddress');
     dispatch({ type: 'CUSTOMER_LOGOUT' });
   }
 }

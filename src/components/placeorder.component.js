@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from 'react-router-dom';
-// import Cookie from 'js-cookie';
+import Cookie from 'js-cookie';
 
 import CheckoutSteps from './CheckoutSteps';
 // import { connect, useDispatch } from 'react-redux';
@@ -29,6 +29,7 @@ class PlaceOrder extends Component {
             discount: 0.00,
             discountcode: 'TRY',
             shippingStd: 5.55,
+            taxRate: 0.06,
             orders_des: 'Write some thing to seller here ...',
             discountmessage:null,
             message: null
@@ -63,7 +64,7 @@ applyDiscountCode = (totalInit) => {
         this.props.cart.discount = 0
         this.getSummary();
         this.setState({
-          discount: toPrice(0.00),
+          discount: 0.00,
           discountmessage: "This code is NOT eligible, pls try another one!"
         });
       }
@@ -166,8 +167,9 @@ componentDidMount() {
 }
 
 getSummary() {
+  const toPrice = (num) => Number(num.toFixed(2)); // 5.123 => "5.12" => 5.12
     this.props.cart.shippingPrice = this.props.cart.itemsPrice >= 50 ? toPrice(0.00) : toPrice(this.props.cart.shippingAddress.addressObj.shippingPriceStd);
-    this.props.cart.taxPrice = toPrice(0.06 * this.props.cart.itemsPrice);
+    this.props.cart.taxPrice = toPrice(this.state.taxRate * this.props.cart.itemsPrice);
     // default discount la 0
     // this.props.cart.discount = 0.00;
     console.log('discount in state ' + this.state.discount);
@@ -219,9 +221,9 @@ console.log('data truoc khi save tai day xem cai ngay xem sao ta' + JSON.stringi
     .catch(e => {
       console.log(e);
     });
-    // Cookie.remove('cartItems');
-    // Cookie.remove('paymentMethod');
-    // Cookie.remove('shippingAddress');
+    Cookie.remove('cartItems');
+    Cookie.remove('paymentMethod');
+    Cookie.remove('shippingAddress');
     
     console.log('submit ne: ' + this.state.submitted);
     console.log('message ne: ' + this.state.message);
