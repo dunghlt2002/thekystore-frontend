@@ -382,9 +382,9 @@ class Order extends Component {
                   </div>
                   <div className="order-info">
                     <label className="order-info-element"><strong>Payment info: </strong></label>
-                      {currentOrder.payment_status ?  currentOrder.payment_status : " None."}
+                      {currentOrder.payment_status ?  currentOrder.payment_status : "NA"}
                     <label className="order-info-element"><strong>Payment Date: </strong></label>
-                      {currentOrder.payment_status ? myUtility.toMyFormatDate(currentOrder.payment_update_time) : " None."}
+                      {currentOrder.payment_status ? myUtility.toMyFormatDate(currentOrder.payment_update_time) : " NA"}
                   </div>
                   <div className="order-info">
                     <label className="order-info-element"><strong>Customer: </strong></label>

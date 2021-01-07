@@ -295,8 +295,10 @@ render() {
                 <p>
                   <strong>Name:</strong> {this.props.cart.shippingAddress.addressObj.fullname} <br />
                   <strong>Address: </strong> {this.props.cart.shippingAddress.addressObj.address},
-                  {this.props.cart.shippingAddress.addressObj.city}, {this.props.cart.shippingAddress.addressObj.postalcode}
-                  ,{this.props.cart.shippingAddress.addressObj.country}
+                  {this.props.cart.shippingAddress.addressObj.city}, 
+                  {this.props.cart.shippingAddress.addressObj.state},
+                  {this.props.cart.shippingAddress.addressObj.zip},
+                  {this.props.cart.shippingAddress.addressObj.country}
                 </p>
               </div>
             

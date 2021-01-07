@@ -123,6 +123,7 @@ class retailStore extends Component {
           products: response.data.data,
           totalPages: response.data.pages
         });
+        console.log(response.data);
         // console.log('ket qua data la:' + JSON.stringify(response.data));
         // console.log('ket qua total pages tim thay la: ' + response.data.pages);
       })
@@ -183,10 +184,8 @@ class retailStore extends Component {
   }
 
   render() {
-    // const { searchName, products, currentProduct, currentIndex, loading, error } = this.state;
-    const { products, error, REACT_APP_URL } = this.state;
-    console.log('aaaa ' + REACT_APP_URL);
-    
+  // const { searchName, products, currentProduct, currentIndex, loading, error } = this.state;
+  const { products, error, REACT_APP_URL } = this.state;
 
   return (
         <div className="">
@@ -205,91 +204,100 @@ class retailStore extends Component {
             )}
         </div >
         <br></br>
-            <ul className="card-body">
-              <div className="">
-                <form type="submit" onSubmit={(e) => this.searchKeyword(e)}>
-                      <input type="text" className="searchInputLong"
-                        placeholder="Search by movie name" value={this.state.searchKeyword}
-                        onChange={this.onChangeSearchKeyword} />
-                          <select onChange={(e) => this.searchComb(e.target.value)}>
-                              <option value='-1'>All</option>
-                              {this.state.masternotcategories.map(x =>
-                                <option key={x.id} value={x.id}>{x.categories_name}</option>
-                              )}
-                            </select>
+        <div className="card-body">
+            <form type="submit" onSubmit={(e) => this.searchKeyword(e)}>
+                  <input type="text" className="searchInputLong"
+                    placeholder="Search by movie name" value={this.state.searchKeyword}
+                    onChange={this.onChangeSearchKeyword} />
+                      <select onChange={(e) => this.searchComb(e.target.value)}>
+                          <option value='-1'>All</option>
+                          {this.state.masternotcategories.map(x =>
+                            <option key={x.id} value={x.id}>{x.categories_name}</option>
+                          )}
+                        </select>
 
-                      <button className="btn btn-secondary"
-                        type="submit" onClick={(e) => this.searchKeyword(e)}>
-                        Search </button>
-                </form>
-              </div>
-              
-            </ul>
+                  <button className="btn btn-secondary"
+                    type="submit" onClick={(e) => this.searchKeyword(e)}>
+                    Search </button>
+            </form>
+        </div>
 
-            {error ? <div>{error}</div> :
-              <div className="container">
-              <div className="row">
-                
-                  {
-                    products.map(product =>
-                      <div key={product.id} className="col-3">
-                          <div  className="card">
-                            <div className="product-name">
-                                      {/* <Link to={'/productview/' + product.id}>{product.products_name + "(" + product.id + ")"}</Link> */}
-                                      <Link to={'/productview/' + product.id}>{product.products_name }</Link>
-                            </div>
-                            <div  className="products">
-                              <div>
-                                <Link to={'/productview/' + product.id}>
-                                    {/* <img src={this.state.REACT_APP_URL + this.props.currentProduct.products_image} alt="product large" ></img> */}
-                                    <img className="product-image" src={REACT_APP_URL + product.products_image} alt={this.state.REACT_APP_URL} />
-                                </Link>
-                              </div>
-                            
-                              <div className="product-brand">
-                                  {/* <Link to={'/category/' + product.brand}>{product.brand}</Link> <i>(in progress, not work now!)</i> */}
-                                  {product.products_nguonphim}
-                              </div>
-                              <div className="product-price">${product.products_price}</div>
-                              <div className="product-rating">{product.products_sotap} {}</div>
-                              <div className="product-retail">{product.products_retail ? 
-                                  <a href={"/filterproducts/-1?retail=1"}>Retail</a> :
-                                  <a href={"/filterproducts/-1?retail=0"}>DVD-R</a>}
-                              </div>
-                              <div className="product-retail">Category: {product.categories_id}</div>
-                              {/* <div className="product-rating">{product.rating} Stars ({product.numReiews} Reviews)</div> */}
-                              </div>                          
-                              <div>
-                                <button onClick={() => this.handleAddToCart(product.id)} className="btn btn-warning" >Add to Cart</button>
-                              </div>
+        {error ? 
+          <div className="row">{error}</div> 
+        :
+          <div className="row">
+              {
+                products.map(product =>
+                  <div key={product.id} className="col-3">
+                      <div  className="card">
+                        <div className="product-name">
+                            {/* <Link to={'/productview/' + product.id}>{product.products_name + "(" + product.id + ")"}</Link> */}
+                            <Link to={'/productview/' + product.id}>{product.products_name }</Link>
                         </div>
-                      </div>
-                    )
-                  }
-                
-            {/* } */} 
+                        <div  className="products">
+                          <div>
+                            <Link to={'/productview/' + product.id}>
+                                {/* <img src={this.state.REACT_APP_URL + this.props.currentProduct.products_image} alt="product large" ></img> */}
+                                <img className="product-image" src={REACT_APP_URL + product.products_image} alt={this.state.REACT_APP_URL} />
+                            </Link>
+                          </div>
+                          {/* <div className="product-rating">{product.rating} Stars ({product.numReiews} Reviews)</div> */}
+                          <div className="product-brand">
+                              {product.products_nguonphim}
+                          </div>
+                          <div className="product-brand">
+                              <a href={'/filterproducts/'+this.state.usvn_longtieng+'?retail=-1&category='+ product.providers_id}>
+                                  {product.provider?product.provider.providers_name:'NA'} ({product.providers_id})
+                              </a>
+                          </div>
+                          {/* <div className="product-retail">{product.category.categories_name} <h6>({product.categories_id})</h6></div> */}
+                          <div className="product-brand">
+                              <a href={'/filterproducts/'+this.state.usvn_longtieng+'?retail=-1&category='+ product.categories_id}>
+                                {product.category?product.category.categories_name:'NA'} ({product.categories_id})</a>
+                          </div>
+                          <div className="product-price">
+                            ${product.products_price}
+                            <span className="product-retail">
+                              {product.products_retail ? 
+                              <a href={"/filterproducts/-1?retail=1"}>{'  '} Retail</a> :
+                              <a href={"/filterproducts/-1?retail=0"}>{'  '} DVD-R</a>}
+                            </span>
+                          </div>
+                          <div className="product-rating">{product.products_sotap} {}</div>
+                          {/* <div className="product-retail">{product.products_retail ? 
+                              <a href={"/filterproducts/-1?retail=1"}>Retail</a> :
+                              <a href={"/filterproducts/-1?retail=0"}>DVD-R</a>}
+                          </div> */}
+                          </div>
+                          <div>
+                            <button onClick={() => this.handleAddToCart(product.id)} className="btn btn-warning" >Add to Cart</button>
+                          </div>
+                    </div>
                   </div>
-            </div>
-            }
+                )
+              }
+          </div>
             
-            <div className="header col">
-                <Pagination 
-                      currentPage={this.state.currentPage-1}
-                      pageCount={this.state.totalPages}
-                      pageLinkClassName="page-link"
-                      currentLinkClassName="current-link"
-                      onPageClick={i => {
-                        console.log(`Link to page ${i-1} was clicked.`);
-                        this.onChangeCurrentPage(i);
-                      }} />
+        }
+            
+        <div className="header col">
+            <Pagination 
+                  currentPage={this.state.currentPage-1}
+                  pageCount={this.state.totalPages}
+                  pageLinkClassName="page-link"
+                  currentLinkClassName="current-link"
+                  onPageClick={i => {
+                    console.log(`Link to page ${i-1} was clicked.`);
+                    this.onChangeCurrentPage(i);
+                  }} />
 
-                
-                  currentPage: {this.state.currentPage} / pageCount: {this.state.totalPages}
-                  {/* <li>pageLinkClassName: "page-link"</li>
-                  <li>currentLinkClassName="current-link"</li> */}
-                
-             </div>
- 
+            
+              currentPage: {this.state.currentPage} / pageCount: {this.state.totalPages}
+              {/* <li>pageLinkClassName: "page-link"</li>
+              <li>currentLinkClassName="current-link"</li> */}
+            
+          </div>
+
             
 
       </div>

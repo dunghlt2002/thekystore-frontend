@@ -30,7 +30,8 @@ export default class AddCustomer extends Component {
   }
 
   backToSignIn() {
-    this.props.history.push("/customersignin");
+    // this.props.history.push("/customersignin");
+    // window.location("/customersignin");
   }
 
   onChangecustomers_email(e) {
@@ -119,9 +120,9 @@ export default class AddCustomer extends Component {
     )
       .then(response => {
         // Sequelize xong
-        console.log('customer password updated ' + response.data);
+        // console.log('customer password updated ' + response.data);
         this.setState({
-          message: "The customer password  was updated successfully!",
+          message: "Your password was updated successfully!",
           submitted: true
         });
       })
@@ -162,8 +163,8 @@ export default class AddCustomer extends Component {
           <div className="form-container-small">
             {this.state.message}
             <div>
-              <Link to="/customersignin">Sing-in</Link>
-            </div>    
+              <Link to="/customersignin">Sign-in, click here</Link>
+            </div>
           </div>
         ) : (
           <div className="form-container-small">
@@ -220,11 +221,12 @@ export default class AddCustomer extends Component {
             <button onClick={this.savePassword} className="btn-block btn-primary">
               Reset Password
             </button>
-            <button onClick={this.backToSignIn} className="btn-block btn-primary">
+            {/* <button onClick={this.backToSignIn} className="btn-block btn-primary">
               Sign-in
-            </button>
-            
-
+            </button> */}
+            <div className="card">
+              <Link to="/customersignin">or Sign-in, click here</Link>
+            </div>
 
           </div>
         ) : (null)

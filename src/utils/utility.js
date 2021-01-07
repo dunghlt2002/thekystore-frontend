@@ -76,10 +76,12 @@ class myUtility  {
 
     toMyFormatDate(ngay) {
         var ngayve;
-        console.log('ngay ' + typeof(ngay));
+        console.log('ngay ' + ngay + ' kieu ' + typeof(ngay));
         // var ngayy = ngay.toString()
         
-        if (ngay !== null) {
+        if (ngay == null || ngay == "undefined") {
+            ngayve='None'
+        } else {
             // ngayve = ngay.split('-')[0] + '/' + ngay.split('-')[1] + '/' + ngay.split('-')[2] + ' --- ' + ngay.split('T')[0]
             // lay ham slice sau khi chuyen ngay toString, split T no khong chiu
             // vi tri 11 la bat dau gio phut giay

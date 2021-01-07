@@ -1,14 +1,20 @@
 import http from "../http-common";
 
 class orderDataService {
-  getAll() {
-    console.log('get all orders here FE');
-    return http.get("/orders");
+  getAll(status) {
+    console.log('get all orders here FE ' + status);
+    return http.get(`/orders/${status}`);
   }
 
-  getAllByCustomer(customer_id) {
+  findByKeyword(search_keyword, status) {
+    console.log('hi search name ' + status);
+    return http.get(`/orders/${status}?search_keyword=${search_keyword}`);
+    // return http.get(`/orders?search_keyword=${search_keyword}`);
+  }
+
+  getAllByCustomer(customer_id,status) {
     console.log('get all orders by Customer  ' + customer_id);
-    return http.get(`/ordersbycustomer/${customer_id}`);
+    return http.get(`/ordersbycustomer/${customer_id}-${status}`);
   }
 
   // getMaster() {
@@ -18,7 +24,7 @@ class orderDataService {
 
   get(orders_id) {
     console.log('hihih in order service');
-    return http.get(`/orders/${orders_id}`);
+    return http.get(`/order/${orders_id}`);
   }
 
   create(data) {
@@ -42,10 +48,6 @@ class orderDataService {
   //   return http.delete(`/orders`);
   // }
 
-  findByKeyword(search_keyword) {
-    console.log('hi search name');
-    return http.get(`/orders?search_keyword=${search_keyword}`);
-  }
 
   // rieng orders phuc tap nen tach rieng cai seach nay
   findOne(orders_id) {

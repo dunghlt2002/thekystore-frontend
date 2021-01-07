@@ -39,8 +39,8 @@ export default class AddCustomer extends Component {
 
     // mailling
     const messageHtml =  renderEmail(
-      <MyEmail mylink={this.state.REACT_APP_CLIENT_URL+'resetpassword'} name={this.state.customers_email}> 
-        "To reset your password, click here."
+      <MyEmail mylink={this.state.REACT_APP_CLIENT_URL+'resetpassword'} name={this.state.customers_email}>
+        To reset your password, click here.
       </MyEmail>
     );
 
@@ -71,7 +71,7 @@ export default class AddCustomer extends Component {
       <div className="form">
         {this.state.submitted ? (
           <div className="form-container">
-            <h4>YouA reset password email has just sent to your relative email account. Please check and reset your password, thank you!</h4>
+            <h4>A reset password link has just sent to your email related with account. Check email and reset your password, thank you!</h4>
           </div>
         ) : (
           <div className="form-container-small">

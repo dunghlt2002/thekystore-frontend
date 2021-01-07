@@ -19,6 +19,7 @@ class ordersList extends Component {
     this.state = {
       orders: [],
       currentOrder: null,
+      orderStatus: 0,
       currentIndex: -1,
       searchKeyword: "",
       searchCustomerID: this.props.currcustomer.customerInfo.id,
@@ -28,18 +29,30 @@ class ordersList extends Component {
   }
 
   componentDidMount() {
-    console.log('chutcheo admin ' + this.state.chutcheo_city);
-    if (this.state.chutcheo_city) {
-      this.retrieveOrders(this.state.chutcheo_city);
-    } else {
-      this.retrieveOrders(this.state.chutcheo_city);
-    }
+    // console.log('chutcheo admin ' + this.state.chutcheo_city);
+    this.retrieveOrders(this.state.chutcheo_city, this.state.orderStatus);
+    // if (this.state.chutcheo_city) {
+    //   this.retrieveOrders(this.state.chutcheo_city);
+    // } else {
+    //   this.retrieveOrders(this.state.chutcheo_city);
+    // }
+  }
+
+  orderStatusChange(e) {
+    const orderStatus = e.target.value;
+    console.log('radio selected value: ' + orderStatus);
+    this.setState({
+      orderStatus: orderStatus
+    });
+    this.retrieveOrders(this.state.chutcheo_city, orderStatus);
     
   }
+
   orderDateTranslate(ngay) {
     const ngayNe = new Date(ngay).toLocaleDateString();
     return ngayNe
   }
+
   displayCustName(obj) {
     if (obj) {
       var custName = obj.customers_name;
@@ -88,7 +101,7 @@ class ordersList extends Component {
       searchCustomer: searchCustomer
     });
 
-    customerDataService.findByKeyword(searchCustomer)
+    customerDataService.findByKeyword(searchCustomer, this.state.orderStatus)
     .then(response => {
       this.setState({
         // searchKhach: response.data,
@@ -106,7 +119,7 @@ class ordersList extends Component {
   searchCustomerInCustomer() {
     // console.log('keyword cust CiC ' + this.state.searchCustomer);
 
-    customerDataService.findByKeyword(this.state.searchCustomer)
+    customerDataService.findByKeyword(this.state.searchCustomer, this.state.orderStatus)
       .then(response => {
         this.setState({
           // searchKhach: response.data,
@@ -120,22 +133,15 @@ class ordersList extends Component {
       });
   }
 
-  // searchCustomer() {
-  //   orderDataService.findByKeyword(this.state.searchCustomer)
-  //     .then(response => {
-  //       this.setState({
-  //         orders: response.data
-  //       });
-  //       console.log(response.data);
-  //     })
-  //     .catch(e => {
-  //       console.log(e);
-  //     });
-  // }
-
-  retrieveOrders(chutcheo_city) {
+  retrieveOrders(chutcheo_city, orderStatus) {
+    console.log('status in orderlist form ' + orderStatus);
+    this.setState({
+      currentOrder: null,
+    });
+    console.log('chutcheo_city form ' + chutcheo_city);
   if (chutcheo_city) {
-        orderDataService.getAll()
+    console.log('we are in get all orders');
+        orderDataService.getAll(orderStatus)
         .then(response => {
           this.setState({
             orders: response.data
@@ -148,7 +154,8 @@ class ordersList extends Component {
           console.log(e);
         });
   } else {
-    orderDataService.getAllByCustomer(this.state.searchCustomerID)
+    console.log('we are in get all orders by ONE customer');
+    orderDataService.getAllByCustomer(this.state.searchCustomerID,orderStatus)
       .then(response => {
         this.setState({
           orders: response.data
@@ -161,7 +168,9 @@ class ordersList extends Component {
         console.log(e);
       });
   }
-
+  this.setState({
+    searchCustomer:''
+  });
 
     
   }
@@ -182,9 +191,11 @@ class ordersList extends Component {
   }
 
   searchKeyword() {
+    console.log('status ' + this.state.status);
+    
     // findOne ben backend no sai sai gi do khng tra ve data
     // orderDataService.findOne(this.state.searchKeyword)
-    orderDataService.findByKeyword(this.state.searchKeyword)
+    orderDataService.findByKeyword(this.state.searchKeyword, this.state.orderStatus)
       .then(response => {
         this.setState({
           orders: response.data
@@ -205,7 +216,9 @@ class ordersList extends Component {
     return (
       <div className="col mb-3 border">
           <div className="order-header">
-
+          { this.props.currcustomer.customerInfo.chutcheo_city?
+          (
+          <>
             <input
               type="text"
               className="searchInput"
@@ -221,7 +234,6 @@ class ordersList extends Component {
               Search Order
             </button>
 
-
             <input
               type="text"
               className="searchInput"
@@ -236,7 +248,17 @@ class ordersList extends Component {
             >
               Search Order
             </button>
-            
+            <br></br>
+            <br></br>
+          </>
+          ) 
+          : null 
+          }
+            <label className="form-label"><strong>Order Status:</strong>
+                <input onChange={(event)=> this.orderStatusChange(event)} value="0" type="radio" className="form-input" name="status" defaultChecked='0' />New Order
+                <input onChange={(event)=> this.orderStatusChange(event)} value="1" type="radio" className="form-input" name="status" />Paid Off
+                <input onChange={(event)=> this.orderStatusChange(event)} value="2" type="radio" className="form-input" name="status" />Shipped
+            </label>
           </div>
 
 
@@ -267,11 +289,15 @@ class ordersList extends Component {
                 <td>{order.orders_status}</td>
                 <td>
                   <Link to={"/orders/" + order.id} className="btn btn-info" >Details</Link>
+                  { order.orders_status === 0 || this.props.currcustomer.customerInfo.chutcheo_city? 
+                  (
                   <button type="button" className="btn btn-danger" 
                   onClick={() => {
                     if (window.confirm('Are you sure you wish to delete this order ' + order.id + ' ?')) this.deleteOrder(order.id)}}>
                     Delete
                   </button>
+                  ) : null
+                  }
                 </td>
               </tr>))}
             </tbody>

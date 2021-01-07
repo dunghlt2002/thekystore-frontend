@@ -269,7 +269,6 @@ class App extends Component {
               <Route exact path={"/resetpasswordaskemail"} component={ResetPasswordAskEmail} />
               <Route exact path={"/resetpassword"} component={ResetPassword} />
               
-
               <Route exact path={"/categories"} component={CategoriesList} />
               <Route path="/categories/:categories_id" component={Category} />
               
@@ -281,13 +280,11 @@ class App extends Component {
               <Route exact path={["/underconstruction"]} component={underconstruction} />
               <Route exact path={["/aboutTheKy"]} component={aboutTheKy} />
               <Route exact path={["/faq"]} component={faq} />
-              
-              
-
             </Switch>
           </div>
         </div>
       </div>
+      
     </Router>
     );
   }

@@ -5,12 +5,14 @@ export default function MyEmail({mylink,name, children}) {
   return (
   <Email title='link'>
     <Item>
-       Hello {name}
-       <A style={{ paddingLeft: 10 }}  href='www.thekystore.com'>Visit our wesbite, click here!</A>
+       <div>Hello {name}</div>
+       <div>Welcome back to our website: www.thekystore.com</div>
     </Item>
     <Item>
       <A style={{ paddingLeft: 10 }}  href={mylink}>{children}</A>
-      
+    </Item>
+    <Item>
+       <div>Have a great day!</div>
     </Item>
   </Email>
 )};
