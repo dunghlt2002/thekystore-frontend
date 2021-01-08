@@ -40,12 +40,18 @@ class UnderConstruction extends Component {
                  DVD-R: collection by many format of DVD.
               </li>
               <li>
-                 Ratial: in seal box.
+                 Retial: in sealed box.
               </li>
             </div>
             <div className="form-info">
-              Shipping rule
-            </div>
+              <strong>Shipping rate</strong>
+              <li>
+                 Regular shipping fee: $6.75
+              </li>
+              <li>
+                 Free shipping: order over $50 (USPS only)
+              </li>
+           </div>
           <br></br> 
     </div>
     )
