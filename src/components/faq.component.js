@@ -46,10 +46,13 @@ class UnderConstruction extends Component {
             <div className="form-info">
               <strong>Shipping rate</strong>
               <li>
-                 Regular shipping fee: $6.75
+                 Regular shipping fee: $7.95
               </li>
               <li>
-                 Free shipping: order over $50 (USPS only)
+                 Free shipping: order over $50
+              </li>
+              <li>
+                 USPS service only
               </li>
            </div>
           <br></br> 
