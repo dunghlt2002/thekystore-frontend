@@ -25,9 +25,9 @@ class UnderConstruction extends Component {
           </h1>
           <br></br>
           <div className="form">
-            We have more than 15 years in retail store in Norcross, GA before switching to completely online now.
+            We have more than 15-year experience in retail in Goergia. From now we are completely selling our products online through this website.
           </div>
-          <div className="form">
+          {/* <div className="form">
             We love Chinese series movie, famous product from authors like Kim Dung, Co Long,... and now we are collecting them. We are selling them on ebay, on this website to people who has the same passion and want to collect these movies.
           </div>
           <div className="form">
@@ -35,7 +35,7 @@ class UnderConstruction extends Component {
           </div>
           <div className="form">
             Some of them, we have retail (in seal box). Most of them are not. But they are in new condition (DVD-R) when we ship. We use USPS (a cheap media rate) to delivery it to all of our customer. We try to ship it out as soon as we can, ussually on the same purchase date. But USPS take the rest to make sure it come to your door. We con not control the process in USPS. Please contact us to look for a better solution if you could not receive it on time or as you expect and thank you for all understanding.
-          </div>
+          </div> */}
           <br></br> 
     </div>
     )
