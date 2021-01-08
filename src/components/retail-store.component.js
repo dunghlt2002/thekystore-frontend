@@ -29,6 +29,7 @@ class retailStore extends Component {
       currentPage: 1,
       currentIndex: -1,  // phan tu dau tien trong list duoc selected
       search_category: params.category,
+      search_provider: params.provider,
       search_retail: params.retail,
       search_abc: params.search_abc,
       usvn_longtieng: this.props.match.params.usvn_longtieng,
@@ -61,11 +62,10 @@ class retailStore extends Component {
 
     console.log('trang thu chinh xac :  ' + this.state.currentPage + ' hay la i+1 ' + (i+1));
     this.retrieveproducts((i+1));
-    
   }
 
   componentDidMount() {
-    console.log('params chinh la usvn_longtoeng ' + this.state.usvn_longtieng);
+    console.log('params chinh la usvn_longtieng ' + this.state.usvn_longtieng);
     console.log('hi abc ' + this.state.search_abc);
     // var retailFlag = -1
     // if (this.props.match.params.retail) {
@@ -76,6 +76,7 @@ class retailStore extends Component {
 
     console.log('reatil moi ne ' + this.state.search_retail);
     console.log('cat moi ne ' + this.state.search_category);
+    console.log('search_provider moi ne ' + this.state.search_provider);
     this.retrieveproducts(1);
     // this.retrieveproducts(this.state.currentPage,this.state.searchKeyword,this.state.search_retail,this.state.search_category);
     this.retrieveNotMasterCategories();
@@ -116,7 +117,7 @@ class retailStore extends Component {
   }
 
   retrieveproducts(currentPage) {
-    productDataService.getAllPerPage(currentPage,this.state.searchKeyword,this.state.search_retail,this.state.search_category,this.state.usvn_longtieng,this.state.search_abc)
+    productDataService.getAllPerPage(currentPage,this.state.searchKeyword,this.state.search_retail,this.state.search_category,this.state.usvn_longtieng,this.state.search_abc,this.state.search_provider)
       .then(response => {
         this.setState({
           error: null,
@@ -204,7 +205,7 @@ class retailStore extends Component {
             )}
         </div >
         <br></br>
-        <div className="card-body">
+        <div className="card">
             <form type="submit" onSubmit={(e) => this.searchKeyword(e)}>
                   <input type="text" className="searchInputLong"
                     placeholder="Search by movie name" value={this.state.searchKeyword}
@@ -246,7 +247,7 @@ class retailStore extends Component {
                               {product.products_nguonphim}
                           </div>
                           <div className="product-brand">
-                              <a href={'/filterproducts/'+this.state.usvn_longtieng+'?retail=-1&category='+ product.providers_id}>
+                              <a href={'/filterproducts/'+this.state.usvn_longtieng+'?retail=-1&provider='+ product.providers_id}>
                                   {product.provider?product.provider.providers_name:'NA'} ({product.providers_id})
                               </a>
                           </div>

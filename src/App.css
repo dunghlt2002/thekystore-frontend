@@ -143,12 +143,12 @@ a:hover{
 }
 
 .product-name{
-  flex-direction: row;
+  /* flex-direction: row; */
   font-size: 1.5rem;
   font-weight: bold;
   /* color: #15045f; */
   background-color: #0f033b;
-  flex: 2 1 3rem;
+  flex: 6 1 3rem;
   padding: 0.3rem;
   border-radius: 0.4rem;
 }
@@ -707,8 +707,6 @@ tbody>tr:nth-child(odd){
   padding: 2rem;
 }
 
-
-
 /* Card */
 .card {
   text-align: center;
@@ -739,7 +737,10 @@ tbody>tr:nth-child(odd){
 .row {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  
+  /* Gian cach qua dang */
+  /* justify-content: space-between; */
+
   /* lam mat data khi show tung product */
   /* align-items: center;     */
   /* lam mat data khi show tung product */
