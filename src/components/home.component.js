@@ -141,7 +141,8 @@ class HomeScreen extends Component {
             <h2>We have movies from many companies. Most of them are translated in Vietnamese in USA, like: </h2>
             {this.state.masternotProviders.map((masterProvider) => 
               <span >
-                {masterProvider.providers_name} -  
+                <a href={'/filterproducts/'+this.state.usvn_longtieng+'?retail=-1&provider='+ masterProvider.id}>{masterProvider.providers_name} {' '}</a>
+              
               </span>
             )}
         </div>

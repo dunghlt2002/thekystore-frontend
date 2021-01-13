@@ -119,14 +119,18 @@ class App extends Component {
 
           {/* Phan menu cua user*/}
           {/* Admin menu */}
+          
           <div className="header-links">
+            <div className="dropdown">
+                <Link to="/cart">{this.props.cart.cartItems.length>0?"Cart (" + this.props.cart.cartItems.length + ")":null }
+                </Link> 
+            </div>
             {
               this.props.currcustomer.customerInfo ?
               <>
-                <div className="dropdown">
-                <Link to="/cart">Cart {this.props.cart.cartItems.length>0?"(" + this.props.cart.cartItems.length + ")":null }
-                </Link> 
-                </div>
+                
+
+
                 <div className="dropdown">
                 <Link to="#">
                   {this.props.currcustomer.customerInfo.customers_name} menu <i className="fa fa-caret-down"></i>{' '}

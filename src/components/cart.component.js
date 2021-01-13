@@ -15,7 +15,7 @@ class CartView extends Component {
     
     this.state = {
       REACT_APP_URL: process.env.REACT_APP_URL,
-      checkoutButton: this.props.currCustomer?this.props.currCustomer.chutcheo_city:0,
+      // checkoutButton: this.props.currCustomer?this.props.currCustomer.chutcheo_city:0,
       productId: this.props.match.params.products_id,
       qty: this.props.location.search ? Number(this.props.location.search.split("=")[1]) : 1,
       cartItems: this.props.cart
@@ -48,19 +48,16 @@ class CartView extends Component {
     }
   }
   
-  checkoutHandler = (e) => {
-    // Doi hoan thanh paypal moi chay lenh nay 
-    // 12/11/2020: da lam duoc them phan getCustomer
-    // this.props.history.push("/customersignin?redirect=shipping");
+  // checkoutHandler = (e) => {
+  //   // Doi hoan thanh paypal moi chay lenh nay 
+  //   // 12/11/2020: da lam duoc them phan getCustomer
+  //   // this.props.history.push("/customersignin?redirect=shipping");
     
-    this.props.history.push("/underconstruction");
-  }
+  //   this.props.history.push("/underconstruction");
+  // }
+
   checkoutHandlerTesting = (e) => {
-    // Doi hoan thanh paypal moi chay lenh nay 
-    // 12/11/2020: da lam duoc them phan getCustomer
     this.props.history.push("/customersignin?redirect=shipping");
-    
-    // this.props.history.push("/underconstruction");
   }
 
 render() {
@@ -154,7 +151,7 @@ render() {
           // <button onClick={(e) => this.checkoutHandler(e)} className="button btn-primary full-width" type="button" disabled={this.state.cartItems.length === 0}>
           //   Proceed to Checkout
           // </button>
-          <button onClick={(e) => this.checkoutHandler(e)} className="button btn-primary full-width" type="button" disabled={this.state.cartItems.length === 0}>
+          <button onClick={(e) => this.checkoutHandlerTesting(e)} className="button btn-primary full-width" type="button" disabled={this.state.cartItems.length === 0}>
             Checkout is pending ...
           </button>
         }

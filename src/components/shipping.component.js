@@ -40,14 +40,18 @@ class Shipping extends Component {
   }
 
   componentDidMount() {
-    // console.log('hihihi vo shipping, can load data cua customer ... ' + this.props.currcustomer.customerInfo.id);
+    // console.log('hihihi vo shipping, can load data cua customer ... ' + this.props.currCustomer.customerInfo.id);
     // this.props.match.params.id
     // this.props.detailsProduct(this.props.match.params.products_id);
-
-    this.retrieveSystemPara('ShippingPrice');
-    console.log('shippingPrice 2 ' + this.state.shippingStd);
-
-    this.getCustomer(this.props.currcustomer.customerInfo.id);
+    console.log('admin ' + this.props.currCustomer.customerInfo.chutcheo_city);
+    
+    if (this.props.currCustomer.customerInfo.chutcheo_city) {
+      this.retrieveSystemPara('ShippingPrice');
+      console.log('shippingPrice 2 ' + this.state.shippingStd);
+      this.getCustomer(this.props.currCustomer.customerInfo.id);
+    } else {
+      this.props.history.push("/underconstruction");
+     }
 
   }
 
@@ -198,8 +202,8 @@ class Shipping extends Component {
                   <h2>Shipping Information</h2>
                   <br></br>
                   {
-                    this.props.currcustomer.customerInfo ? 
-                      <Link to="/cart"> View {this.props.currcustomer.customerInfo.customers_email}'s Cart
+                    this.props.currCustomer.customerInfo ? 
+                      <Link to="/cart"> View {this.props.currCustomer.customerInfo.customers_email}'s Cart
                       </Link> 
                       : null
                   }
@@ -291,7 +295,7 @@ const mapStateToProps = (state, ownProps) => {
   console.log('customerSignin trong App.js ' + JSON.stringify(state.customerSignin.customerInfo));
   
   return {
-      currcustomer: state.customerSignin                // moi
+      currCustomer: state.customerSignin                // moi
   }
 }
 

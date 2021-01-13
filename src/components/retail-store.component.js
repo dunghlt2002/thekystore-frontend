@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import Pagination from 'pagination-component';
 import queryString from 'query-string';
 import categoryDataService from "../services/category.service";
+import providerDataService from "../services/provider.service";
+import MessageBox from '../components/MessageBox';
 
 class retailStore extends Component {
   constructor(props) {
@@ -24,29 +26,107 @@ class retailStore extends Component {
       loading: '',
       error: '',
       masternotcategories: [],
+      search_category: params.category,
+      context_category:'',
+      masterProvider: [],
+      search_provider: params.provider,
+      context_provider:'',
+      search_retail: params.retail,
+      search_abc: params.search_abc,
+      usvn_longtieng: this.props.match.params.usvn_longtieng,
       postsPerPage:15,
       totalPages: 1,
       currentPage: 1,
       currentIndex: -1,  // phan tu dau tien trong list duoc selected
-      search_category: params.category,
-      search_provider: params.provider,
-      search_retail: params.retail,
-      search_abc: params.search_abc,
-      usvn_longtieng: this.props.match.params.usvn_longtieng,
       products: [],
       currentProduct: null,
       searchKeyword: ""
-
     };
   }
 
-  searchComb(searchCatID) {
-      console.log('Cat ID search ' + searchCatID);
-      this.setState({
-        error: null,
-        search_category: searchCatID
+  componentDidMount() {
+    console.log('params chinh la usvn_longtieng ' + this.state.usvn_longtieng);
+    console.log('hi abc ' + this.state.search_abc);
+    // var retailFlag = -1
+    // if (this.props.match.params.retail) {
+    //   retailFlag = this.props.match.params.retail
+    // } else {
+    //   retailFlag = -1
+    // }
+
+    console.log('reatil moi ne ' + this.state.search_retail);
+    console.log('cat moi ne ' + this.state.search_category);
+    console.log('search_provider moi ne ' + this.state.search_provider);
+    this.retrieveNotMasterCategories();
+    this.retrieveProviders();
+    this.retrieveproducts(1);
+    // this.retrieveproducts(this.state.currentPage,this.state.searchKeyword,this.state.search_retail,this.state.search_category);
+    
+    
+  }
+  retrieveProviders() {
+    providerDataService.getAll()
+      .then(response => {
+        this.setState({
+          masterProvider: response.data
+        });
+        console.log(response.data);
+
+        this.contextProvider(this.state.search_provider);
+      })
+      .catch(e => {
+        console.log(e);
       });
-      
+  }
+
+  contextProvider(timcaigi) {
+    console.log('context Provider');
+    
+    console.log(this.state.masterProvider);
+    
+    var fistFoundArray = this.state.masterProvider
+          .filter(timloai => timloai.id == timcaigi)
+        console.log('fistFoundArray ' + fistFoundArray[0].providers_name);
+        this.setState({
+          context_provider: fistFoundArray[0].providers_name
+        });
+  }
+
+  retrieveNotMasterCategories() {
+    categoryDataService.getNotMaster()
+      .then(response => {
+        this.setState({
+          masternotcategories: response.data
+        });
+        console.log(response.data);
+
+        this.contextCategory(this.state.search_category);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  }
+
+  contextCategory(timcaigi) {
+    console.log('context');
+    
+    console.log(this.state.masternotcategories);
+    
+    var fistFoundArray = this.state.masternotcategories
+          .filter(timloai => timloai.id == timcaigi)
+        console.log('fistFoundArray ' + fistFoundArray[0].categories_name);
+        this.setState({
+          context_category: fistFoundArray[0].categories_name
+        });
+  }
+
+  searchComb(searchCatID) {
+    console.log('Cat ID search ' + searchCatID);
+    this.setState({
+      error: null,
+      search_category: searchCatID
+    });
+    
   }
 
   handleAddToCart(product_id) {
@@ -64,38 +144,6 @@ class retailStore extends Component {
     this.retrieveproducts((i+1));
   }
 
-  componentDidMount() {
-    console.log('params chinh la usvn_longtieng ' + this.state.usvn_longtieng);
-    console.log('hi abc ' + this.state.search_abc);
-    // var retailFlag = -1
-    // if (this.props.match.params.retail) {
-    //   retailFlag = this.props.match.params.retail
-    // } else {
-    //   retailFlag = -1
-    // }
-
-    console.log('reatil moi ne ' + this.state.search_retail);
-    console.log('cat moi ne ' + this.state.search_category);
-    console.log('search_provider moi ne ' + this.state.search_provider);
-    this.retrieveproducts(1);
-    // this.retrieveproducts(this.state.currentPage,this.state.searchKeyword,this.state.search_retail,this.state.search_category);
-    this.retrieveNotMasterCategories();
-  }
-
-  retrieveNotMasterCategories() {
-    categoryDataService.getNotMaster()
-      .then(response => {
-        this.setState({
-          masternotcategories: response.data
-        });
-        // console.log(response.data);
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  }
-
-
   searchKeyword(e) {
     e.preventDefault();
     // this.setState({
@@ -104,6 +152,24 @@ class retailStore extends Component {
     //     currentIndex: -1,
     //     currentCustomer: null
     // })
+    
+
+    if (this.state.search_category > 0) {
+      this.contextCategory(this.state.search_category)
+    } else {
+      this.setState({
+        context_category: ''
+      });
+    }
+
+    if (this.state.search_category < 0) {
+      this.setState({
+        search_category: null,
+        search_abc: null,
+        search_provider: null
+      });
+    }
+
     this.retrieveproducts(1);
     
   }
@@ -117,6 +183,8 @@ class retailStore extends Component {
   }
 
   retrieveproducts(currentPage) {
+    console.log('vo tim list productssss ' + this.state.search_abc + ' ' + this.state.search_provider);
+    
     productDataService.getAllPerPage(currentPage,this.state.searchKeyword,this.state.search_retail,this.state.search_category,this.state.usvn_longtieng,this.state.search_abc,this.state.search_provider)
       .then(response => {
         this.setState({
@@ -137,6 +205,7 @@ class retailStore extends Component {
         });
         console.log("loi neeeee :   " + e);
       });
+      
   }
 
   refreshList() {
@@ -223,10 +292,25 @@ class retailStore extends Component {
             </form>
         </div>
 
-        {error ? 
-          <div className="row">{error}</div> 
-        :
-          <div className="row">
+        <div>
+            {'Home '}
+            {this.state.search_abc?' > ' + this.state.search_abc:null}
+            {this.state.search_provider?' > ' + this.state.context_provider:null}
+            {this.state.search_category?' > ' + this.state.context_category :null}
+        </div>
+
+        {error && <div><MessageBox variant="danger">{error}</MessageBox></div>
+        
+
+            /* Show all categories de khach click vao */}
+            {/* <div className="col-divide">
+                {this.state.masternotcategories.map((masterFive, key) => 
+                    <a key={key} href={'/filterproducts/0?retail=-1&category='+ masterFive.id}>{masterFive.categories_name + "  "}</a>
+                  )}
+            </div> */}
+
+            <div className="row">
+            
               {
                 products.map(product =>
                   <div key={product.id} className="col-3">
@@ -278,8 +362,7 @@ class retailStore extends Component {
                 )
               }
           </div>
-            
-        }
+
             
         <div className="header col">
             <Pagination 
