@@ -154,9 +154,9 @@ class HomeScreen extends Component {
               <div className="header" style={{width: '25rem', height: '50rem'}}>
                 <div className="card-body">
                   <h2 className="card-title">Digital format</h2>
-                  <a href='http://localhost:8081/filterproducts/0?retail=-1&provider=137' className="btn-block btn-success"><img className="card-img-top" src={this.state.REACT_APP_URL + "avatars/thekylogo.png"} alt="digital" /></a>
+                  <a href='/filterproducts/0?retail=-1&provider=137' className="btn-block btn-success"><img className="card-img-top" src={this.state.REACT_APP_URL + "avatars/thekylogo.png"} alt="digital" /></a>
                   <p className="card-text">We convert movie content to digital format, easy to watch in your device. (beta version, low price)</p>
-                  <a href='filterproducts/0?retail=-1&category=99' className=" btn btn-primary"> See more</a>
+                  <a href='/filterproducts/0?retail=-1&provider=137' className=" btn btn-primary"> See more</a>
                 </div>
               </div>
               <div className="header" style={{width: '25rem', height: '50rem'}}>
