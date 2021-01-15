@@ -2,18 +2,14 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import { addToCart, removeFromCart } from '../actions/cartActions';
+import Cookie from "js-cookie";
 
 class CartView extends Component {
   constructor(props) {
     super(props);
-    // this.cartItems = this.cartItems.bind(this);
-    // this.retrieveCustomers = this.retrieveCustomers.bind(this);
-    // this.refreshList = this.refreshList.bind(this);
-    // this.setActiveCustomer = this.setActiveCustomer.bind(this);
-    // this.searchKeyword = this.searchKeyword.bind(this);
-    // this.onChangeCurrentPage = this.onChangeCurrentPage.bind(this);
-    
+   
     this.state = {
+      physicShip: false,
       REACT_APP_URL: process.env.REACT_APP_URL,
       // checkoutButton: this.props.currCustomer?this.props.currCustomer.chutcheo_city:0,
       productId: this.props.match.params.products_id,
@@ -21,12 +17,28 @@ class CartView extends Component {
       cartItems: this.props.cart
     };
   }
+  
+  freeShipCheck(xetWeightFree) {
+    console.log('xetWeightFree ' + xetWeightFree);
+    console.log('this.state.physicShip ' + this.state.physicShip);
+    if (this.state.physicShip === false) {
+      if (xetWeightFree === 1) {
+        this.setState({
+          physicShip: true
+        });
+      }
+    }
+    console.log('this.state.physicShip ' + this.state.physicShip);
+  }
 
   removeFromCartHandler = (productId) => {
     this.props.removeFromCart(productId);
     this.setState({
       cartItems: this.props.cart
     })
+    this.setState({
+      physicShip: false
+    });
   }
 
   componentDidMount () {
@@ -57,7 +69,10 @@ class CartView extends Component {
   // }
 
   checkoutHandlerTesting = (e) => {
-    this.props.history.push("/customersignin?redirect=shipping");
+    // console.log('this.state.physicShip in CART js' + this.state.physicShip);
+    // this.props.history.push(`/customersignin?redirect=shipping?physicShip=${this.state.physicShip}`);
+    this.props.history.push(`/customersignin?redirect=shipping`);
+    Cookie.set("physicShip", this.state.physicShip);
   }
 
 render() {
@@ -90,9 +105,9 @@ render() {
                   <div>
                     {/* <Link to={'/productview/' + product.id}>{product.id + product.products_name}</Link> */}
                     <Link to={"/productview/" + item.product}>
-                      {item.product + " - " + item.name}
+                      {item.product + " - " + item.name + ", (free shipping: " + (item.weight?"No)":"Yes)")}
                     </Link>
-
+                  {this.freeShipCheck(item.weight)}
                   </div>
                   <div>
                     Qty:
@@ -111,6 +126,7 @@ render() {
                   ${item.price}
                 </div>
               </li>
+              
             )
           }
         </ul>
@@ -143,6 +159,7 @@ render() {
           :
           $ {this.state.cartItems.reduce((a, c) => Math.fround((a + c.price * c.qty)*100)/100, 0)}
         </h3>
+        <h3>Estimated shipping cost: $ {this.state.physicShip?7.95:0}</h3>
         {/* <button onClick={checkoutHandler} className="button primary full-width" disabled={cartItems.length === 0}></button> */}
 
         {this.state.cartItems.length === 0?

@@ -11,7 +11,6 @@ const detailsProduct = (productId) => async (dispatch) => {
   console.log('vo action product view');
   try {
     dispatch({ type: PRODUCT_DETAILS_REQUEST, payload: productId });
-    // const { data } = await axios.get("http://localhost:8080/api/products/" + productId);
     const { data } = await axios.get(API_URL + "products/" + productId);
     console.log('data product view' + JSON.stringify(data));
     dispatch({ type: PRODUCT_DETAILS_SUCCESS, payload: data });

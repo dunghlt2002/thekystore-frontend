@@ -3,9 +3,13 @@ import productDataService from "../services/product.service";
 import { Link } from "react-router-dom";
 import Pagination from 'pagination-component';
 import queryString from 'query-string';
+
 import categoryDataService from "../services/category.service";
 import providerDataService from "../services/provider.service";
+
 import MessageBox from '../components/MessageBox';
+
+import { connect } from 'react-redux';
 
 class retailStore extends Component {
   constructor(props) {
@@ -16,6 +20,7 @@ class retailStore extends Component {
     this.setActiveproduct = this.setActiveproduct.bind(this);
     this.removeAllproducts = this.removeAllproducts.bind(this);
     this.handleAddToCart = this.handleAddToCart.bind(this);
+    this.handledisplayNoShow = this.handledisplayNoShow.bind(this);
     
     let url = this.props.location.search;
     let params = queryString.parse(url);
@@ -23,6 +28,9 @@ class retailStore extends Component {
     this.state = {
       lettersArray: ["A","B","C","D","E","G","H","K","L","M","N","O","P","Q","R","S","T","U","V","X","Y"],
       REACT_APP_URL:  process.env.REACT_APP_URL,
+      // 1 la DISPLAY. khach thuong se xem duoc DISPLAY
+      // 0 la NO DISPLAY. ADMIN  se xem duoc DISPLAY va ca NO DISPLAY
+      displayNoShow: 1, 
       loading: '',
       error: '',
       masternotcategories: [],
@@ -146,13 +154,8 @@ class retailStore extends Component {
 
   searchKeyword(e) {
     e.preventDefault();
-    // this.setState({
-    //     // customers: [],
-    //     // totalPages: 1,
-    //     currentIndex: -1,
-    //     currentCustomer: null
-    // })
-    
+
+    console.log('displayNoShow khi bam Search ' + this.state.displayNoShow);
 
     if (this.state.search_category > 0) {
       this.contextCategory(this.state.search_category)
@@ -174,6 +177,21 @@ class retailStore extends Component {
     
   }
 
+  handledisplayNoShow(e) {
+    const displayNoShow = e.target.value;
+    
+    if (this.state.displayNoShow > 0) {
+      this.setState({
+        displayNoShow: 0
+      });
+    } else {
+      this.setState({
+        displayNoShow: 1
+      });
+    }
+    console.log('displayNoShow  ' + this.state.displayNoShow);
+  }
+
   onChangeSearchKeyword(e) {
     const searchKeyword = e.target.value;
 
@@ -183,9 +201,9 @@ class retailStore extends Component {
   }
 
   retrieveproducts(currentPage) {
-    console.log('vo tim list productssss ' + this.state.search_abc + ' ' + this.state.search_provider);
+    console.log('vo tim list productssss ' + this.state.search_abc + ' ' + this.state.search_provider + ' display ALL ' + this.state.displayNoShow);
     
-    productDataService.getAllPerPage(currentPage,this.state.searchKeyword,this.state.search_retail,this.state.search_category,this.state.usvn_longtieng,this.state.search_abc,this.state.search_provider)
+    productDataService.getAllPerPage(currentPage,this.state.searchKeyword,this.state.search_retail,this.state.search_category,this.state.usvn_longtieng,this.state.search_abc,this.state.search_provider, this.state.displayNoShow)
       .then(response => {
         this.setState({
           error: null,
@@ -258,7 +276,7 @@ class retailStore extends Component {
   const { products, error, REACT_APP_URL } = this.state;
 
   return (
-        <div className="">
+    <div className="">
         <br></br>
         <div className="control">
           {/* <Link to="/filterproducts/-1?usvn_longtieng=0">Browse All Products</Link> */}
@@ -288,7 +306,21 @@ class retailStore extends Component {
 
                   <button className="btn btn-secondary"
                     type="submit" onClick={(e) => this.searchKeyword(e)}>
-                    Search </button>
+                    Search 
+                  </button>
+                  {
+                    this.props.currCustomer.customerInfo ?
+                      this.props.currCustomer.customerInfo.chutcheo_city ?
+                      <>
+                        <input type="checkbox" 
+                          value={this.state.displayNoShow}
+                          onChange={(event) => this.handledisplayNoShow(event)}
+                        />
+                        <lable>   Display NO SHOW ITEMS</lable>
+                      </>
+                      : null
+                    : null
+                  }
             </form>
         </div>
 
@@ -355,8 +387,25 @@ class retailStore extends Component {
                           </div> */}
                           </div>
                           <div>
-                            <button onClick={() => this.handleAddToCart(product.id)} className="btn btn-warning" >Add to Cart</button>
+                            {product.products_soluong > 0 ?
+                                <button onClick={() => this.handleAddToCart(product.id)} className="btn btn-warning" >Add to Cart</button>
+                              : "Out of stock, come back later!"
+                            }
+                            {/* <button onClick={() => this.handleAddToCart(product.id)} className="btn btn-warning" >Add to Cart</button> */}
                           </div>
+
+                          {this.props.currCustomer.customerInfo ?
+                            this.props.currCustomer.customerInfo.chutcheo_city ?
+                              <div>
+                                <Link
+                                to={"/products/" + product.id}
+                                className="btn btn-block btn-secondary">
+                                  Edit this product
+                                </Link>
+                              </div>
+                            : null
+                          : null
+                          }
                     </div>
                   </div>
                 )
@@ -389,12 +438,14 @@ class retailStore extends Component {
   }
 }
 
-export default retailStore;
+const mapStateToProps = (state, ownProps) => {
+  console.log('customerSignin trong retail-store ' + JSON.stringify(state.customerSignin.customerInfo));
+  
+  return {
+      currCustomer: state.customerSignin
+  }
+}
 
-// Sort By {'      '}
-//                       {/* onChange={sortHandler} */}
-//                       <select name="sortOrder" >
-//                         <option value="">Newest</option>
-//                         <option value="lowest">Lowest</option>
-//                         <option value="highest">Highest</option>
-//                       </select>
+export default connect(mapStateToProps, null)(retailStore);
+
+

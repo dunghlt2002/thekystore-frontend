@@ -157,10 +157,12 @@ componentDidMount() {
     if (!this.props.cart.paymentMethod) {
       this.props.history.push('/payment');
     }
+    // this.props.cart.physicShippping = 0;
     this.props.cart.discount=0.00;
     this.props.cart.itemsPrice = toPrice(
       this.props.cart.cartItems.reduce((a, c) => a + c.qty * c.price, 0)
     );
+    this.props.cart.physicShippping = this.props.cart.cartItems.reduce((a, c) => a + c.weight,0);
 
     this.getSummary();
 
@@ -168,7 +170,10 @@ componentDidMount() {
 
 getSummary() {
   // const toPrice = (num) => Number(num.toFixed(2)); // 5.123 => "5.12" => 5.12
-    this.props.cart.shippingPrice = this.props.cart.itemsPrice >= 50 ? 0 : toPrice(this.props.cart.shippingAddress.addressObj.shippingPriceStd);
+    this.props.cart.shippingPrice = this.props.cart.physicShippping>0?
+      (this.props.cart.itemsPrice >= 50 ?
+        0 : toPrice(this.props.cart.shippingAddress.addressObj.shippingPriceStd)
+      ):0;
     this.props.cart.taxPrice = toPrice(this.state.taxRate * this.props.cart.itemsPrice);
     // default discount la 0
     // this.props.cart.discount = 0.00;
@@ -374,9 +379,8 @@ render() {
                   </div>
                   {this.state.discountmessage?<MessageBox variant="danger">{this.state.discountmessage}</MessageBox>:null}
                 
-              
                 <div className="row">
-                  <div className="">Shipping</div>
+                  <div className="">Shipping ({this.props.cart.physicShippping})</div>
                   <div className=""> $ {this.props.cart.shippingPrice}</div>
                 </div>
               

@@ -202,7 +202,6 @@ export default class Category extends Component {
                          </option>
                        )}
                   </select>
-
               </div>
 
 

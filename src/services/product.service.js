@@ -15,9 +15,9 @@ class productDataService {
   // }
 
 
-  getAllPerPage(currentPage,search_keyword,search_retail, search_category,usvn_longtieng, search_abc, search_provider) {
+  getAllPerPage(currentPage,search_keyword,search_retail, search_category,usvn_longtieng, search_abc, search_provider, products_status) {
     // console.log('duong link ne ' + `/productsperpage/${currentPage}?search_keyword=${search_keyword}&search_retail=${search_retail}&search_category=${search_category}&usvn_longtieng=${usvn_longtieng}&search_abc=${search_abc}`);
-    return http.get(`/productsperpage/${currentPage}?search_keyword=${search_keyword}&search_retail=${search_retail}&search_category=${search_category}&usvn_longtieng=${usvn_longtieng}&search_abc=${search_abc}&search_provider=${search_provider}`);
+    return http.get(`/productsperpage/${currentPage}?search_keyword=${search_keyword}&search_retail=${search_retail}&search_category=${search_category}&usvn_longtieng=${usvn_longtieng}&search_abc=${search_abc}&search_provider=${search_provider}&products_status=${products_status}`);
   }
 
   // getAllPerCategoryPage(currentPage,search_category) {
@@ -34,7 +34,7 @@ class productDataService {
   }
 
   update(products_id, data) {
-    console.log('data in service:  ' + data);
+    console.log('data in service:  ' + products_id);
     return http.put(`/products/${products_id}`, data);
   }
 

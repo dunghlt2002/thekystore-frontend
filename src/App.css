@@ -152,6 +152,46 @@ a:hover{
   padding: 0.3rem;
   border-radius: 0.4rem;
 }
+.input_short {
+  padding: 0.2rem;
+  font-size: 1.6rem;
+  /* font-weight: bold; */
+  width: 16%;
+}
+.input_long1 {
+  padding: 0.2rem;
+  font-size: 1.6rem;
+  /* font-weight: bold; */
+  width: 50%;
+}
+.input_long2 {
+  padding: 0.2rem;
+  font-size: 1.6rem;
+  /* font-weight: bold; */
+  width: 50%;
+}
+.input_long3 {
+  padding: 0.2rem;
+  font-size: 1.6rem;
+  /* font-weight: bold; */
+  width: 80%;
+}
+.price_short {
+  padding: 0.2rem;
+  font-size: 1.6rem;
+  font-weight: bold;
+  width: 16%;
+}
+.product-long{
+  width: 92%;
+  flex-direction: row;
+  font-size: 1.5rem;
+  /* font-weight: bold; */
+  /* color: #15045f; */
+  flex: 6 1 3rem;
+  padding: 0.3rem;
+  border-radius: 0.4rem;
+}
 .product-brand{
   padding: 0.2rem;
   font-size: 1.6rem;
@@ -739,7 +779,7 @@ tbody>tr:nth-child(odd){
   flex-wrap: wrap;
   
   /* Gian cach qua dang */
-  /* justify-content: space-between; */
+  justify-content: space-between;
 
   /* lam mat data khi show tung product */
   /* align-items: center;     */

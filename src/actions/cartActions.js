@@ -7,7 +7,6 @@ const API_URL = process.env.REACT_APP_API_URL
 const addToCart = (productId, qty) => async (dispatch, getState) => {
   console.log('Hihihihi add to cart ' + productId + " - " + qty);
   try {
-    // const { data } = await Axios.get("http://localhost:8080/api/products/" + productId);
     const { data } = await Axios.get(API_URL + "products/" + productId);
     console.log('data in add to cart action' + JSON.stringify(data));
     dispatch({
@@ -17,6 +16,7 @@ const addToCart = (productId, qty) => async (dispatch, getState) => {
         image: data.products_image,
         price: data.products_price,
         countInStock: data.products_soluong,
+        weight: data.weight,
         qty
       }
     });

@@ -165,6 +165,21 @@ export default class productsList extends Component {
                   <img src={this.state.REACT_APP_URL + currentProduct.products_image} data-ll-status="loaded" className="smallavatar" width="200" heigth="200" alt={currentProduct.products_image} />
                 </div>
               </div>
+
+              <div>
+                <label>
+                  <strong>Provider: </strong>
+                </label>{" "}
+                {currentProduct.provider.providers_name}
+              </div>
+
+              <div>
+                <label>
+                  <strong>Category: </strong>
+                </label>{" "}
+                {currentProduct.category.categories_name}
+              </div>
+
               <div>
                 <label>
                   <strong>Price: $</strong>

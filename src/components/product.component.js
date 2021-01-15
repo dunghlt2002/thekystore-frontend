@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import productDataService from "../services/product.service";
+import categoryDataService from "../services/category.service";
+import providerDataService from "../services/provider.service";
 import axios from 'axios' ;
 import { Link } from "react-router-dom";
 
@@ -17,6 +19,9 @@ export default class Product extends Component {
     this.onChangeproducts_ngaynhaphang = this.onChangeproducts_ngaynhaphang.bind(this);
     this.onChangeproducts_retail = this.onChangeproducts_retail.bind(this);
     this.onChangeproducts_description = this.onChangeproducts_description.bind(this);
+    this.onChangeCategories_id = this.onChangeCategories_id.bind(this);
+    this.onChangeProviders_id = this.onChangeProviders_id.bind(this);
+    this.onChangeWeight = this.onChangeWeight.bind(this);
     this.fileSelectedHandler = this.fileSelectedHandler.bind(this);
     this.getProduct = this.getProduct.bind(this);
     this.updateproducts_status = this.updateproducts_status.bind(this);
@@ -25,6 +30,8 @@ export default class Product extends Component {
 
     this.state = {
       API_URL: process.env.REACT_APP_API_URL,
+      notMasterCategories: [],
+      masternotProviders: [],
       currentProduct: {
         id: null,
         products_name: "",
@@ -38,6 +45,7 @@ export default class Product extends Component {
         products_dienvien: "",
         products_ngaynhaphang: "",
         products_description: "",
+        products_categories_id: "",
         selectedFile: null
       },
       message: ""
@@ -46,6 +54,76 @@ export default class Product extends Component {
 
   componentDidMount() {
     this.getProduct(this.props.match.params.products_id);
+    this.retrieveNotMasterCategories();
+    this.retrieveNotMasterProviders();
+  }
+
+  retrieveNotMasterProviders() {
+    providerDataService.getNotMaster()
+      .then(response => {
+        this.setState({
+          masternotProviders: response.data
+        });
+        console.log(response.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  }
+
+  retrieveNotMasterCategories() {
+    categoryDataService.getNotMaster()
+      .then(response => {
+        this.setState({
+          notMasterCategories: response.data
+        });
+        console.log(response.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  }
+
+  onChangeWeight(e) {
+    const weight = e.target.value;
+    console.log('weight '+weight);
+    
+    this.setState(function(prevState) {
+      return {
+        currentProduct: {
+          ...prevState.currentProduct,
+          weight: weight
+        }
+      };
+    });
+  }
+
+  onChangeProviders_id(e) {
+    const providers_id = e.target.value;
+    console.log('providers_id '+providers_id);
+    
+    this.setState(function(prevState) {
+      return {
+        currentProduct: {
+          ...prevState.currentProduct,
+          providers_id: providers_id
+        }
+      };
+    });
+  }
+
+  onChangeCategories_id(e) {
+    const categories_id = e.target.value;
+    // console.log('categories_id '+categories_id);
+
+    this.setState(function(prevState) {
+      return {
+        currentProduct: {
+          ...prevState.currentProduct,
+          categories_id: categories_id
+        }
+      };
+    });
   }
 
   onChangeproducts_name(e) {
@@ -231,12 +309,13 @@ export default class Product extends Component {
       products_sotap: this.state.currentProduct.products_sotap,
       products_nguonphim: this.state.currentProduct.products_nguonphim,
       products_chatluong: this.state.currentProduct.products_chatluong,
+      weight: this.state.currentProduct.weight,
       products_dienvien: this.state.currentProduct.products_dienvien,
       products_ngaynhaphang: this.state.currentProduct.products_ngaynhaphang,
       products_status: status
     };
 
-    productDataService.update(this.state.currentProduct.products_id, data)
+    productDataService.update(this.state.currentProduct.id, data)
       .then(response => {
         this.setState(prevState => ({
           currentProduct: {
@@ -310,8 +389,8 @@ export default class Product extends Component {
       .catch(e => {
         console.log(e);
       });
-
-      this.props.history.push("/products");
+      this.props.history.push("/filterproducts/-1?usvn_longtieng=0");
+      // this.props.history.push("/products");
       // window.location="/";
   }
 
@@ -329,42 +408,72 @@ export default class Product extends Component {
   }
 
   render() {
-    const { currentProduct } = this.state;
+    const { currentProduct, notMasterCategories, masternotProviders} = this.state;
 
     return (
       <div className="border col">
-        <Link to="/">Back to Home page</Link>
+        <Link to="/">Home page</Link>
+        {"  >  "}<Link to="/filterproducts/-1?usvn_longtieng=0">Product Grid View</Link>
+        {"  |  "}<Link to="/products">Product List View (Old Version)</Link>
+
         {currentProduct ? (
           <div className="edit-form">
-            <h4>Product Update</h4>
+            <br></br>
+            <h3>Product Update</h3>
             <form>
               <div className="form-group">
                 <label htmlFor="products_name">Name</label>
                 <input
                   type="text"
-                  className="form-control"
+                  className="input_long2"
                   id="products_name"
                   value={currentProduct.products_name}
                   onChange={this.onChangeproducts_name}
                 />
-                <img src={"/products/" + currentProduct.products_image} alt={currentProduct.products_image}></img>
+                <img src={this.state.API_URL + currentProduct.products_image} alt="product" ></img>
               </div>
+
               <div className="form-group">
                 <label htmlFor="products_price">Small image</label>
                 <input
                   type="text"
-                  className="form-control"
+                  className="input_long3"
                   id="products_image"
                   value={currentProduct.products_image}
                   onChange={this.onChangeproducts_image}
                 />
                 <input className="s_image" type="file" onChange={this.fileSelectedHandler}></input>
               </div>
+
+              <div class="form-group">
+                  <label>Provider:</label>
+                  <select className="input_long1" id="provider_id" name="provider_id" onChange={this.onChangeProviders_id} >
+                       {masternotProviders.map((x_element) => 
+                        <option  key={x_element.id}
+                        selected={x_element.id === currentProduct.providers_id? true:false}
+                        value={x_element.id}>{x_element.providers_name}
+                         </option>
+                       )}
+                  </select>
+              </div>
+
+              <div class="form-group">
+                  <label>Category:</label>
+                  <select className="input_long1" id="parent_id" name="parent_id" onChange={this.onChangeCategories_id} >
+                       {notMasterCategories.map((mastercategory) => 
+                        <option  key={mastercategory.id}
+                        selected={mastercategory.id === currentProduct.categories_id? true:false}
+                        value={mastercategory.id}>{mastercategory.categories_name}
+                         </option>
+                       )}
+                  </select>
+              </div>
+
               <div className="form-group">
                 <label htmlFor="products_price">Price</label>
                 <input
                   type="text"
-                  className="product-price"
+                  className="price_short"
                   id="products_price"
                   value={currentProduct.products_price}
                   onChange={this.onChangeproducts_price}
@@ -372,10 +481,18 @@ export default class Product extends Component {
                 <label htmlFor="products_soluong">Quantity: </label>
                 <input
                   type="text"
-                  className="product-qty"
+                  className="input_short"
                   id="products_soluong"
                   value={currentProduct.products_soluong}
                   onChange={this.onChangeproducts_soluong}
+                />
+                <label htmlFor="weight">Weight: </label>
+                <input
+                  type="text"
+                  className="input_short"
+                  id="weight"
+                  value={currentProduct.weight}
+                  onChange={this.onChangeWeight}
                 />
               
               </div>
@@ -383,8 +500,8 @@ export default class Product extends Component {
                 <label>Retail</label>
                 <input
                   type="text"
-                  className="product-other"
-                  id="products_price"
+                  className="input_short"
+                  id="product-other"
                   value={currentProduct.products_retail}
                   onChange={this.onChangeproducts_retail}
                 />
@@ -392,25 +509,27 @@ export default class Product extends Component {
                 <label>Episode</label>
                 <input
                   type="text"
-                  className="product-other"
+                  className="input_long1"
                   id="products_sotap"
                   value={currentProduct.products_sotap}
                   onChange={this.onChangeproducts_sotap}
                 />
-              </div><div className="form-group">
+              </div>
+              <div className="form-group">
                 <label>Source </label>
                 <input
                   type="text"
-                  className="product-other"
+                  className="input_long2"
                   id="products_nguonphim"
                   value={currentProduct.products_nguonphim}
                   onChange={this.onChangeproducts_nguonphim}
                 />
-
+              </div>
+              <div>
                 <label>Quality</label>
                 <input
                   type="text"
-                  className="product-other"
+                  className="input_long1"
                   id="products_chatluong"
                   value={currentProduct.products_chatluong}
                   onChange={this.onChangeproducts_chatluong}
@@ -420,13 +539,14 @@ export default class Product extends Component {
                 <label>Actors</label>
                 <input
                   type="text"
-                  className="product-other"
+                  className="input_long3"
                   id="products_dienvien"
                   name="products_dienvien"
                   value={currentProduct.products_dienvien}
                   onChange={this.onChangeproducts_dienvien}
                 />
-              </div><div className="form-group">
+              </div>
+              <div className="form-group">
                 <label>Release Date</label>
                 <input
                   type="text"
@@ -441,7 +561,7 @@ export default class Product extends Component {
                 <label>
                   <strong>Status:</strong>
                 </label>
-                {currentProduct.products_status ? "Display" : "No Display"}
+                {currentProduct.products_status > 0 ? "Display" : "No Display"}
               </div>
             </form>
 

@@ -19,6 +19,7 @@ export default class AddProduct extends Component {
     this.onChangeproducts_dienvien = this.onChangeproducts_dienvien.bind(this);
     this.onChangeproducts_ngaynhaphang = this.onChangeproducts_ngaynhaphang.bind(this);
     this.onChangeproducts_retail = this.onChangeproducts_retail.bind(this);
+    this.onChangeWeight = this.onChangeWeight.bind(this);
     this.onChangeproducts_description = this.onChangeproducts_description.bind(this);
     this.fileSelectedHandler = this.fileSelectedHandler.bind(this);
     this.saveProduct = this.saveProduct.bind(this);
@@ -26,22 +27,29 @@ export default class AddProduct extends Component {
     this.state = {
       API_URL: process.env.REACT_APP_API_URL,
       id: null,
-      products_name: "Tan CGDLong 1",
+      products_name: "New movie name here",
       products_price: "30",
       products_soluong: "100",
-      products_status: false,
-      products_retail: false,
-      products_sotap: "99",
-      products_nguonphim: "Retail",
+      products_status: 0,
+      products_retail: 0,
+      products_sotap: "20 tap/ 20 episodes",
+      products_nguonphim: "Retail DVD 45m",
       products_chatluong: "Good",
-      products_dienvien: "Tran Ngoc Ky, Ai nua day",
+      products_dienvien: "Actors",
       products_ngaynhaphang: "",
-      products_description: "Rat hay",
+      products_description: "Phim Hongkong rat hay",
+      weight: 1,
       selectedFile: "",
       // products_: "aaa",
       // products_: "aaa",
       submitted: false
     };
+  }
+  
+  onChangeWeight(e) {
+    this.setState({
+      weight: e.target.value
+    });
   }
 
   onChangeproducts_name(e) {
@@ -122,7 +130,6 @@ export default class AddProduct extends Component {
         products_image: "../products/" + products_image
     })
     console.log('file SMALL selected handler' + this.state.products_image);
-
   }
 
   saveProduct() {
@@ -136,6 +143,7 @@ export default class AddProduct extends Component {
       products_nguonphim: this.state.products_nguonphim,
       products_chatluong: this.state.products_chatluong,
       products_dienvien: this.state.products_dienvien,
+      weight: this.state.weight,
       products_ngaynhaphang: this.state.products_ngaynhaphang,
     };
 
@@ -152,6 +160,7 @@ export default class AddProduct extends Component {
           products_chatluong: response.data.products_chatluong,
           products_dienvien: response.data.products_dienvien,
           products_ngaynhaphang: response.data.products_ngaynhaphang,
+          weight: response.data.weight,
           submitted: true
         });
         console.log(response.data);
@@ -189,18 +198,18 @@ export default class AddProduct extends Component {
   newProduct() {
     this.setState({
       id: null,
-      products_name: "Tan CGDLong 1",
+      products_name: "New movie name",
       products_price: "30",
       products_soluong: "100",
-      products_status: false,
-      products_retail: false,
+      products_status: 0,
+      products_retail: 0,
       products_sotap: "99",
-      products_nguonphim: "Retail",
+      products_nguonphim: "Retail DVD 45m",
       products_chatluong: "Good",
-      products_dienvien: "Tran Ngoc Ky, Ai nua day",
+      products_dienvien: "Actors",
       products_ngaynhaphang: "",
       products_description: "Rat hay",
-      // products_: "aaa",
+      weight: 1,
       // products_: "aaa",
       submitted: false
     });
@@ -266,6 +275,27 @@ export default class AddProduct extends Component {
               </div>
 
               <div className="form-group">
+                <label htmlFor="products_price">Weight</label>
+                <input
+                  type="text"
+                  className="product-other"
+                  id="products_price"
+                  value={this.state.weight}
+                  onChange={this.onChangeWeight}
+                />
+                {/* status = 0 : DISPLAY */}
+                <label ><strong>Status:</strong></label>
+                <input
+                  type="text"
+                  className="product-other"
+                  id="products_price"
+                  value={this.state.products_status}
+                  onChange={this.onChangeWeight}
+                />
+              </div>
+
+
+              <div className="form-group">
                 <label>Retail</label>
                 <input
                   type="text"
@@ -325,12 +355,6 @@ export default class AddProduct extends Component {
                 />
               </div>
 
-              <li className="form-group">
-                <label>
-                  <strong>Status:</strong>
-                </label>
-                {this.state.products_status ? "Display" : "No Display"}
-              </li>
             {/* </form> */}
 
 
