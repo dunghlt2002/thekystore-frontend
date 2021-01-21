@@ -286,7 +286,11 @@ class App extends Component {
                 component={ProductsList}
               ></AdminRoute>
               <Route exact path={"/addProduct"} component={AddProduct} />
-              <Route path="/products/:products_id" component={Product} />
+              {/* <Route path="/products/:products_id" component={Product} /> */}
+              <AdminRoute
+                exact path="/products/:products_id"
+                component={Product}
+              ></AdminRoute>
               
               <Route exact path={["/customersignin"]} component={CustomerSigninScreen} />
               {/* <Route exact path={"/customerProfile/:id"} component={CustomerProfile} /> */}
