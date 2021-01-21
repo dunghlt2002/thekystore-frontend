@@ -10,8 +10,8 @@ import { orderPayReducer } from './reducers/orderReducers'
 
 
 const cartItems = Cookie.getJSON("cartItems") || [];
-const shippingAddress = Cookie.getJSON("shippingAddress") || [];
-const paymentMethod = Cookie.getJSON("paymentMethod") || [];
+const shippingAddress = Cookie.getJSON("shippingAddress") || null;
+const paymentMethod = Cookie.getJSON("paymentMethod") || null;
 
 const userInfo = Cookie.getJSON('userInfo') || null;
 const customerInfo = Cookie.getJSON('customerInfo') || null;

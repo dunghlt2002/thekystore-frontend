@@ -53,7 +53,7 @@ class ProductView extends Component {
     return (
         <div>
         <div className="back-to-result">
-            <Link to="/">Back to Home page</Link>
+            <Link to="/filterproducts/-1?usvn_longtieng=0">Browse All Products</Link>
         </div>
         {this.props.currentResult.loading ? <div>Loading...</div> :
             this.props.currentResult.error ? <div>{this.props.currentResult.error} </div> :

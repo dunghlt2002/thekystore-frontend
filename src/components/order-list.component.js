@@ -22,15 +22,25 @@ class ordersList extends Component {
       orderStatus: 0,
       currentIndex: -1,
       searchKeyword: "",
-      searchCustomerID: this.props.currcustomer.customerInfo.id,
-      chutcheo_city: this.props.currcustomer.customerInfo.chutcheo_city,
+      searchCustomerID: this.props.currcustomer.customerInfo?this.props.currcustomer.customerInfo.id:null,
+      chutcheo_city: this.props.currcustomer.customerInfo?this.props.currcustomer.customerInfo.chutcheo_city:false,
+      token: this.props.currcustomer.customerInfo?this.props.currcustomer.customerInfo.token:null,
       searchCustomer: ""
     };
   }
 
   componentDidMount() {
     // console.log('chutcheo admin ' + this.state.chutcheo_city);
-    this.retrieveOrders(this.state.chutcheo_city, this.state.orderStatus);
+    
+    // Check neu co token trong customerInfo la xem nhu ok, di tiep
+    // Ben profile thi tap dung PrivateRoute nhung viet = react hook
+    // Ben customer List thi tap dung PrivateRoute nhung viet = react hook
+    if (this.state.token) {
+      this.retrieveOrders(this.state.chutcheo_city, this.state.orderStatus);
+    } else {
+      this.props.history.push("/page909");
+    }
+     
     // if (this.state.chutcheo_city) {
     //   this.retrieveOrders(this.state.chutcheo_city);
     // } else {
@@ -141,7 +151,7 @@ class ordersList extends Component {
     console.log('chutcheo_city form ' + chutcheo_city);
   if (chutcheo_city) {
     console.log('we are in get all orders');
-        orderDataService.getAll(orderStatus)
+        orderDataService.getAll(orderStatus, this.state.token)
         .then(response => {
           this.setState({
             orders: response.data
@@ -155,7 +165,7 @@ class ordersList extends Component {
         });
   } else {
     console.log('we are in get all orders by ONE customer');
-    orderDataService.getAllByCustomer(this.state.searchCustomerID,orderStatus)
+    orderDataService.getAllByCustomer(this.state.searchCustomerID,orderStatus,this.state.token)
       .then(response => {
         this.setState({
           orders: response.data
@@ -216,7 +226,7 @@ class ordersList extends Component {
     return (
       <div className="col mb-3 border">
           <div className="order-header">
-          { this.props.currcustomer.customerInfo.chutcheo_city?
+          { this.state.chutcheo_city?
           (
           <>
             <input

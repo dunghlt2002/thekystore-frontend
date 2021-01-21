@@ -50,6 +50,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-transform-react-jsx-source": "^7.12.1",
     "react-alice-carousel": "^1.19.3"
   }
 }

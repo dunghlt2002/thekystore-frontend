@@ -21,6 +21,7 @@ class Order extends Component {
 
     this.state = {
       REACT_APP_URL: process.env.REACT_APP_URL,
+      token: this.props.currcustomer.customerInfo?this.props.currcustomer.customerInfo.token:null,
       currentOrder: {
         id: null,
         orders_date: "",
@@ -153,7 +154,7 @@ class Order extends Component {
 
   getOrder(orders_id) {
     console.log('order id trg getOrder: ' + orders_id);
-    orderDataService.get(orders_id)
+    orderDataService.get(orders_id, this.state.token)
       .then(response => {
         this.setState({
           currentOrder: response.data,
@@ -455,6 +456,7 @@ const mapStateToProps = (state, ownProps) => {
   console.log('orderPay phan mapstatetoprops order component' + JSON.stringify(state.orderPay));
   return {
     orderPay: state.orderPay,
+    cart: state.cart,
     currcustomer: state.customerSignin
   }
 }

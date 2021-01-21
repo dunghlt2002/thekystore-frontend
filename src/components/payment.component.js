@@ -15,13 +15,27 @@ class Payment extends Component {
     // this.onChangeCountry = this.onChangeCountry.bind(this);
 
     this.state = {
-      paymentMethod: 'paypal'
+      paymentMethod: 'Paypal'
     };
   }
 
   // const [paymentMethod, setPaymentMethod] = useState('');
 
-  // const dispatch = useDispatch();
+  componentDidMount() {
+    // console.log('this.props shipping address' + JSON.stringify(this.props.cart));
+    
+    
+    if (this.props.cart.shippingAddress === null) {
+      this.props.history.push('/shipping');
+    }
+    if (this.props.currCustomer.customerInfo && this.props.currCustomer.customerInfo.chutcheo_city) {
+
+    } else {
+      this.props.history.push("/page404");
+     }
+
+  }
+
 
   submitHandler = (e) => {
     e.preventDefault();
@@ -96,4 +110,13 @@ const mapDispatchToProps = dispatch => ({
   savePayment: ( data ) => dispatch(savePayment( data ))
 })
 
-export default connect(null, mapDispatchToProps)(Payment);
+const mapStateToProps = (state, ownProps) => {
+  console.log('customerSignin trong App.js ' + JSON.stringify(state.customerSignin.customerInfo));
+  
+  return {
+      cart: state.cart,
+      currCustomer: state.customerSignin                // moi
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Payment);

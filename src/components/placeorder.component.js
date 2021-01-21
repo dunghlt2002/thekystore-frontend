@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from 'react-router-dom';
 import Cookie from 'js-cookie';
 
+import  { clearCart }  from '../actions/cartActions';
 import CheckoutSteps from './CheckoutSteps';
 // import { connect, useDispatch } from 'react-redux';
 import { connect } from 'react-redux';
@@ -22,6 +23,8 @@ class PlaceOrder extends Component {
         this.onChangeOrdersDes = this.onChangeOrdersDes.bind(this);
         
         this.state = {
+            token: this.props.currcustomer.customerInfo?this.props.currcustomer.customerInfo.token:null,
+            // hasError: false,
             REACT_APP_URL: process.env.REACT_APP_URL,
             new_order_id: null,
             submitted: null,
@@ -35,6 +38,9 @@ class PlaceOrder extends Component {
             message: null
         };
     }
+  // static getDerivedStateFromError(error) {
+  //     return { failure: true, exception: error };
+  // }
 
 // phai dung arrow func o day
 applyDiscountCode = (totalInit) => {
@@ -144,27 +150,40 @@ addPayPalScript = async () => {
 };
 
 componentDidMount() {
+  console.log('this.props in placeorder' + JSON.stringify(this.props.cart));
   // console.log('place order ... ' + JSON.stringify(this.props.cart.itemsPrice));
-  
-  if(!window.paypal) {
-    this.addPayPalScript();
+  if (
+      this.props.currcustomer.customerInfo && 
+      this.props.cart.shippingAddress &&
+      this.props.cart.paymentMethod && 
+      this.props.cart.cartItems.length > 0
+    ) {
+      if(!window.paypal) {
+        this.addPayPalScript();
+      } else {
+        this.setState({
+          sdkReady: true
+        });
+      }
+      if (!this.props.cart.shippingAddress) {
+        this.props.history.push('/shipping');
+      }
+      if (!this.props.cart.paymentMethod) {
+        this.props.history.push('/payment');
+      }
+      
+
+      // this.props.cart.physicShippping = 0;
+      this.props.cart.discount=0.00;
+      this.props.cart.itemsPrice = toPrice(
+        this.props.cart.cartItems.reduce((a, c) => a + c.qty * c.price, 0)
+      );
+      this.props.cart.physicShippping = this.props.cart.cartItems.reduce((a, c) => a + c.weight,0);
+
+      this.getSummary();
   } else {
-    this.setState({
-      sdkReady: true
-    });
+    this.props.history.push('/page909');
   }
-
-    if (!this.props.cart.paymentMethod) {
-      this.props.history.push('/payment');
-    }
-    // this.props.cart.physicShippping = 0;
-    this.props.cart.discount=0.00;
-    this.props.cart.itemsPrice = toPrice(
-      this.props.cart.cartItems.reduce((a, c) => a + c.qty * c.price, 0)
-    );
-    this.props.cart.physicShippping = this.props.cart.cartItems.reduce((a, c) => a + c.weight,0);
-
-    this.getSummary();
 
 }
 
@@ -212,9 +231,10 @@ placeOrderHandler = () => {
     // rieng discount phai lay tu state
     discount: this.state.discount
   };
-console.log('data truoc khi save tai day xem cai ngay xem sao ta' + JSON.stringify(data));
+// console.log('data truoc khi save tai day xem cai ngay xem sao ta' + JSON.stringify(data));
+// console.log('this.state.token ' + this.state.token);
 
-  orderDataService.create(data)
+  orderDataService.create(data, this.state.token)
     .then(response => {
       this.setState({
           new_order_id: response.data.id,
@@ -222,25 +242,30 @@ console.log('data truoc khi save tai day xem cai ngay xem sao ta' + JSON.stringi
           submitted: true
       });
       console.log(response.data);
+      
+      
     })
     .catch(e => {
       console.log(e);
     });
-    Cookie.remove('cartItems');
-    Cookie.remove('paymentMethod');
-    Cookie.remove('shippingAddress');
     
     console.log('submit ne: ' + this.state.submitted);
     console.log('message ne: ' + this.state.message);
     console.log('order ID ne: ' + this.state.new_order_id);
-    
+
+    this.props.clearCart();
+
     if (this.state.submitted) {
       this.props.history.push('/orders/' + this.state.new_order_id);
     }
 }
         
 render() {
+  if (this.state.failure) {
+    return <h1>I listened to your problems, now listen to mine: {this.state.exception}</h1>;
+  } else {
   return (
+  
     <div className="info">
       {this.state.message ?  
         <div className="card">
@@ -297,29 +322,35 @@ render() {
               <div className="card card-body">
               
                 <h2>Shipping</h2>
-                <p>
-                  <strong>Name:</strong> {this.props.cart.shippingAddress.addressObj.fullname} <br />
-                  <strong>Address: </strong> {this.props.cart.shippingAddress.addressObj.address},
-                  {this.props.cart.shippingAddress.addressObj.city}, 
-                  {this.props.cart.shippingAddress.addressObj.state},
-                  {this.props.cart.shippingAddress.addressObj.zip},
-                  {this.props.cart.shippingAddress.addressObj.country}
-                </p>
+                {this.props.cart.shippingAddress && this.props.cart.shippingAddress.addressObj?
+                  <p>
+                    <strong>Name:</strong> {this.props.cart.shippingAddress.addressObj.fullname} <br />
+                    <strong>Address: </strong> {this.props.cart.shippingAddress.addressObj.address},
+                    {this.props.cart.shippingAddress.addressObj.city}, 
+                    {this.props.cart.shippingAddress.addressObj.state},
+                    {this.props.cart.shippingAddress.addressObj.zip},
+                    {this.props.cart.shippingAddress.addressObj.country}
+                  </p>
+                : null
+                }
               </div>
             
             
               <div className="card card-body">
                 <h2>Payment</h2>
+                {this.props.cart.paymentMethod && this.props.cart.paymentMethod.paymentObj?
                 <p>
                   <strong>Method:</strong> {this.props.cart.paymentMethod.paymentObj.paymentMethod}
                   . (<strong>Currency:</strong> {this.props.cart.paymentMethod.paymentObj.currency})
                 </p>
+                : null
+                }
               </div>
             
               <div className="card card-body">
                 <h2>Order Items</h2>
                 <ul>
-                  {this.props.cart.cartItems.map((item) => (
+                  {this.props.cart.cartItems && this.props.cart.cartItems.map((item) => (
                     <li key={item.product}>
                       <div className="row">
                         <div className="smallavatar">
@@ -430,9 +461,16 @@ render() {
     </div>
   
   )
+  
+  }
 }
 
 }
+const mapDispatchToProps = dispatch => ({
+  clearCart: () => dispatch(clearCart())
+})
+
+
 const mapStateToProps = (state, ownProps) => {
     console.log('customerSignin trong App.js ' + JSON.stringify(state.customerSignin.customerInfo));
     
@@ -444,4 +482,4 @@ const mapStateToProps = (state, ownProps) => {
   }
   
   
-export default connect(mapStateToProps, null)(PlaceOrder);
+export default connect(mapStateToProps, mapDispatchToProps)(PlaceOrder);

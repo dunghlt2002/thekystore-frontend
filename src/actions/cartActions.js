@@ -1,6 +1,6 @@
 import Axios from "axios";
 import Cookie from "js-cookie";
-import { CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_SHIPPING, CART_SAVE_PAYMENT } from "../constants/cartConstants";
+import { CART_ADD_ITEM, CART_REMOVE_ITEM, CART_REMOVE_ALL, CART_SAVE_SHIPPING, CART_SAVE_PAYMENT } from "../constants/cartConstants";
 
 const API_URL = process.env.REACT_APP_API_URL
 
@@ -35,6 +35,14 @@ const removeFromCart = (productId) => (dispatch, getState) => {
   Cookie.set("cartItems", JSON.stringify(cartItems));
 }
 
+const clearCart = () => (dispatch, getState) => {
+  dispatch({ type: CART_REMOVE_ALL, payload: {} });
+
+  const { cart: { cartItems } } = getState();
+  Cookie.remove("cartItems");
+}
+
+
 const saveShipping = (data) => (dispatch) => {
   dispatch({ type: CART_SAVE_SHIPPING, payload: data });
   Cookie.set("shippingAddress", JSON.stringify(data));
@@ -43,4 +51,4 @@ const savePayment = (data) => (dispatch) => {
   dispatch({ type: CART_SAVE_PAYMENT, payload: data });
   Cookie.set("paymentMethod", JSON.stringify(data));
 }
-export { addToCart, removeFromCart, saveShipping, savePayment }
+export { addToCart, removeFromCart, saveShipping, savePayment, clearCart}

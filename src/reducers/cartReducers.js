@@ -1,4 +1,4 @@
-import { CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_SHIPPING, CART_SAVE_PAYMENT } from "../constants/cartConstants";
+import { CART_ADD_ITEM, CART_REMOVE_ITEM, CART_REMOVE_ALL, CART_SAVE_SHIPPING, CART_SAVE_PAYMENT } from "../constants/cartConstants";
 
 function cartReducer(state = { cartItems: [], shipping: {}, payment: {} }, action) {
   switch (action.type) {
@@ -14,6 +14,8 @@ function cartReducer(state = { cartItems: [], shipping: {}, payment: {} }, actio
       return { cartItems: [...state.cartItems, item] };
     case CART_REMOVE_ITEM:
       return { cartItems: state.cartItems.filter(x => x.product !== action.payload) };
+    case CART_REMOVE_ALL:
+      return { ...state, cartItems: [] };
     case CART_SAVE_SHIPPING:
       return { ...state, shippingAddress: action.payload };
     case CART_SAVE_PAYMENT:

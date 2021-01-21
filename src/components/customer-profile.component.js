@@ -56,7 +56,7 @@ class CustomerProfile extends Component {
     if (this.props.currCustomer === null || 
       (this.props.match.params.id != this.props.currCustomer.id & !this.props.currCustomer.chutcheo_city)
     ) {
-      this.props.history.push("/customersignin");
+      this.props.history.push("/page909");
     }
     else {
       this.getCustomer(this.props.match.params.id);   // kieu truyen ty signin hay list qua

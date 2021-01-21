@@ -2,8 +2,6 @@ import axios from 'axios';
 import Cookie from 'js-cookie';
 import http from "../http-common";
 
-// process.env.REACT_APP_URL
-// const API_URL = 'http://localhost:8080/api/';
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 
 class customerDataService {
@@ -11,7 +9,7 @@ class customerDataService {
     const customerInfo = Cookie.getJSON('customerInfo') || null;
     const token = customerInfo.token;    
     console.log('token getAll customers ' + token) ;
-    console.log('get all customers here limit ' + currentPage) ;
+    // console.log('get all customers here limit ' + currentPage) ;
     if (token) {
       // return http.get(`/customers/${currentPage}?search_keyword=${search_keyword}`);
       return axios.get(
@@ -22,9 +20,8 @@ class customerDataService {
       console.log('fail token');
       
     }
-
-
   }
+
   // Ref only
   getAllUser(currentPage,search_keyword) {
     

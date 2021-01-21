@@ -2,6 +2,11 @@
 // Qui uoc 1 ve Sign-in: khi noi ve sign-in la y ve customer sign-in
 // Qui uoc 2 ve Sign-in: khi noi ve customer sign-in (admin function) se la customer-sign-in
 
+// 1/18/2021:
+// - ErrorBoundary chua xai duoc
+// - 
+
+
 
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
@@ -9,8 +14,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import './App.css';
 import { connect } from 'react-redux';
 
+import AdminRoute from './components/privateAdminRoute';
+import PrivateRoute from './components/privateRoute';
+import ErrorBoundary from "./components/errorBoundary";
 import homePage from "./components/home.component";
 import underconstruction from "./components/z-under-construction.component";
+import page404construction from "./components/z-page404-construction.component";
+import page909construction from "./components/z-page909-construction.component";
+
 import aboutTheKy from "./components/aboutTheKy.component";
 import faq from "./components/faq.component";
 
@@ -105,6 +116,7 @@ class App extends Component {
   render() {
 
   return (
+
     <Router>
       <div className="grid-container">
         <header className="header">
@@ -142,7 +154,7 @@ class App extends Component {
                           <li>
                           <Link to={"/ordersbycustomer/" + this.props.currcustomer.customerInfo.id} >Orders History</Link>
                           </li>
-  
+ 
                           {this.props.currcustomer.customerInfo.chutcheo_city?
                                 <>
                                   <li>
@@ -155,7 +167,7 @@ class App extends Component {
                                     <Link to="/categories">Categories List</Link>
                                   </li>
                                   <li>
-                                    <Link to="/users">Users List - Testing</Link>
+                                    ------------------------------
                                   </li>
                                   <li>
                                     <Link to="/addProduct">Add Product</Link>
@@ -167,7 +179,9 @@ class App extends Component {
                           : null
                           }
 
-                          
+                          <li>
+                            ------------------------------
+                          </li>
                           <li>
                             <Link onClick={this.logoutHandler}>Logout</Link>
                           </li>
@@ -252,7 +266,11 @@ class App extends Component {
               <Route exact path={"/orders"} component={OrdersList} />
               <Route exact path={"/ordersbycustomer/:customer_id"} component={OrdersList} />
               <Route exact path={"/placeorder"} component={PlaceOrder} />
-              <Route exact path={"/orders/:orders_id"} component={Order} />
+              {/* <Route exact path={"/orders/:orders_id"} component={Order} /> */}
+              <PrivateRoute
+                path="/orders/:orders_id"
+                component={Order}
+              ></PrivateRoute>
 
               {/* <Route path="/" exact={true} component={retailStore} /> */}
               <Route path="/" exact={true} component={homePage} />
@@ -262,18 +280,35 @@ class App extends Component {
               <Route exact path={"/shipping"} component={Shipping} />
               <Route exact path={"/payment"} component={Payment} />
               
-              <Route exact path={["/products"]} component={ProductsList} />
+              {/* <Route exact path={["/products"]} component={ProductsList} /> */}
+              <AdminRoute
+                exact path="/products"
+                component={ProductsList}
+              ></AdminRoute>
               <Route exact path={"/addProduct"} component={AddProduct} />
               <Route path="/products/:products_id" component={Product} />
               
               <Route exact path={["/customersignin"]} component={CustomerSigninScreen} />
-              <Route exact path={"/customers"} component={CustomersList} />
-              <Route exact path={"/customerProfile/:id"} component={CustomerProfile} />
+              {/* <Route exact path={"/customerProfile/:id"} component={CustomerProfile} /> */}
+              {/* <Route exact path={"/customers"} component={CustomersList} /> */}
+              <AdminRoute
+                exact path="/customers"
+                component={CustomersList}
+              ></AdminRoute>
+              
+              <PrivateRoute
+                path="/customerProfile/:id"
+                component={CustomerProfile}
+              ></PrivateRoute>
               <Route exact path={"/addCustomer"} component={AddCustomers} />
               <Route exact path={"/resetpasswordaskemail"} component={ResetPasswordAskEmail} />
               <Route exact path={"/resetpassword"} component={ResetPassword} />
               
-              <Route exact path={"/categories"} component={CategoriesList} />
+              {/* <Route exact path={"/categories"} component={CategoriesList} /> */}
+              <AdminRoute
+                exact path="/categories"
+                component={CategoriesList}
+              ></AdminRoute>
               <Route path="/categories/:categories_id" component={Category} />
               
               {/* Su dung customer lam user luon 12/31/2020 */}
@@ -284,6 +319,8 @@ class App extends Component {
               <Route exact path={["/underconstruction"]} component={underconstruction} />
               <Route exact path={["/aboutTheKy"]} component={aboutTheKy} />
               <Route exact path={["/faq"]} component={faq} />
+              <Route exact path={["/page909"]} component={page909construction} />
+              <Route exact path={["*"]} component={page404construction} />
             </Switch>
           </div>
         </div>
