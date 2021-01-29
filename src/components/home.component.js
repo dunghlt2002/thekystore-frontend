@@ -1,9 +1,12 @@
 import React, { Component } from "react";
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import {Carousel} from 'react-responsive-carousel';
 import { Link } from "react-router-dom";
 import { customerLogoutFetch } from '../actions/customerActions';
 import { connect } from 'react-redux';
 import '../App.css';
 import providerDataService from "../services/provider.service";
+// import { Carousel } from "bootstrap";
 
 // import AliceCarousel from 'react-alice-carousel';
 // import "react-alice-carousel/lib/alice-carousel.css";
@@ -126,19 +129,43 @@ class HomeScreen extends Component {
 
         <br></br>
 
-        {/* <div>
-            <AliceCarousel 
-                items={this.state.galleryItems}
-                responsive={this.responsive}
-                autoPlayInterval={2000}
-                autoPlayDirection="rtl"
-                autoPlay={true}
-                fadeOutAnimation={true}
-                mouseTrackingEnabled={true}
-                disableAutoPlayOnAction={true}
-            />
-        </div> */}
-        <div className="home-info">
+
+        <br></br>
+        {/* <Carousel showArrows autoPlay showThumbs={false}>
+            {sellers.map((seller) => (
+              <div key={seller._id}>
+                <Link to={`/seller/${seller._id}`}>
+                  <img src={seller.seller.logo} alt={seller.seller.name} />
+                  <p className="legend">{seller.seller.name}</p>
+                </Link>
+              </div>
+            ))}
+          </Carousel> */}
+
+        <div className="row">
+          <div className='col-6'>
+          <Carousel showArrows autoPlay infiniteLoop showThumbs={false} centerMode={false} axis="vertical">
+              <div >
+                <Link to={`/filterproducts/0?retail=-1&provider=137`}>
+                  <img src={this.state.REACT_APP_URL + "avatars/thekylogo.png"} />
+                  <p className="legend">Phim Digital (beta)</p>
+                </Link>
+              </div>
+              <div >
+                <Link to={`/filterproducts/0?retail=-1&category=28`}>
+                  <img src={this.state.REACT_APP_URL + "avatars/kiemhiep.jpg"} />
+                  <p className="legend">Kiem hiep</p>
+                </Link>
+              </div>
+              <div>
+                <Link to={`/filterproducts/0?retail=-1&category=49`}>
+                  <img src={this.state.REACT_APP_URL + "avatars/canhsat.jpg"} />
+                  <p className="legend">Canh sat</p>
+                </Link>
+              </div>
+          </Carousel>
+          </div>
+          <div className="col">
             <h2>We have movies from many companies. Most of them are translated in Vietnamese in USA, like: </h2>
             {this.state.masternotProviders.map((masterProvider) => 
               <span >
@@ -146,11 +173,12 @@ class HomeScreen extends Component {
               
               </span>
             )}
+          </div>
         </div>
 
         <br></br>
         
-          <div className="row">
+          <div className="header">
               <div className="header" style={{width: '25rem', height: '50rem'}}>
                 <div className="card-body">
                   <h2 className="card-title">Digital format</h2>
