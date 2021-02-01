@@ -215,6 +215,11 @@ class App extends Component {
         </header>
         
         <aside className="sidebar">
+          <br></br>
+          <br></br>
+          <br></br>
+
+
           <h3>Shopping Categories</h3>
           <button className="sidebar-close-button" onClick={this.closeMenu}>x</button>
           <ul>
