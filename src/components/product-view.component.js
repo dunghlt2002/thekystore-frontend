@@ -66,13 +66,13 @@ class ProductView extends Component {
                 <div className="details-info">
                     <ul>
                         <li>
-                            <h4>{this.props.currentProduct.products_name}</h4>
+                            <h1>{this.props.currentProduct.products_name}</h1>
                         </li>
                         <li>
                             Price: <b>${this.props.currentProduct.products_price}</b>
                         </li>
                         <li>
-                            <b>{this.props.currentProduct.products_sotap} episode/dvd</b>
+                            <b>{this.props.currentProduct.products_sotap}</b> <i>(episode/dvd)</i>
                         </li>
                         <li>
                             Nguon phim: {this.props.currentProduct.products_nguonphim}
@@ -80,6 +80,15 @@ class ProductView extends Component {
                         <li>
                             Dien vien: {this.props.currentProduct.products_dienvien}
                         </li>
+                        <li><lable>Production Co: {" "}</lable>
+                              <a href={'/filterproducts/'+this.state.usvn_longtieng+'?retail=-1&provider='+ this.props.currentProduct.providers_id}>
+                                  {this.props.currentProduct.provider?this.props.currentProduct.provider.providers_name:'NA'}</a>
+                          </li>
+                          {/* <div className="product-retail">{product.category.categories_name} <h6>({product.categories_id})</h6></div> */}
+                          <li><lable>Category: {" "}</lable>
+                            <a href={'/filterproducts/'+this.state.usvn_longtieng+'?retail=-1&category='+ this.props.currentProduct.categories_id}>
+                                {this.props.currentProduct.category? this.props.currentProduct.category.categories_name:'NA'}</a>
+                          </li>
 
                     </ul>
                 </div>
@@ -112,7 +121,7 @@ class ProductView extends Component {
                 <div className="details-info">
                     <ul>
                         <li>
-                            Description:
+                            <b>Description:</b>
                             <div className="card-dd">
                                 <div dangerouslySetInnerHTML={{ __html: this.props.currentProduct.products_description} }></div>
                                 {/* {this.props.currentProduct.products_description} */}

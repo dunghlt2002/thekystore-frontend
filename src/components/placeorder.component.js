@@ -360,7 +360,7 @@ render() {
                             width="100" heigth="100" 
                           ></img>
                         </div>
-                        <div className="min-30">
+                        <div className="productname-placeorder">
                           <Link to={"/productview/" + item.product}>
                             {item.name}
                           </Link>
@@ -379,7 +379,7 @@ render() {
         </div>
 
         <div className="col-4">
-          <div className="card card-body">
+          <div className="card card-body-sum">
             <ul>
               <h2>Order Summary</h2>
 

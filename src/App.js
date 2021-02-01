@@ -236,7 +236,7 @@ class App extends Component {
                   <a href="/filterproducts/-1">ALL categories</a>
                 </li>
                 {this.state.masternotcategories.map((mastercategory) => 
-                <li>
+                <li key={mastercategory.id}>
                   <a href={'/filterproducts/'+this.state.usvn_longtieng+'?retail=-1&category='+ mastercategory.id}>{mastercategory.categories_name}</a>
                 </li>
                 
