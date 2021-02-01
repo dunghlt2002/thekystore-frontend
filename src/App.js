@@ -228,7 +228,7 @@ class App extends Component {
 
           <ul>
                 <li>
-                  <a href="/filterproducts/-1">ALL categoriesssss</a>
+                  <a href="/filterproducts/-1">ALL categories</a>
                 </li>
                 {this.state.masternotcategories.map((mastercategory) => 
                 <li>
