@@ -345,7 +345,8 @@ class retailStore extends Component {
             
               {
                 products.map(product =>
-                  <div key={product.id} className="col-3">
+                  // <div key={product.id} className="col-3">
+                  <div key={product.id} className="col-4 lg-auto">
                       <div  className="card">
                         <div className="product-name">
                             {/* <Link to={'/productview/' + product.id}>{product.products_name + "(" + product.id + ")"}</Link> */}
@@ -423,7 +424,6 @@ class retailStore extends Component {
                     console.log(`Link to page ${i-1} was clicked.`);
                     this.onChangeCurrentPage(i);
                   }} />
-
             
               currentPage: {this.state.currentPage} / pageCount: {this.state.totalPages}
               {/* <li>pageLinkClassName: "page-link"</li>

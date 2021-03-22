@@ -62,6 +62,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      REACT_APP_LOCATION: process.env.REACT_APP_LOCATION,
       usvn_longtieng: 0,
       masternotcategories: [],
       customer:'',
@@ -124,7 +125,7 @@ class App extends Component {
             <button onClick={this.openMenu}>
                   &#9776;
             </button>
-            <a href="/">The Ky Store</a>
+            <a href="/">{this.state.REACT_APP_LOCATION}</a>
             {/* <a href="/filterproducts/-1">The Ky Store</a> */}
             {/* <Link to="/filterproducts/-1" > The Ky Store</Link> */}
           </div>
@@ -270,7 +271,13 @@ class App extends Component {
             <Switch>
               <Route exact path={"/orders"} component={OrdersList} />
               <Route exact path={"/ordersbycustomer/:customer_id"} component={OrdersList} />
-              <Route exact path={"/placeorder"} component={PlaceOrder} />
+              
+              {/* <Route exact path={"/placeorder"} component={PlaceOrder} /> */}
+              <PrivateRoute
+                path="/placeorder"
+                component={PlaceOrder}
+              ></PrivateRoute>
+
               {/* <Route exact path={"/orders/:orders_id"} component={Order} /> */}
               <PrivateRoute
                 path="/orders/:orders_id"
@@ -366,6 +373,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(App);
 // REACT_APP_API_URL = https://thekyadminbackend.herokuapp.com/api/
 // REACT_APP_URL = https://thekyadminbackend.herokuapp.com/
 // REACT_APP_CLIENT_URL = http://thekyadminfontend.herokuapp.com/
+// REACT_APP_LOCATION = "The Ky Store"
 
 // "re-carousel": "^2.4.0",
 // "infinite-react-carousel": "^1.2.11",
@@ -373,3 +381,4 @@ export default connect(mapStateToProps, mapDispatchToProps)(App);
 // REACT_APP_API_URL = http://localhost:8080/api/
 // REACT_APP_URL = http://localhost:8080/
 // REACT_APP_CLIENT_URL = http://localhost:8081/
+// REACT_APP_LOCATION = "The Ky Local, DB: Local"

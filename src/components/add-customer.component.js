@@ -151,7 +151,7 @@ export default class AddCustomer extends Component {
         console.log(e);
       });
 
-            // mailling module
+            // ---- email module: Send email to customer
             const messageHtml =  renderEmail(
               <MyEmail name={this.state.customers_name}> 
                 "A customer name: {this.state.customers_name + " has just created in our system. Thank you for joinging us."}
@@ -175,6 +175,7 @@ export default class AddCustomer extends Component {
                     alert("Oops, something went wrong. Try again...")
                 }
             })
+            // End of mailling module
   }
 
   newCustomer() {

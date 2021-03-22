@@ -87,7 +87,7 @@ render() {
         </li>
         <li>
           <label htmlFor="customers_password">Password</label>
-          <input type="customers_password" id="signininput" name="customers_password" onChange={(e) => this.isChange(e)}>
+          <input type="password" id="signininput" name="customers_password" onChange={(e) => this.isChange(e)}>
           </input>
         </li>
         <li>

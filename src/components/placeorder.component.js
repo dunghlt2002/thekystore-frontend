@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { Link } from 'react-router-dom';
-import Cookie from 'js-cookie';
+// import Cookie from 'js-cookie';
+
+import axios from "axios";
+import MyEmail from './email.component'
+import { renderEmail } from 'react-html-email'
 
 import  { clearCart }  from '../actions/cartActions';
 import CheckoutSteps from './CheckoutSteps';
@@ -26,13 +30,14 @@ class PlaceOrder extends Component {
             token: this.props.currcustomer.customerInfo?this.props.currcustomer.customerInfo.token:null,
             // hasError: false,
             REACT_APP_URL: process.env.REACT_APP_URL,
+            REACT_APP_CLIENT_URL: process.env.REACT_APP_CLIENT_URL,
             new_order_id: null,
             submitted: null,
             sdkReady: false,
             discount: 0.00,
             discountcode: 'TRY',
-            shippingStd: 5.55,
-            taxRate: 0.06,
+            // shippingStd: 5.55,
+            taxRate: 7,
             orders_des: 'Write some thing to seller here ...',
             discountmessage:null,
             message: null
@@ -193,12 +198,14 @@ getSummary() {
       (this.props.cart.itemsPrice >= 50 ?
         0 : toPrice(this.props.cart.shippingAddress.addressObj.shippingPriceStd)
       ):0;
-    this.props.cart.taxPrice = toPrice(this.state.taxRate * this.props.cart.itemsPrice);
+
     // default discount la 0
     // this.props.cart.discount = 0.00;
     console.log('discount in state ' + this.state.discount);
     console.log('discount in props ' + this.props.cart.discount);
-    
+
+    this.props.cart.taxPrice = toPrice(this.state.taxRate * (this.props.cart.itemsPrice- this.props.cart.discount)/100);
+
     this.props.cart.totalPrice = toPrice(this.props.cart.itemsPrice - this.props.cart.discount + this.props.cart.shippingPrice + this.props.cart.taxPrice);
 
     console.log('itemsPrice  : ' + this.props.cart.totalPrice);
@@ -243,6 +250,36 @@ placeOrderHandler = () => {
       });
       console.log(response.data);
       
+        // ---- email module: Send email to customer
+        const messageHtml =  renderEmail(
+          <MyEmail 
+            name={this.props.cart.shippingAddress.addressObj.fullname} 
+            mylink={this.state.REACT_APP_CLIENT_URL + "orders/" + this.state.new_order_id}
+            childrenextra={"You has just created a new order. You can make payment by login then go to Menu - Orders History and select your order #: " + this.state.new_order_id + ". Total amount is: $ " + this.props.cart.totalPrice}
+          >
+             Click here, {this.state.message}
+          </MyEmail>
+          );
+
+          axios({
+              method: "POST", 
+              url: this.state.REACT_APP_URL + "send", 
+              data: 
+              {
+                name: this.props.currcustomer.customerInfo.customers_name,
+                email: this.props.currcustomer.customerInfo.customers_email,
+                subject: "The Ky Store: new order!",
+                messageHtml: messageHtml
+              }
+          }).then((response)=>{
+              if (response.data.msg === 'success'){
+                  // alert("Please check your email for more detai."); 
+                  // this.resetForm()
+              }else if(response.data.msg === 'fail'){
+                  alert("Oops, something went wrong. Try again...")
+              }
+          })
+          // ---- End send email to customer
       
     })
     .catch(e => {
@@ -254,8 +291,10 @@ placeOrderHandler = () => {
     console.log('order ID ne: ' + this.state.new_order_id);
 
     this.props.clearCart();
+    
 
     if (this.state.submitted) {
+      console.log('xong het roi order');
       this.props.history.push('/orders/' + this.state.new_order_id);
     }
 }
@@ -384,14 +423,10 @@ render() {
               <h2>Order Summary</h2>
 
                 <div className="row">
-                  <div className="">Total amount: </div>
+                  <div className="">1. Order amount: </div>
                   <div className=""> $ {this.props.cart.itemsPrice}</div>
                 </div>
 
-                <div className="row">
-                  <div className="">Discount</div>
-                  <div className=""> $ {this.state.discount}</div>
-                </div>
 
                 <div className="row">
                   <label htmlFor="discountcode">
@@ -409,21 +444,33 @@ render() {
                     </button>
                   </div>
                   {this.state.discountmessage?<MessageBox variant="danger">{this.state.discountmessage}</MessageBox>:null}
+
+                <div className="row">
+                  <div className="">2. Discount</div>
+                  <div className=""> $ {this.state.discount}</div>
+                </div>
+                
+                <br></br>
+
+                <div className="row">
+                  <div className="">3. Amount (before tax): </div>
+                  <div className=""> $ {this.props.cart.itemsPrice - this.state.discount}</div>
+                </div>
                 
                 <div className="row">
-                  <div className="">Shipping ({this.props.cart.physicShippping})</div>
-                  <div className=""> $ {this.props.cart.shippingPrice}</div>
-                </div>
-              
-              
-                <div className="row">
-                  <div className="">Tax</div><br />
+                  <div className="">+ Sale Tax ({this.state.taxRate}%)</div><br />
                   <div className=""> $ {this.props.cart.taxPrice}</div>
                 </div>
-              
+
+                <div className="row">
+                  <div className="">+ Shipping ({this.props.cart.physicShippping} items)</div>
+                  <div className=""> $ {this.props.cart.shippingPrice}</div>
+                </div>
+
+
                 <div className="row">
                   <div className="">
-                    <strong> Order Total</strong><br />
+                    <strong>4. Total amount</strong><br />
                   </div>
                   <div className="">
                     <strong> $ {this.props.cart.totalPrice}</strong>

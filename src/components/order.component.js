@@ -222,19 +222,19 @@ class Order extends Component {
               <div className="cart" key={item.id} >
                       <div>{item.products_image}
                         <img src={this.state.REACT_APP_URL + item.product.products_image} 
-                          data-ll-status="loaded" class="smallavatar" 
+                          data-ll-status="loaded" className="smallavatar" 
                           width="100" heigth="100" alt={item.product.products_image} 
                           />
                       </div>
                       <div>
-                        <tr className="cart-list">
+                        <div className="cart-list">
                         <Link to={"/products/" + item.ordersdetail_product_id}>
                           {item.product.products_name}
                         </Link>
-                        </tr>
-                        <tr className="cart-list">
-                          <p>Qty: {item.ordersdetail_quantity}</p>
-                        </tr>
+                        </div>
+                        <div className="cart-list">
+                          <p className="cart-list">Qty: {item.ordersdetail_quantity}</p>
+                        </div>
                       </div>
                       <div className="cart-price">
                         ${item.ordersdetail_price}

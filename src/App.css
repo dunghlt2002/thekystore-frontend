@@ -357,6 +357,7 @@ a:hover{
 }
 .cart-list{
   flex: 3 1 60rem;
+  margin: 1rem;
 }
 .cart-action{
   flex:1 1 20rem;
