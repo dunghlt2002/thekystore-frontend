@@ -340,20 +340,21 @@ class retailStore extends Component {
                     <a key={key} href={'/filterproducts/0?retail=-1&category='+ masterFive.id}>{masterFive.categories_name + "  "}</a>
                   )}
             </div> */}
-
+        <div className="container-fluid d-flex justify-content-center">
             <div className="row">
             
               {
                 products.map(product =>
                   // <div key={product.id} className="col-3">
-                  <div key={product.id} className="col-4 lg-auto">
+                  // <div className="col-md-4">
+                  <div key={product.id} className="col-md-3">
                       <div  className="card">
                         <div className="product-name">
                             {/* <Link to={'/productview/' + product.id}>{product.products_name + "(" + product.id + ")"}</Link> */}
                             <Link to={'/productview/' + product.id}>{product.products_name }</Link>
                         </div>
                         <div  className="products">
-                          <div>
+                          <div className="overflow">
                             <Link to={'/productview/' + product.id}>
                                 {/* <img src={this.state.REACT_APP_URL + this.props.currentProduct.products_image} alt="product large" ></img> */}
                                 <img className="product-image" src={REACT_APP_URL + product.products_image} alt={this.state.REACT_APP_URL} />
@@ -412,7 +413,7 @@ class retailStore extends Component {
                 )
               }
           </div>
-
+        </div>
             
         <div className="header col">
             <Pagination 

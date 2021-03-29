@@ -242,7 +242,7 @@ class Shipping extends Component {
                   <label htmlFor="zip">Zip Code</label>
                   <input type="text" name="zip" id="zip" 
                     value={currentCustomer.customers_zip} 
-                    onChange={(e) => this.onChangezip(e)}>
+                    onChange={(e) => this.onChangeZip(e)}>
                   </input>
                 {/* </li>
                 <li> */}

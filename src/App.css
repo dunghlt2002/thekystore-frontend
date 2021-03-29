@@ -229,6 +229,11 @@ a:hover{
   max-width: 19rem;
   max-height: 30rem;
   width: 100%;
+  transform: scale(1);
+  transition: transform 0.5s ease;
+}
+.product-image:hover {
+  transform:scale(1.9);
 }
 .product-rating{
   margin-bottom: 1rem;
@@ -816,6 +821,10 @@ tbody>tr:nth-child(odd){
   flex-direction: column;
   width: 100%;
 }
+
+.card-img-top:hover {
+  transform:scale(1.9)
+}
 .card-dd{
   padding: 2rem;
 }
@@ -854,3 +863,42 @@ tbody>tr:nth-child(odd){
 .carousel .slide img {
   max-width: 30rem;
 }
+
+/* Card FAQ*/
+.cardfaq {
+  text-align: center;
+  padding: 0.5rem;
+  border: .2rem #ebe3e3 solid;
+  border-radius: 1.5rem;
+  height: 100%;
+  width: 20rem;
+  margin-bottom: auto;
+}
+
+.cardfaq:hover {
+  box-shadow: 5px 10px 20px 1px rgba(0,0,0,0.253)
+}
+.cardfaq-text {
+
+}
+.cardfaq-body {
+  padding: 3rem 0 important !important;
+}
+.container-fluid.row {
+  padding-top: 20rem;
+}
+/* Hieu ung */
+.overflow{
+  overflow:hidden;
+}
+.cardfaq-img-top {
+  width: 18rem;
+  transform: scale(1);
+  transition: transform 0.5s ease;
+}
+.cardfaq-img-top:hover {
+  transform:scale(1.8)
+
+}
+/* Het phan hieu ung
+ */
