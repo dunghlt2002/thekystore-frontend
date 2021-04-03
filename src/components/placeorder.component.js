@@ -40,7 +40,8 @@ class PlaceOrder extends Component {
             taxRate: 7,
             orders_des: 'Write some thing to seller here ...',
             discountmessage:null,
-            message: null
+            errMessage: null,   // Xu ly loi khi token expired
+            message: null   // Xu ly noi dung email gui khach khi xong order
         };
     }
   // static getDerivedStateFromError(error) {
@@ -283,7 +284,10 @@ placeOrderHandler = () => {
       
     })
     .catch(e => {
-      console.log(e);
+      console.log('loi trong order ne : ' + e);
+      this.setState({
+        errMessage: e=='Error: Request failed with status code 401'?'Token expired, please log-out and sign-in again!':'Unkown error, please try again later!'
+      });
     });
     
     console.log('submit ne: ' + this.state.submitted);
@@ -351,9 +355,10 @@ render() {
       : 
       <CheckoutSteps step1 step2 step3 step4></CheckoutSteps>
       }
-      {this.state.message ? null : 
-      
-      <div className="row top">
+      {/* {this.state.message ? null :  */}
+
+        {this.state.errMessage != 'Token expired, please log-out and sign-in again!' ?
+          <div className="row top">
         {/* <div className="col-2"> */}
         <div className="order-info">
           <div className="">
@@ -504,7 +509,16 @@ render() {
           </div>
         </div>
       </div>
-      }  
+        : 
+        (
+          <div className="card">
+            <p>{this.state.errMessage}  
+              <a href ="customersignin"> or Go back to Home Page ... </a>
+            </p>
+          </div>
+        )
+        }  
+        
     </div>
   
   )

@@ -35,6 +35,7 @@ class customersList extends Component {
       customers: [],
       currentCustomer: null,
       currentIndex: 0,  // phan tu dau tien trong list duoc selected
+      errMessage: null,   // Xu ly loi khi token expired
       searchKeyword: ''
     };
   }
@@ -227,6 +228,9 @@ class customersList extends Component {
           })
           .catch(e => {
             console.log('loi get customer list ' + e);
+            this.setState({
+              errMessage: e=='Error: Request failed with status code 401'?'Token expired, please log-out and sign-in again!':'Unkown error, please try again later!'
+            });
           });
       
     }
@@ -417,7 +421,19 @@ class customersList extends Component {
         ) : (
           <div>
             <br />
-            <p>Please click on a customer to see detail...</p>
+            {this.state.errMessage != 'Token expired, please log-out and sign-in again!' ?
+            (
+                <p>Please click on a customer to see detail... </p>
+            )
+            :
+            (
+              <div>
+                <p>{this.state.errMessage}  
+                  <a href ="customersignin"> or Go back to Home Page ... </a>
+                </p>
+              </div>
+            )
+            }
           </div>
         )}
       </div>
