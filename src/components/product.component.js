@@ -569,7 +569,36 @@ export default class Product extends Component {
 
 
 
-              
+              <div className="form-group">
+                  <div className="">Description</div>
+                     
+                  <CKEditor
+                        editor={ ClassicEditor }
+                        data={currentProduct.products_description}
+                        onInit={ editor => {
+                            // You can store the "editor" and use when it is needed.
+                            console.log( 'Editor is ready to use!', editor );
+                        } }
+                        onChange={ ( event, editor ) => {
+                          this.setState(function(prevState) {
+                            return {
+                              currentProduct: {
+                                ...prevState.currentProduct,
+                                products_description: editor.getData()
+                              }
+                            };
+                          });
+                        } }
+                        onBlur={ ( event, editor ) => {
+                            console.log( 'Blur.', editor );
+                        } }
+                        onFocus={ ( event, editor ) => {
+                            console.log( 'Focus.', editor );
+                        } }
+                      />
+
+              </div>
+
             </form>
 
             {/* nut status update nay de hoc hoi cho vui chu hong co khac biet gi ro rang voi cac field khac */}
