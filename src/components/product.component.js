@@ -5,6 +5,14 @@ import providerDataService from "../services/provider.service";
 import axios from 'axios' ;
 import { Link } from "react-router-dom";
 
+
+import SunEditor from 'suneditor-react';
+import 'suneditor/dist/css/suneditor.min.css'; // Import Sun Editor's CSS File
+
+//CKE xai tot, nhung khong len Heorku duoc
+// xai o local set db o cloud - can install CKE
+// xai xong nho uninstall CKE moi up len heroku lai
+// phuc tap
 // import { CKEditor } from '@ckeditor/ckeditor5-react';
 // import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
@@ -25,6 +33,9 @@ export default class Product extends Component {
     this.onChangeCategories_id = this.onChangeCategories_id.bind(this);
     this.onChangeProviders_id = this.onChangeProviders_id.bind(this);
     this.onChangeWeight = this.onChangeWeight.bind(this);
+
+    this.handleChange = this.handleChange.bind(this)
+
     this.fileSelectedHandler = this.fileSelectedHandler.bind(this);
     this.getProduct = this.getProduct.bind(this);
     this.updateproducts_status = this.updateproducts_status.bind(this);
@@ -87,6 +98,19 @@ export default class Product extends Component {
       });
   }
 
+  handleChange(content){
+    console.log(content); //Get Content Inside Editor
+    this.setState(function(prevState) {
+      return {
+        currentProduct: {
+          ...prevState.currentProduct,
+          products_description: content
+        }
+      };
+    });
+
+  }
+
   onChangeWeight(e) {
     const weight = e.target.value;
     console.log('weight '+weight);
@@ -99,6 +123,7 @@ export default class Product extends Component {
         }
       };
     });
+
   }
 
   onChangeProviders_id(e) {
@@ -568,7 +593,11 @@ export default class Product extends Component {
                 {currentProduct.products_status > 0 ? "Display" : "No Display"}
               </div>
 
-
+              <SunEditor 
+                setContents={currentProduct.products_description}
+                height="300"
+                onChange={this.handleChange} 
+              />
 
               {/* <div className="form-group">
                   <div className="">Description</div>
