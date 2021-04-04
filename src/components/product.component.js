@@ -4,8 +4,9 @@ import categoryDataService from "../services/category.service";
 import providerDataService from "../services/provider.service";
 import axios from 'axios' ;
 import { Link } from "react-router-dom";
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
+// import { CKEditor } from '@ckeditor/ckeditor5-react';
+// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 export default class Product extends Component {
   constructor(props) {
@@ -569,7 +570,7 @@ export default class Product extends Component {
 
 
 
-              <div className="form-group">
+              {/* <div className="form-group">
                   <div className="">Description</div>
                      
                   <CKEditor
@@ -597,7 +598,7 @@ export default class Product extends Component {
                         } }
                       />
 
-              </div>              
+              </div>               */}
 
             </form>
 
