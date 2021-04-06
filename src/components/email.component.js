@@ -6,7 +6,7 @@ export default function MyEmail({mylink,name,children,childrenextra}) {
   <Email title='link'>
     <Item>
        <div>Hello {name}</div>
-       <div>Welcome back to our website: www.thekystore.com</div>
+       <div>Welcome back to www.thekystore.com</div>
        <br></br>
     </Item>
     <Item>
@@ -19,7 +19,7 @@ export default function MyEmail({mylink,name,children,childrenextra}) {
     </Item>
     <Item>
         <br></br>
-        <div>Have a great day!</div>
+        <div>This is an automatically generated email. Please do not reply to this email. Have a great day!</div>
     </Item>
   </Email>
 )};

@@ -98,6 +98,7 @@ export default class Product extends Component {
       });
   }
 
+  // For SunE only but not work
   handleChange(content){
     console.log(content); //Get Content Inside Editor
     this.setState(function(prevState) {

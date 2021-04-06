@@ -122,7 +122,8 @@ export default class AddCustomer extends Component {
         // Sequelize xong
         // console.log('customer password updated ' + response.data);
         this.setState({
-          message: "Your password was updated successfully!",
+          // Your account password for Best Medical International Inc has been changed.
+          message: "Your account password for www.thekystore.com has been changed.",
           submitted: true
         });
       })
@@ -133,7 +134,7 @@ export default class AddCustomer extends Component {
       // mailling
         const messageHtml =  renderEmail(
           <MyEmail mylink={this.state.REACT_APP_CLIENT_URL+'customersignin'} name={this.state.customers_name}> 
-            "A password of : {this.state.customers_name + " has just updated in our system. Sing-in, click here."}
+            We have successfully updated your account password. Go to www.thekystore.com and log in using your new password.
           </MyEmail>
         );
 

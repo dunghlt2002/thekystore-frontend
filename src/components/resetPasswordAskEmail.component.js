@@ -39,8 +39,9 @@ export default class AddCustomer extends Component {
 
     // mailling
     const messageHtml =  renderEmail(
+      // We have received a request to reset your Amazon password. Use the following password reset PIN when entering your new Password:
       <MyEmail mylink={this.state.REACT_APP_CLIENT_URL+'resetpassword'} name={this.state.customers_email}>
-        To reset your password, click here.
+        We have received a request to reset your password, click here to continue.
       </MyEmail>
     );
 

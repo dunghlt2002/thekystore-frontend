@@ -45,6 +45,7 @@ class CustomerProfile extends Component {
             customers_name: '',
             token: ''
           },
+          customers_zip_note: 'Digit only',
           message: "",
           error: null
       };
@@ -131,12 +132,18 @@ class CustomerProfile extends Component {
   }
   onChangeZip(e) {
     const zip = e.target.value;
-    this.setState(prevState => ({
-      currentCustomer: {
-        ...prevState.currentCustomer,
-        customers_zip: zip
-      }
-    }));
+    if (!Number(zip)) {
+      console.log('ZIP: requires number');
+      return;
+    } else {
+      this.setState(prevState => ({
+        currentCustomer: {
+          ...prevState.currentCustomer,
+          customers_zip: zip
+        }
+      }));
+    }
+    
   }
 
   onChangeCountry(e) {
@@ -151,12 +158,18 @@ class CustomerProfile extends Component {
 
   onChangePhone(e) {
     const phone = e.target.value;
-    this.setState(prevState => ({
-      currentCustomer: {
-        ...prevState.currentCustomer,
-        customers_phone: phone
-      }
-    }));
+    if (!Number(phone)) {
+      console.log('PHONE : requires number');
+      return;
+    } else {
+      this.setState(prevState => ({
+        currentCustomer: {
+          ...prevState.currentCustomer,
+          customers_phone: phone
+        }
+      }));
+    }
+    
   }
 
 
@@ -275,7 +288,9 @@ class CustomerProfile extends Component {
               </input>
             </li>
             <li>
-              <label htmlFor="zip">Zip Code</label>
+              <label htmlFor="zip">
+                Zip Code <h6>{this.state.customers_zip_note}</h6>
+              </label>
               <input type="text" name="zip" id="zip" 
                 value={currentCustomer.customers_zip} 
                 onChange={(e) => this.onChangeZip(e)}>
