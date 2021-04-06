@@ -24,6 +24,7 @@ export default class Category extends Component {
     };
   }
 
+  
   componentDidMount() {
     this.getCategory(this.props.match.params.categories_id);
     this.retrieveMasterCategories();

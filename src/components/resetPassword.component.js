@@ -12,7 +12,7 @@ export default class AddCustomer extends Component {
     this.onChangecustomers_email = this.onChangecustomers_email.bind(this);
     this.onChangecustomers_password = this.onChangecustomers_password.bind(this);
     this.savePassword = this.savePassword.bind(this);
-    this.onBlurCustomers_email = this.onBlurCustomers_email.bind(this);
+    // this.onBlurCustomers_email = this.onBlurCustomers_email.bind(this);
     
     this.state = {
       REACT_APP_URL: process.env.REACT_APP_URL,
@@ -20,7 +20,7 @@ export default class AddCustomer extends Component {
       currentCustomer: {},
       id: null,
       customers_name: "",
-      customers_email: "", 
+      customers_email: this.props.match.params.customer_email, 
       customers_password: "", 
       custadv: false, // nhan quang cao On Off
       existingEmail: '',
@@ -53,7 +53,14 @@ export default class AddCustomer extends Component {
     });
   }
 
-  onBlurCustomers_email() {
+  componentDidMount() {
+
+    console.log('hi reset pass diMount');
+    this.verify_email();  
+  }
+
+  // onBlurCustomers_email() {
+  verify_email() {
     console.log('hihihihihihi Blur  ' + this.state.customers_email);
     customerDataService.getByemail(this.state.customers_email)
         .then(response => {
@@ -71,7 +78,7 @@ export default class AddCustomer extends Component {
             this.setState({
               id: JSON.stringify(response.data[0].id),
               customers_name: JSON.stringify(response.data[0].customers_name),
-              existingEmail: 'Type your new password, ' + JSON.stringify(response.data[0].customers_name),
+              existingEmail: 'New password for ' + JSON.stringify(response.data[0].customers_name ),
               showFormDetail: true
             });
           }
@@ -173,6 +180,21 @@ export default class AddCustomer extends Component {
               <h2>Update Password</h2>
             </li>
 
+
+
+            <li>
+              <label htmlFor="customers_email">Email (is used to login): {this.state.customers_email}</label>
+              {/* <input
+                type="text"
+                id="signininput"
+                required
+                value={this.state.customers_email}
+                onChange={this.onChangecustomers_email}
+                onBlur={this.onBlurCustomers_email}
+                // name="customers_email"
+              /> */}
+            </li>
+
             <li>
               {this.state.showFormDetail && !this.state.submitted? (
                   <div>
@@ -188,26 +210,12 @@ export default class AddCustomer extends Component {
               
             </li>
 
-
-            <li>
-              <label htmlFor="customers_email">Email (is used to login)</label>
-              <input
-                type="text"
-                id="signininput"
-                required
-                value={this.state.customers_email}
-                onChange={this.onChangecustomers_email}
-                onBlur={this.onBlurCustomers_email}
-                name="customers_email"
-              />
-            </li>
-
-
             {this.state.showFormDetail ? (
+
             <div className="form-info">
 
             <li>
-              <label htmlFor="customers_password">Password</label>
+              {/* <label htmlFor="customers_password">Password</label> */}
               <input
                 type="text"
                 id="signininput"
@@ -230,8 +238,8 @@ export default class AddCustomer extends Component {
             </div>
 
           </div>
-        ) : (null)
-            }
+          ) : (null)
+          }
 
 
 

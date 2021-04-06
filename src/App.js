@@ -318,7 +318,9 @@ class App extends Component {
               ></PrivateRoute>
               <Route exact path={"/addCustomer"} component={AddCustomers} />
               <Route exact path={"/resetpasswordaskemail"} component={ResetPasswordAskEmail} />
-              <Route exact path={"/resetpassword"} component={ResetPassword} />
+              
+              <Route exact path={"/resetpassword/:customer_email"} component={ResetPassword} />
+              
               
               {/* <Route exact path={"/categories"} component={CategoriesList} /> */}
               <AdminRoute

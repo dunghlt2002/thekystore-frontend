@@ -3,7 +3,8 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import MyEmail from './email.component'
 import { renderEmail } from 'react-html-email'
-
+import customerDataService from "../services/customer.service";
+import MessageBox from '../components/MessageBox';
 
 export default class AddCustomer extends Component {
   constructor(props) {
@@ -37,33 +38,80 @@ export default class AddCustomer extends Component {
   sendEmail() {
     console.log('vo send email ... ' + this.state.customers_email);
 
-    // mailling
-    const messageHtml =  renderEmail(
-      // We have received a request to reset your Amazon password. Use the following password reset PIN when entering your new Password:
-      <MyEmail mylink={this.state.REACT_APP_CLIENT_URL+'resetpassword'} name={this.state.customers_email}>
-        We have received a request to reset your password, click here to continue.
-      </MyEmail>
-    );
+    var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+    if (!pattern.test(this.state.customers_email)) {
+      console.log('email khong dung');
+      this.setState({
+        messageNote: 'Email is not valid!'
+        // showFormDetail: false
+      });
+    } else {
+      this.setState({
+        messageNote: null,
+        // showVerifyButton: false,
+        // showFormDetail: true
+      });
 
-    axios({
-        method: "POST", 
-        url: this.state.REACT_APP_URL + "send",
-        data: {
-          email: this.state.customers_email,
-          subject: "www.thekystore.com: reset password link",
-          messageHtml: messageHtml
+      // console.log('hihihihihihi Blur  ' + this.state.customers_email);
+      customerDataService.getByemail(this.state.customers_email)
+      .then(response => {
+        // console.log('data '  + JSON.stringify(response.data[0]));
+        // console.log('err ' + JSON.stringify(response));
+        if (response.data.length === 0 ) {
+          this.setState({
+            // existingEmail: 'No email found, try again',
+            messageNote: 'No email found, try again'
+            // showVerifyButton: false,
+            // showFormDetail: true
+          });
         }
-    }).then((response)=>{
-        if (response.data.msg === 'success'){
-            // alert("Please check your email for reset password link. Thank you!"); 
-            // this.resetForm()
-        }else if(response.data.msg === 'fail'){
-            alert("Oops, something went wrong. Try again")
+        else {
+          this.setState({
+            // currentCustomer: JSON.stringify(response.data[0]),
+            existingEmail: 'A reset password link has just sent to your email related with account. Check email and reset your password, thank you!',
+            // showVerifyButton: false,
+            // showFormDetail: false
+          });
+
+          // Send email 
+            const messageHtml =  renderEmail(
+              // We have received a request to reset your Amazon password. Use the following password reset PIN when entering your new Password:
+              <MyEmail mylink={this.state.REACT_APP_CLIENT_URL +`resetpassword/` + this.state.customers_email} name={this.state.customers_email}>
+                We have received a request to reset your password, click here to continue.
+              </MyEmail>
+            );
+
+            axios({
+                method: "POST", 
+                url: this.state.REACT_APP_URL + "send",
+                data: {
+                  email: this.state.customers_email,
+                  subject: "www.thekystore.com: reset password link",
+                  messageHtml: messageHtml
+                }
+            }).then((response)=>{
+                if (response.data.msg === 'success'){
+                    // alert("Please check your email for reset password link. Thank you!"); 
+                    // this.resetForm()
+                }else if(response.data.msg === 'fail'){
+                    alert("Oops, something went wrong. Try again")
+                }
+            })
+            this.setState({
+              submitted: true
+            });
+          // End send email 
+
         }
-    })
-    this.setState({
-      submitted: true
-    });
+      })
+      .catch(e => {
+        console.log(e);
+      });
+
+
+    }
+
+   
 
   }
 
@@ -72,7 +120,7 @@ export default class AddCustomer extends Component {
       <div className="form">
         {this.state.submitted ? (
           <div className="form-container">
-            <h4>A reset password link has just sent to your email related with account. Check email and reset your password, thank you!</h4>
+            <h4>{this.state.existingEmail}</h4>
           </div>
         ) : (
           <div className="form-container-small">
@@ -92,6 +140,12 @@ export default class AddCustomer extends Component {
                 )
               }
             </li>
+
+            {this.state.messageNote && 
+              <div>
+                <MessageBox variant="danger">{this.state.messageNote}</MessageBox>
+              </div>
+            }
 
             <li>
               <label htmlFor="customers_email">Email (is used to login)</label>
