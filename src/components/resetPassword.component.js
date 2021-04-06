@@ -6,7 +6,7 @@ import MyEmail from './email.component'
 import { renderEmail } from 'react-html-email'
 
 
-export default class AddCustomer extends Component {
+export default class ResetPassword extends Component {
   constructor(props) {
     super(props);
     this.onChangecustomers_email = this.onChangecustomers_email.bind(this);
@@ -20,7 +20,8 @@ export default class AddCustomer extends Component {
       currentCustomer: {},
       id: null,
       customers_name: "",
-      customers_email: this.props.match.params.customer_email, 
+      customers_email: this.props.match.params.customer_email.split("oehctuhcdd",1), 
+      customers_token: this.props.match.params.customer_email.substr(this.props.match.params.customer_email.length-12), 
       customers_password: "", 
       custadv: false, // nhan quang cao On Off
       existingEmail: '',
@@ -66,21 +67,31 @@ export default class AddCustomer extends Component {
         .then(response => {
           // console.log('data '  + JSON.stringify(response.data[0]));
           // console.log('err ' + JSON.stringify(response));
+          console.log('token from DB ' + response.data[0].customers_passwordtoken);
           
-          if (response.data.length === 0 ) {
+          if (response.data.length === 0) {
             this.setState({
               existingEmail: 'Not found this email, please try another one...',
               showFormDetail: false
             });
           }
           else {
+              if (response.data[0].customers_passwordtoken !== this.state.customers_token) {
+                this.setState({
+                  existingEmail: 'Token invalid, please try another one...',
+                  showFormDetail: false
+                });
+              } 
+              else {
 
-            this.setState({
-              id: JSON.stringify(response.data[0].id),
-              customers_name: JSON.stringify(response.data[0].customers_name),
-              existingEmail: 'New password for ' + JSON.stringify(response.data[0].customers_name ),
-              showFormDetail: true
-            });
+                    this.setState({
+                      id: JSON.stringify(response.data[0].id),
+                      currentCustomer: response.data[0],
+                      customers_name: JSON.stringify(response.data[0].customers_name),
+                      existingEmail: 'New password for ' + JSON.stringify(response.data[0].customers_name ),
+                      showFormDetail: true
+                    });
+              }
           }
           
           console.log('2 ' + this.state.existingEmail + " - " + this.state.showFormDetail + " - " + this.state.customers_name);
@@ -93,34 +104,31 @@ export default class AddCustomer extends Component {
     
   }
 
-  updateCustomer() {
-    customerDataService.update(
-      this.state.currentCustomer.id,
-      this.state.currentCustomer
-    )
-      .then(response => {
-        // Sequelize xong
-        console.log('customer updated ' + response.data);
-        this.setState({
-          message: "The customer was updated successfully!"
-        });
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  }
+  // updateCustomer() {
+  //   customerDataService.update(
+  //     this.state.currentCustomer.id,
+  //     this.state.currentCustomer
+  //   )
+  //     .then(response => {
+  //       // Sequelize xong
+  //       console.log('customer updated ' + response.data);
+  //       this.setState({
+  //         message: "The customer was updated successfully!"
+  //       });
+  //     })
+  //     .catch(e => {
+  //       console.log(e);
+  //     });
+  // }
 
 
   savePassword() {
     console.log('vo save pass');
 
-    
     var data = {
-      customers_email: this.state.customers_email,
       customers_password: this.state.customers_password
     };
 
-  
     customerDataService.update(
       this.state.id,
       data
@@ -183,7 +191,7 @@ export default class AddCustomer extends Component {
 
 
             <li>
-              <label htmlFor="customers_email">Email (is used to login): {this.state.customers_email}</label>
+              <label htmlFor="customers_email">{this.state.customers_token} Email (is used to login): {this.state.customers_email}</label>
               {/* <input
                 type="text"
                 id="signininput"
@@ -196,7 +204,8 @@ export default class AddCustomer extends Component {
             </li>
 
             <li>
-              {this.state.showFormDetail && !this.state.submitted? (
+              {/* {this.state.showFormDetail && !this.state.submitted? ( */}
+              {!this.state.submitted? (
                   <div>
                     {this.state.existingEmail}
                   </div>

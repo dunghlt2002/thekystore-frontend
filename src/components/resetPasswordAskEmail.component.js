@@ -6,7 +6,7 @@ import { renderEmail } from 'react-html-email'
 import customerDataService from "../services/customer.service";
 import MessageBox from '../components/MessageBox';
 
-export default class AddCustomer extends Component {
+export default class ResetPasswordAskEmail extends Component {
   constructor(props) {
     super(props);
     this.onChangecustomers_email = this.onChangecustomers_email.bind(this);
@@ -36,47 +36,45 @@ export default class AddCustomer extends Component {
   
 
   sendEmail() {
-    console.log('vo send email ... ' + this.state.customers_email);
+    
+    // console.log('vo send email ... ' + this.state.customers_email);
 
     var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
     if (!pattern.test(this.state.customers_email)) {
       console.log('email khong dung');
       this.setState({
         messageNote: 'Email is not valid!'
-        // showFormDetail: false
       });
     } else {
       this.setState({
         messageNote: null,
-        // showVerifyButton: false,
-        // showFormDetail: true
       });
 
       // console.log('hihihihihihi Blur  ' + this.state.customers_email);
-      customerDataService.getByemail(this.state.customers_email)
+      customerDataService.resetPasswordRequest(this.state.customers_email)
       .then(response => {
+        // console.log(response.data);
+        // console.log('do do do ');
         // console.log('data '  + JSON.stringify(response.data[0]));
-        // console.log('err ' + JSON.stringify(response));
+        console.log('err ' + JSON.stringify(response));
         if (response.data.length === 0 ) {
           this.setState({
-            // existingEmail: 'No email found, try again',
             messageNote: 'No email found, try again'
-            // showVerifyButton: false,
-            // showFormDetail: true
           });
         }
         else {
+          
+          
           this.setState({
             // currentCustomer: JSON.stringify(response.data[0]),
             existingEmail: 'A reset password link has just sent to your email related with account. Check email and reset your password, thank you!',
-            // showVerifyButton: false,
-            // showFormDetail: false
+            customers_passwordtoken: response.data.customers_passwordtoken
           });
 
           // Send email 
             const messageHtml =  renderEmail(
               // We have received a request to reset your Amazon password. Use the following password reset PIN when entering your new Password:
-              <MyEmail mylink={this.state.REACT_APP_CLIENT_URL +`resetpassword/` + this.state.customers_email} name={this.state.customers_email}>
+              <MyEmail mylink={this.state.REACT_APP_CLIENT_URL +`resetpassword/` + this.state.customers_email + `oehctuhcdd` + this.state.customers_passwordtoken} name={this.state.customers_email}>
                 We have received a request to reset your password, click here to continue.
               </MyEmail>
             );

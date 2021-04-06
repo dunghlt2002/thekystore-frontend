@@ -56,10 +56,14 @@ class customerDataService {
     return axios.get(REACT_APP_API_URL + `/customer/${customers_id}`);
   }
 
+  // dung de verify email khi muon check email trong DB
   getByemail(customers_email) {
     return http.get(`/customerbyemail/${customers_email}`);
   }
-  
+  // resetpasswordrequest  
+  resetPasswordRequest(customers_email) {
+    return http.get(`/resetpasswordrequest/${customers_email}`);
+  }
 
 
   create(data) {
