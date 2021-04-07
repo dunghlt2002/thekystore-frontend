@@ -78,7 +78,7 @@ export default class ResetPassword extends Component {
           else {
               if (response.data[0].customers_passwordtoken !== this.state.customers_token) {
                 this.setState({
-                  existingEmail: 'Token invalid, please try another one...',
+                  existingEmail: 'Something is wrong (or token is invalid), please try again later...',
                   showFormDetail: false
                 });
               } 
@@ -191,7 +191,7 @@ export default class ResetPassword extends Component {
 
 
             <li>
-              <label htmlFor="customers_email">{this.state.customers_token} Email (is used to login): {this.state.customers_email}</label>
+              <label htmlFor="customers_email">Your email: {this.state.customers_email}</label>
               {/* <input
                 type="text"
                 id="signininput"
